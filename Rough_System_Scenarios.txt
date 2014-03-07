@@ -1,0 +1,39 @@
+﻿Rough System Scenarios
+
+Database
+  |
+  V
+Server/ JDBC
+  |
+  V
+Client
+  |
+  V
+Model
+  |
+  V
+View/GUI
+
+1. Logging In
+	a. User types in details to the client GUI
+	b. Model sends LogIn() object to the server
+	c. Server sends request to database/JDBC
+	d. Database/JDBC checks that the username exists, then compares the
+	   password, and responds to the server
+	e. If the user/password exists, client thread is updated to display the
+	   ‘waiting to start quiz’ screen, else an ‘incorrect login details’
+	   message is displayed
+
+2. Starting a quiz
+	a. Admin sends a request to the server to start a specific quiz
+	b. Server sends message to the database, and receives back a Quiz() object
+	   containing Question() objects
+	c. Server sends the first Question() object to each of the clients
+	d. Clients receive Question(), their display is updated to show the
+	   Question screen, and a timestamp is taken
+	e. User answers the question. The client checks that their answer is
+	   correct, and creates a second timestamp. This is compared with the first
+	   timestamp to determine their score for the question.
+	f. The client sends a (true/false, score) to the server
+	g. Server collects the scores for each question and sends a ‘league table’
+	   to the clients

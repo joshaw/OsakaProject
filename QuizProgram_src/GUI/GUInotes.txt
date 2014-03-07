@@ -1,0 +1,18 @@
+Osaka Team Project: Live Quiz Competition 
+GUI Section – Benjamin Crispin 
+
+The end user will interact with the graphical user interface to take the quiz. The GUI will follow a Model/View seperation format where the model will be seperate from the client. The user will interact with the GUI, which inturn interacts with the model. It is the model that will then be controlling the client. The overall GUI will display different screens depending on which part of the system is currently being used. The intended screens are: 
+	- Admin/Student Login screen
+	- Student home screen
+	- Admin home screen
+	- Question screen
+	- Student Imidiate results screen
+	- Admin Imidiate results screen
+	- Student final results screen
+	- Admin final results screen
+	- Admin create/modify/delete quiz screen
+
+The intention is that there will be one frame in which everything occurs. Pop-up windows can get annoying and having many windows open can be confusing. When starting the program a login will be displayed. If succsesful in the login then the system will proceed to a home screen (once checked if admin/student). From here a student can take the quiz and look at previous results. The admin will be able to start a quiz, look at previous results, or create/modify /delete a quiz.
+
+Each one of these screens will have its own class do define the JPanel it represents. The GUI will be implemented using innerclasses for each of the components to perform the actionPerformed method.
+
