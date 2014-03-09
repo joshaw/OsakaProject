@@ -1,5 +1,5 @@
 import quizObject.*;
-
+import java.sql.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -83,18 +83,61 @@ public class QuizServer {
 				objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
 				dataInputStream = new DataInputStream(clientSocket.getInputStream());
 				printStream = new PrintStream(clientSocket.getOutputStream());
+				
+				//create a connection to the database
+				Connection con = QuizJDBC.getConnection();
+				
+				//process loginRequest and create a LoginReply Object
+				LoginReply lr = processLoginRequest();
 
-				//send and handle the login request to client
-				boolean userExists = processLoginRequest();
+				objectOutputStream.writeObject(lr); //send the loginReply to the client
 
-                // This quiz object is a dummy, and will be replaced with the quiz retrieved from the database
-                Quiz currentQuiz = new Quiz();
+                
+				boolean userExists = false;
 
-                // Check user exists before proceeding to process quiz
-				if(userExists){
+				//while loop is designed to run until a successful login has been recieved
+				while(!userExists) {
+					try{
+						Object newObj = objectInputStream.readObject(); 
+						if(newObj instanceof LoginRequest){ 
+
+							//Obtain the user name and hashed password from the LoginRequest Object
+							String username = ((LoginRequest) newObj).getUsername();
+							String password = (String) ((LoginRequest) newObj).getPasswordHash(); //stored in database as a string
+
+							//query database for login details, create a login reply object and return it
+							LoginReply lr = QuizJDBC.isUser(con, username, password);
+							objectOutputStream.writeObject(lr); //send the loginReply to the client
+
+							if(lr.isSuccessful) userExists = true; //is the user exists exit the while loop and move onto quiz 
+
+				}//end of if
+
+					} catch(Exception e){
+				System.out.println(e);
+					}//end of try/catch block
+				}//end of while
+
+
+				//create Quiz object
+				Quiz currentQuiz = null;
+
+				/*
+				 * The following try/catch block recieves a QuizRequest Object from client and retrieves the required quiz from the database
+				 */ 
+				try{
+					Object potentialQuizObject = objectInputStream.readObject();
+					if(potentialQuizObject instanceof QuizRequest){
+						long quizID = QuizRequest.getQuizID();
+						currentQuiz = QuizJDBC.getQuiz(con, quizID); //get quiz from database and set to currentQuiz
+					}//end of if
+				}catch(Exception e){
+					System.out.println(e);
+				}//end of try/catch block
+                
 
                     // Send quiz to client
-                    objectOutputStream.writeObject(currentQuiz);
+                    objectOutputStream.writeObject(currentQuiz); 
 
                     // Start quiz
                     objectOutputStream.writeObject(new StartQuiz());
@@ -119,9 +162,9 @@ public class QuizServer {
                                     AnswerResponse currentResponse = (AnswerResponse) object;
 
                                     // Check if response is correct - TO DO: Implement getCorrect in the Question class
-                                    if(currentResponse.getResponse() == currentQuiz.getQuestion(i).getCorrect()){
+                                    if(currentResponse.getresponse().equals(currentQuiz.getQuestion(i).getCorrect())){
 
-                                        objectOutputStream.writeObject(new Score((1 / currentResponse.getResponse()) * 10));
+                                        objectOutputStream.writeObject(new Score((1 / currentResponse.getresponse()) * 10));
 
                                         // TO DO: update database with result
 
@@ -141,9 +184,7 @@ public class QuizServer {
                     }
 
 
-				} else{
-					//send a message to the client asking them to re-enter their login details
-				}//end of if/else
+
 
 				//after the quiz has finished, close the connections
 				objectOutputStream.close();
@@ -157,76 +198,10 @@ public class QuizServer {
 
 		}//end of run method
 
-		/**
-		 * Sends and processes a login request to the client.
-		 * Returns true if the client is found in the database, false otherwise
-		 * @return boolean
-		 */
-		private boolean processLoginRequest(){
-
-			/*
-			 * Send a log in request to the client
-			 * TODO this may need to change, for example there could be a LoginRequestServer object, 
-			 * which gets sent to the client model, causing the log in screen to be displayed
-			 */
-			printStream.println("Please enter your login details"); 
-
-			try{
-
-				//obtain the LoginRequest object from the client
-				Object newObj = objectInputStream.readObject(); 
-
-				if(newObj instanceof LoginRequest){ 
-
-					//Obtain the user name and hashed password from the LoginRequest Object
-					String username = ((LoginRequest) newObj).getUsername();
-					int passwordHash = ((LoginRequest) newObj).getPasswordHash();
-
-					/*
-					 * These details need to be send to the database to see if they exist.
-					 * 
-					 * These should be a method/stored procedure in the JDBC class that searches the 
-					 * database for a matching username/passwordHash entry, that returns true if the user 
-					 * exists and false if it doesn't. I will make a call to this method and return the 
-					 * result, e.g.
-					 * 
-					 * return JDBC.doesUserExist(username, passwordHash);
-					 *
-                    */
-
-                    /* This is how information can be returned to client as a LoginReply
-
-                     Boolean userExists = RESULT OF QUERY GOES HERE;
-                     Boolean isStudent = RESULT OF QUERY GOES HERE;
-
-                     if(userExists){
-                     if(isStudent){
-                     objectOutputStream.writeObject(new LoginReply(true, true));
-                     } else {
-                     objectOutputStream.writeObject(new LoginReply(true, false));
-                     }
-                     } else {
-                     objectOutputStream.writeObject(new LoginReply(false, false));
-                     }
-
-                    */
-
-					return true; //place holder until the above code can be executed
-
-				}//end of if
-
-			} catch(Exception e){
-				System.out.println(e);
-			}//end of try/catch block
-			
-			return false; //returned if the user doesn't exist
-			
-		}//end of processLoginRequest method
-
-
 	}//end of ClientTread class
 
 
 
 
 }//end of QuizServer
+
