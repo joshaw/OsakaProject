@@ -1,4 +1,4 @@
-package quizObject;
+
 
 import java.util.ArrayList;
 import java.io.Serializable;
@@ -9,7 +9,7 @@ public class Question implements Serializable {
 
 	private String question;
 	private String[] answers = new String[4];
-	private int correctNumber;
+	private int correctAnswerPos; //the position in the array of answers that is the correct one
 
 	public Question(boolean test) {
 
@@ -27,10 +27,10 @@ public class Question implements Serializable {
 		this.question = question;
 	}
 
-	public Question(String question, String[] answers, int correctNumber) {
+	public Question(String question, String[] answers, int correctPos) {
 		this.question = question;
 		this.answers = answers;
-		this.correctNumber = correctNumber;
+		this.correctAnswerPos = correctPos;
 	}
 
 	public void setQuestion(String Question) {
@@ -53,16 +53,13 @@ public class Question implements Serializable {
 		return answers;
 	}
 
-	public int getCorrect() {
-		return correctNumber;
-	}
-
 	public String toString() {
 		String answerString = "";
 		for (int i=0; i<4; i++) {
 			answerString += "A" + i + ": " + answers[i] + "\n";
 		}
-		return "Q: " + question + "\n" + answerString;
+		return "Q: " + question + "\n" + answerString + "\nCorrectAns: " + answers[correctAnswerPos] +"\n";
 	}
 
 }
+
