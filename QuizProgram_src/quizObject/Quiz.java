@@ -4,7 +4,7 @@
  * @author Josh Wainwright
  * @version 20140228
  */
-package quizObject;
+
 
 import java.io.Serializable;
 
@@ -12,7 +12,7 @@ public class Quiz implements Serializable {
 
 	public static final long serialVersionUID = 42L;
 
-	private int quizID = 0;
+	private long quizID;
 	private Question[] questions = new Question[7];
 
 	public Quiz() {
@@ -24,8 +24,10 @@ public class Quiz implements Serializable {
 		}
 	}
 
-	public Quiz(Question[] questions) {
+	public Quiz(long quizID, Question[] questions) {
+		this.quizID = quizID;
 		this.questions = questions;
+		
 	}
 
 	public void setQuestions(Question[] questions) {
@@ -44,4 +46,29 @@ public class Quiz implements Serializable {
 		}
 		return new Question();
 	}
+	
+	@Override
+	public String toString(){
+		
+		String returnString = "";		
+		for(int i=0; i<7; i++) {
+			if(questions[i] != null){
+			returnString += questions[i].toString() + "\n";
+		} else returnString += "";
+		}
+		return returnString;
+	}//end of toString
+	
+	@Override
+	public boolean equals(Object o){
+		
+		if(o instanceof Quiz){
+			if(this.quizID == ((Quiz) o).quizID) return true;
+		}
+		
+		return false;
+		
+	}//end of equals method
+	
+	
 }
