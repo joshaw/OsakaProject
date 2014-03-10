@@ -10,10 +10,12 @@ public class Question implements Serializable {
 	private String question;
 	private String[] answers = new String[4];
 	private int correctAnswerPos; //the position in the array of answers that is the correct one
-
+	private int questionID;
+	
+	
 	public Question(boolean test) {
 
-		/* Create example quiestion with several example answers. This
+		/* Create example question with several example answers. This
 		 * information should come from the database. */
 		question = "This is the question.";
 		for (int i = 0; i < 4; i++) {
@@ -27,10 +29,11 @@ public class Question implements Serializable {
 		this.question = question;
 	}
 
-	public Question(String question, String[] answers, int correctPos) {
+	public Question(int questionID, String question, String[] answers, int correctPos) {
 		this.question = question;
 		this.answers = answers;
 		this.correctAnswerPos = correctPos;
+		this.questionID = questionID;
 	}
 
 	public void setQuestion(String Question) {
@@ -60,6 +63,17 @@ public class Question implements Serializable {
 		}
 		return "Q: " + question + "\n" + answerString + "\nCorrectAns: " + answers[correctAnswerPos] +"\n";
 	}
+	
+	public boolean equals(Object o){
+		
+		if(o instanceof Question){
+			
+			if(this.questionID == (((Question) o).questionID)) return true;
+			
+		}
+		
+		return false;
+	}//end of equals
 
 }
 
