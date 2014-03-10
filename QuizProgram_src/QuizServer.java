@@ -1,4 +1,4 @@
-import quizObject.*;
+
 import java.sql.*;
 import java.io.*;
 import java.net.ServerSocket;
@@ -86,13 +86,7 @@ public class QuizServer {
 				
 				//create a connection to the database
 				Connection con = QuizJDBC.getConnection();
-				
-				//process loginRequest and create a LoginReply Object
-				LoginReply lr = processLoginRequest();
-
-				objectOutputStream.writeObject(lr); //send the loginReply to the client
-
-                
+				                
 				boolean userExists = false;
 
 				//while loop is designed to run until a successful login has been recieved
@@ -103,13 +97,13 @@ public class QuizServer {
 
 							//Obtain the user name and hashed password from the LoginRequest Object
 							String username = ((LoginRequest) newObj).getUsername();
-							String password = (String) ((LoginRequest) newObj).getPasswordHash(); //stored in database as a string
+							String password = String.valueOf(((LoginRequest) newObj).getPasswordHash()); //stored in database as a string
 
 							//query database for login details, create a login reply object and return it
 							LoginReply lr = QuizJDBC.isUser(con, username, password);
 							objectOutputStream.writeObject(lr); //send the loginReply to the client
 
-							if(lr.isSuccessful) userExists = true; //is the user exists exit the while loop and move onto quiz 
+							if(lr.isSuccessful()) userExists = true; //is the user exists exit the while loop and move onto quiz 
 
 				}//end of if
 
@@ -128,7 +122,7 @@ public class QuizServer {
 				try{
 					Object potentialQuizObject = objectInputStream.readObject();
 					if(potentialQuizObject instanceof QuizRequest){
-						long quizID = QuizRequest.getQuizID();
+						long quizID = ((QuizRequest) potentialQuizObject).getQuizID();
 						currentQuiz = QuizJDBC.getQuiz(con, quizID); //get quiz from database and set to currentQuiz
 					}//end of if
 				}catch(Exception e){
