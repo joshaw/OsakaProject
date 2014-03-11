@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="92cm" height="45cm" viewBox="-361 -19 1822 893" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <text font-size="19.7553" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="272.4" y="460">
+    <tspan x="272.4" y="460">"Server → Client" Protocol</tspan>
+  </text>
+  <text font-size="19.7553" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="241.145" y="0">
+    <tspan x="241.145" y="0">"Client → Server" Protocol</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="780" y="200" width="680" height="240"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="780" y="200" width="680" height="240"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-360" y="200" width="340" height="360"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-360" y="200" width="340" height="360"/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" x1="44.4022" y1="289.096" x2="680.078" y2="289.096"/>
+    <polygon style="fill: #000000" points="698.078,289.096 674.078,297.096 680.078,289.096 674.078,281.096 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="698.078,289.096 674.078,297.096 680.078,289.096 674.078,281.096 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" x1="64.7067" y1="390.857" x2="720.382" y2="390.857"/>
+    <polygon style="fill: #000000" points="46.7067,390.857 70.7067,382.857 64.7067,390.857 70.7067,398.857 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="46.7067,390.857 70.7067,382.857 64.7067,390.857 70.7067,398.857 "/>
+  </g>
+  <g>
+    <g>
+      <rect style="fill: #ffffff" x="120" y="635.022" width="156.9" height="28"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="120" y="635.022" width="156.9" height="28"/>
+      <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="198.45" y="654.022">DisplayQuestion</text>
+      <rect style="fill: #ffffff" x="120" y="663.022" width="156.9" height="20"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="120" y="663.022" width="156.9" height="20"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="677.022">-number: int</text>
+      <rect style="fill: #ffffff" x="120" y="683.022" width="156.9" height="20"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="120" y="683.022" width="156.9" height="20"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="697.022">+getNumber(): int</text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff" x="120" y="480.574" width="202.5" height="28"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="120" y="480.574" width="202.5" height="28"/>
+      <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="221.25" y="499.574">LoginReply</text>
+      <rect style="fill: #ffffff" x="120" y="508.574" width="202.5" height="52"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="120" y="508.574" width="202.5" height="52"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="522.574">-loginSuccessful: boolean</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="538.574">-isStudent: boolean</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="554.574">-name: String</text>
+      <rect style="fill: #ffffff" x="120" y="560.574" width="202.5" height="52"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="120" y="560.574" width="202.5" height="52"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="574.574">+isSuccessful(): boolean</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="590.574">+isStudent(): boolean</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="606.574">+equals(o:Object)</text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff" x="392.064" y="571.022" width="248.7" height="28"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="392.064" y="571.022" width="248.7" height="28"/>
+      <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="516.414" y="590.022">Question</text>
+      <rect style="fill: #ffffff" x="392.064" y="599.022" width="248.7" height="68"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="392.064" y="599.022" width="248.7" height="68"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="613.022">-question: String</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="629.022">-answers: String[]</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="645.022">-correctAnserPos: int</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="661.022">-questionID: int</text>
+      <rect style="fill: #ffffff" x="392.064" y="667.022" width="248.7" height="116"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="392.064" y="667.022" width="248.7" height="116"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="681.022">+setQuestion(question:String)</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="697.022">+setAnswer(i:int,answer:String)</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="713.022">+getQuestion(): Question</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="729.022">+getAnswer(i:int): String</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="745.022">+getAnswers(): String[]</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="761.022">+toString(): String</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="395.064" y="777.022">+equals(o:Object): boolean</text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff" x="120" y="725.471" width="256.4" height="28"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="120" y="725.471" width="256.4" height="28"/>
+      <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="248.2" y="744.471">Quiz</text>
+      <rect style="fill: #ffffff" x="120" y="753.471" width="256.4" height="36"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="120" y="753.471" width="256.4" height="36"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="767.471">-quizID: long</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="783.471">-questions: Question[]</text>
+      <rect style="fill: #ffffff" x="120" y="789.471" width="256.4" height="84"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="120" y="789.471" width="256.4" height="84"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="803.471">+setQuestions(questions:Quesion)</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="819.471">+getQuestions(): Quesion[]</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="835.471">+getQuestion(i:int): Question</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="851.471">+toString()</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="123" y="867.471">+equals(o:Object): boolean</text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff" x="515.264" y="805.471" width="125.5" height="28"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="515.264" y="805.471" width="125.5" height="28"/>
+      <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="578.014" y="824.471">Score</text>
+      <rect style="fill: #ffffff" x="515.264" y="833.471" width="125.5" height="20"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="515.264" y="833.471" width="125.5" height="20"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="518.264" y="847.471">-mark: int</text>
+      <rect style="fill: #ffffff" x="515.264" y="853.471" width="125.5" height="20"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="515.264" y="853.471" width="125.5" height="20"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="518.264" y="867.471">+getMark(): int</text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff" x="438.264" y="480.574" width="202.5" height="28"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="438.264" y="480.574" width="202.5" height="28"/>
+      <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="539.514" y="499.574">StartQuiz</text>
+      <rect style="fill: #ffffff" x="438.264" y="508.574" width="202.5" height="20"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="438.264" y="508.574" width="202.5" height="20"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="441.264" y="522.574">-quizStartTime: long</text>
+      <rect style="fill: #ffffff" x="438.264" y="528.574" width="202.5" height="20"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="438.264" y="528.574" width="202.5" height="20"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="441.264" y="542.574">+getQuizStartTime(): long</text>
+    </g>
+  </g>
+  <g>
+    <g>
+      <rect style="fill: #ffffff" x="400" y="20" width="271.8" height="28"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="400" y="20" width="271.8" height="28"/>
+      <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="535.9" y="39">AnswerResponse</text>
+      <rect style="fill: #ffffff" x="400" y="48" width="271.8" height="36"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="400" y="48" width="271.8" height="36"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="62">-response: int</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="78">-responseTime: long</text>
+      <rect style="fill: #ffffff" x="400" y="84" width="271.8" height="68"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="400" y="84" width="271.8" height="68"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="98">+getResponse(): int</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="114">+setResponce(response:int)</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="130">+getResponseTime(): long</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="146">+setResponseTime(responseTime:int)</text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff" x="61.9487" y="20" width="310.3" height="28"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="61.9487" y="20" width="310.3" height="28"/>
+      <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="217.099" y="39">LoginRequest</text>
+      <rect style="fill: #ffffff" x="61.9487" y="48" width="310.3" height="36"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="61.9487" y="48" width="310.3" height="36"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="64.9487" y="62">-username: String</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="64.9487" y="78">-passwordHash:  int</text>
+      <rect style="fill: #ffffff" x="61.9487" y="84" width="310.3" height="68"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="61.9487" y="84" width="310.3" height="68"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="64.9487" y="98">+setUsername(username:String)</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="64.9487" y="114">+getUsername(response:int): String</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="64.9487" y="130">+getPasswordHash(responseTime:int): int</text>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="64.9487" y="146">+toString(): String</text>
+    </g>
+    <g>
+      <rect style="fill: #ffffff" x="61.9487" y="171.24" width="148.6" height="28"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="61.9487" y="171.24" width="148.6" height="28"/>
+      <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="136.249" y="190.24">QuizRequest</text>
+      <rect style="fill: #ffffff" x="61.9487" y="199.24" width="148.6" height="20"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="61.9487" y="199.24" width="148.6" height="20"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="64.9487" y="213.24">-quizID: long</text>
+      <rect style="fill: #ffffff" x="61.9487" y="219.24" width="148.6" height="20"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="61.9487" y="219.24" width="148.6" height="20"/>
+      <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="64.9487" y="233.24">+getQuizID(): long</text>
+    </g>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-329.75" y="260" width="279.5" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-329.75" y="260" width="279.5" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="-190" y="279">QuizClient</text>
+    <rect style="fill: #ffffff" x="-329.75" y="288" width="279.5" height="116"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-329.75" y="288" width="279.5" height="116"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="302">-PORT: int</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="318">-connected: boolean</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="334">-loginReply: LoginReply</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="350">-currentQuestion: Question</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="366">-questionReceivedTime: long</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="382">-isStudentUser: boolean</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="398">-loginIsSuccessful: boolean</text>
+    <rect style="fill: #ffffff" x="-329.75" y="404" width="279.5" height="132"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-329.75" y="404" width="279.5" height="132"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="418">+main()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="434">+run()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="450">+getCurrentQuestion(): Question</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="466">+isConnected(): boolean</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="482">+getLoginReply(i:int): LoginReply</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="498">+loginIsSuccessful(): boolean</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="514">+isStudentUser(): boolean</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-326.75" y="530">+sendObject(object:Object): boolean</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="800" y="240" width="102.45" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="800" y="240" width="102.45" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="851.225" y="259">QuizClient</text>
+    <rect style="fill: #ffffff" x="800" y="268" width="102.45" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="800" y="268" width="102.45" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="803" y="282">-PORT: int</text>
+    <rect style="fill: #ffffff" x="800" y="288" width="102.45" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="800" y="288" width="102.45" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="803" y="302">+main()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="800" y="360" width="125.95" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="800" y="360" width="125.95" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="862.975" y="379">ClientThread</text>
+    <rect style="fill: #ffffff" x="800" y="388" width="125.95" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="800" y="388" width="125.95" height="8"/>
+    <rect style="fill: #ffffff" x="800" y="396" width="125.95" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="800" y="396" width="125.95" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="803" y="410">+run()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="960" y="280" width="487.4" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="960" y="280" width="487.4" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1203.7" y="299">QuizJDBC</text>
+    <rect style="fill: #ffffff" x="960" y="308" width="487.4" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="960" y="308" width="487.4" height="8"/>
+    <rect style="fill: #ffffff" x="960" y="316" width="487.4" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="960" y="316" width="487.4" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="963" y="330">+main()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="963" y="346">+getConnection(): Connection</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="963" y="362">+isUser(con:Connection,userID:int,password:String): LoginReply</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="963" y="378">+getQuiz(con:Connection,quizID:long): Quiz</text>
+  </g>
+  <text font-size="19.7553" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-218.6" y="240">
+    <tspan x="-218.6" y="240">Client</tspan>
+  </text>
+  <text font-size="19.7553" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1080" y="240">
+    <tspan x="1080" y="240">Server</tspan>
+  </text>
+</svg>
