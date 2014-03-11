@@ -1,0 +1,14 @@
+\section{Client}
+\label{sec:client}
+
+The client exists to accept messages sent by the server, and present them in an
+order and a format that the user interface can present to the user, as well as
+accept the information entered by the user into the user interface and pass it
+to the server.
+
+\subsection{System Design}
+\label{sub:client_system_design}
+
+When a client is started, a client object is created and starts the main loop.
+The initial stages set up the connection with the server and waits for the
+user to login.
