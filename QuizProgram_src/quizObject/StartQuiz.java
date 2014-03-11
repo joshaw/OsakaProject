@@ -12,10 +12,10 @@ public class StartQuiz implements Serializable {
 
 	public static final long serialVersionUID = 42L;
 
-	long quizStartTime;
+	private long quizStartTime;
 
 	public StartQuiz() {
-		quizStartTime = System.currentTimeMillis() / 1000L;
+		quizStartTime = System.currentTimeMillis();
 	}
 
 	public long getQuizStartTime() {
