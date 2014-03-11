@@ -35,7 +35,7 @@ public class Question implements Serializable {
 		this.questionID = questionID;
 	}
 
-	public void setQuestion(String Question) {
+	public void setQuestion(String question) {
 		 this.question = question;
 	}
 
