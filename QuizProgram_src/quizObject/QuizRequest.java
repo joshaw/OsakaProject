@@ -2,18 +2,17 @@ import java.io.Serializable;
 
 public class QuizRequest implements Serializable {
 
-		public static final long serialVersionUID = 42L;
+	public static final long serialVersionUID = 42L;
 
-		private static long quizID;
+	private long quizID;
 
-		public QuizRequest(long quizID){
+	public QuizRequest(long quizID){
+		this.quizID = quizID;
 
-			this.quizID = quizID;
+	}//end of constructor
 
-		}//end of constructor
-
-		public long getQuizID(){
- 			return quizID;
-		}
+	public long getQuizID(){
+		return quizID;
+	}
 
 }//end of class

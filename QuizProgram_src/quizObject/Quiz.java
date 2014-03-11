@@ -1,10 +1,10 @@
 /** Quiz object holds an array of question objects, collected from the
  * database, ready to send to the client.
  *
- * @author Josh Wainwright
- * @version 20140228
+ * @author jaw097
+ * @version 20140311
  */
-
+package quizObject;
 
 import java.io.Serializable;
 
@@ -27,7 +27,7 @@ public class Quiz implements Serializable {
 	public Quiz(long quizID, Question[] questions) {
 		this.quizID = quizID;
 		this.questions = questions;
-		
+
 	}
 
 	public void setQuestions(Question[] questions) {
@@ -46,11 +46,11 @@ public class Quiz implements Serializable {
 		}
 		return new Question();
 	}
-	
+
 	@Override
 	public String toString(){
-		
-		String returnString = "";		
+
+		String returnString = "";
 		for(int i=0; i<7; i++) {
 			if(questions[i] != null){
 			returnString += questions[i].toString() + "\n";
@@ -58,17 +58,16 @@ public class Quiz implements Serializable {
 		}
 		return returnString;
 	}//end of toString
-	
+
 	@Override
 	public boolean equals(Object o){
-		
+
 		if(o instanceof Quiz){
 			if(this.quizID == ((Quiz) o).quizID) return true;
 		}
-		
+
 		return false;
-		
+
 	}//end of equals method
-	
-	
+
 }
