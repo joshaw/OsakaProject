@@ -169,14 +169,24 @@ public class QuizModel extends Observable {
 	
 	/**
 	 * adminStart - action for the start button in the admin frame.
-	 * creates and returns a StartQuiz object
-	 * @return StartQuiz
+	 * creates and returns a QuizRequest object
+	 * @return QuizRequest
 	 */
-	public StartQuiz adminStart() {
-		StartQuiz quiz = new StartQuiz(currentQuizID);
-		return quiz; // The start quiz object to be sent to the server...
+	public QuizRequest adminStart() {
+		QuizRequest quiz = new QuizRequest(currentQuizID);
+		return quiz; // The QuizRequest object to be sent to the server...
 	}
 	
-	
+	/**
+	 * answer - action for the answer buttons in the QuestionFrame
+	 * 
+	 * @param answer - the button the user presses
+	 * @return AnswerResponse object
+	 */
+	public AnswerResponse answer(int answer) {
+		AnswerResponse response = new AnswerResponse(answer);
+		System.out.println(response.getResponseTime()); // REMOVE!!!
+		return response; // returns an AnswerResponse for the server to check.
+	}
 	
 }

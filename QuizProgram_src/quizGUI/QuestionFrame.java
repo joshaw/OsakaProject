@@ -28,6 +28,7 @@ public class QuestionFrame extends JPanel implements Observer {
 
 
 	private static final long serialVersionUID = 1L;
+	QuizModel model;
 	
 	private JTextPane question = new JTextPane(); // Text-box displaying the question
 	private JTextPane answerA = new JTextPane(); // Text-box displaying possible answers...
@@ -42,28 +43,28 @@ public class QuestionFrame extends JPanel implements Observer {
 	
 	public class AnswerAListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// INSERT A ACTION HERE!!!
+			model.answer(0); // AnswerResponse for the server to check
 			System.out.println("A");
 		}
 	}
 	
 	public class AnswerBListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// INSERT B ACTION HERE!!!
+			model.answer(1); // AnswerResponse for the server to check
 			System.out.println("B");
 		}
 	}
 	
 	public class AnswerCListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// INSERT C ACTION HERE!!!
+			model.answer(2); // AnswerResponse for the server to check
 			System.out.println("C");
 		}
 	}
 	
 	public class AnswerDListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// INSERT D ACTION HERE!!!
+			model.answer(3); // AnswerResponse for the server to check
 			System.out.println("D");
 		}
 	}
@@ -73,7 +74,8 @@ public class QuestionFrame extends JPanel implements Observer {
 	 * Calls the setDiplay method to set up the question panel
 	 * @param q - the question object to create GUI for
 	 */
-	public QuestionFrame(Question q) {
+	public QuestionFrame(Question q, QuizModel model) {
+		this.model = model;
 		setDisplay(q);
 	}
 	
@@ -135,9 +137,10 @@ public class QuestionFrame extends JPanel implements Observer {
 	public static void main(String[] args) {
 		
 		Question q1 = new Question(true);
+		QuizModel model = new QuizModel();
 		
 		JFrame frame = new JFrame("Question");
-		JPanel pane = new QuestionFrame(q1);
+		JPanel pane = new QuestionFrame(q1, model);
 		
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

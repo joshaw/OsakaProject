@@ -95,7 +95,7 @@ public class AdminHomeFrame extends JPanel implements Observer {
 	
 	public class StartListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			model.adminStart(); // The start quiz object to be sent to the server...
+			model.adminStart(); // The QuizRequest object to be sent to the server...
 			
 		}
 	}
