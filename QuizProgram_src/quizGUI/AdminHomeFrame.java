@@ -108,18 +108,4 @@ public class AdminHomeFrame extends JPanel implements Observer {
 
     }
 
-    public static void main(String[] args) {
-
-        QuizClient model = new QuizClient();
-
-        JFrame frame = new JFrame("Admin Home");
-        JPanel pane = new AdminHomeFrame(model);
-
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(pane);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
 }

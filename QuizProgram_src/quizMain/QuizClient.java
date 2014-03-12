@@ -45,24 +45,23 @@ public class QuizClient extends Observable {
         System.out.println("Client running");
 
         frame = new JFrame("Quiz");
-        guiElements[0] = new LoginFrame(this);
-        guiElements[1] = new StudentHomeFrame(this);
-        guiElements[2] = new AdminHomeFrame(this);
-        guiElements[3] = new QuestionFrame(this);
+        int LOGIN       = 0; guiElements[LOGIN] = new LoginFrame(this);
+        int STUDENTHOME = 1; guiElements[STUDENTHOME] = new StudentHomeFrame(this);
+        int ADMINHOME   = 2; guiElements[ADMINHOME] = new AdminHomeFrame(this);
+        int QUESTION    = 3; guiElements[QUESTION] = new QuestionFrame(this);
+        int WAITING     = 4; guiElements[WAITING] = new WaitingFrame(this);
 
         JFrame.setDefaultLookAndFeelDecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.setContentPane(guiElements[0]);
-
-        frame.pack();
+        changeContentPane(LOGIN);
         frame.setVisible(true);
 
         System.out.println("Started GUI");
     }
 
     /******************************************************************************
-     *                                    RUN                                      *
+     *                                    RUN                                     *
      ******************************************************************************/
     private void run() throws Exception {
 
@@ -87,76 +86,26 @@ public class QuizClient extends Observable {
 
                 if (loginIsSuccessful) {
                     if (isStudentUser) {
-                        //Student has successfully logged in
-                        frame.setContentPane(guiElements[1]);
+                        changeContentPane(STUDENTHOME);
                         System.out.println("User is Student");
+                        studentSession(object);
+
                     } else {
-                        frame.setContentPane(guiElements[2]);
+                        changeContentPane(ADMINHOME);
                         System.out.println("User is Admin");
+                        adminSession(object);
                     }
 
-                    frame.pack();
-                    frame.repaint();
                 }
             }
         }
 
-        objectOutput.writeObject(new QuizRequest(3L));
-        // TODO check quiz request was successful
+    }
 
-        /* Until the end of the quiz, keep listening for objects.*/
-        while (loginReply.isSuccessful()) {
-            try{
-
-                // Read an object from the stream.
-                object = objectInput.readObject();
-
-                // ------------------------------------- Quiz
-                if (object instanceof Quiz) {
-                    quiz = (Quiz) object;
-
-                    currentQuestion = quiz.getQuestion(1);
-                    System.out.println(currentQuestion);
-
-                    // ------------------------------------- StartQuiz
-                } else if (object instanceof StartQuiz) {
-                    StartQuiz start = (StartQuiz) object;
-                    // Start Quiz!
-
-                    // ------------------------------------- DisplayQuestion
-                } else if (object instanceof DisplayQuestion) {
-                    DisplayQuestion displayQuestion = (DisplayQuestion) object;
-
-                    responseNumber = -1;
-                    questionReceivedTime = System.currentTimeMillis();
-
-                    currentQuestion = quiz.getQuestion(
-                            displayQuestion.getNumber());
-
-                    System.out.println(displayQuestion.getNumber());
-
-                    objectOutput.writeObject(waitForUserResponse());
-                    // Display question
-
-                } else if (object instanceof Score) {
-                    Score score = (Score) object;
-
-                    // ------------------------------------- OTHER
-                } else {
-                    System.out.println("I don't know what to do.");
-                }
-
-                // ----------------------------------------- NO OBJECT
-
-            } catch (SocketException e){
-            } catch (EOFException e) {
-                System.out.println("The connection to the server has been" +
-                        " lost. Shutting down.");
-                connected = false;
-                socket.close();
-                break;
-            }
-        }
+    private void changeContentPane(int i) {
+        frame.setContentPane(guiElements[i]);
+        frame.pack();
+        frame.repaint();
     }
 
     public void setResponseNumber(int responseNumber) {
@@ -259,8 +208,69 @@ public class QuizClient extends Observable {
     /**
      * @return true if the user is a Student, otherwise must be an Admin
      */
-    public boolean isStudent() {
+   public boolean isStudent() {
         return isStudentUser;
+    }
+
+    public void studentSession(Object object) throws Exception {
+        /* Until the end of the quiz, keep listening for objects.*/
+        while (loginReply.isSuccessful()) {
+            changeContentPane(WAITING);
+
+            try{
+                // Read an object from the stream.
+                object = objectInput.readObject();
+
+                // ------------------------------------- Quiz
+                if (object instanceof Quiz) {
+                    quiz = (Quiz) object;
+
+                    currentQuestion = quiz.getQuestion(1);
+                    System.out.println(currentQuestion);
+
+                    // ------------------------------------- StartQuiz
+                } else if (object instanceof StartQuiz) {
+                    StartQuiz start = (StartQuiz) object;
+                    // Start Quiz!
+
+                    // ------------------------------------- DisplayQuestion
+                } else if (object instanceof DisplayQuestion) {
+                    DisplayQuestion displayQuestion = (DisplayQuestion) object;
+
+                    responseNumber = -1;
+                    questionReceivedTime = System.currentTimeMillis();
+
+                    currentQuestion = quiz.getQuestion(
+                            displayQuestion.getNumber());
+
+                    System.out.println(displayQuestion.getNumber());
+
+                    objectOutput.writeObject(waitForUserResponse());
+                    // Display question
+
+                } else if (object instanceof Score) {
+                    Score score = (Score) object;
+
+                    // ------------------------------------- OTHER
+                } else {
+                    System.out.println("I don't know what to do.");
+                }
+
+                // ----------------------------------------- NO OBJECT
+
+            } catch (SocketException e){
+            } catch (EOFException e) {
+                System.out.println("The connection to the server has been" +
+                        " lost. Shutting down.");
+                connected = false;
+                socket.close();
+                break;
+            }
+        }
+    }
+
+    public void adminSession(Object object) {
+
     }
 
     public boolean sendObject(Object object) {
