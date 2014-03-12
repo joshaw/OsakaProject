@@ -1,4 +1,4 @@
-package quizObject;
+package quizGUI;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import quizObject.*;
 
 /**
  * Login GUI is the initial screen the user will see.
@@ -29,7 +31,7 @@ public class LoginFrame extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
 	
 	// Login model
-	private LoginModel model;
+	private QuizModel model;
 	
 	// GUI Components
 	private JLabel titleLabel = new JLabel("Log in to quiz");
@@ -42,8 +44,8 @@ public class LoginFrame extends JPanel implements Observer {
 	/**
 	 * Constructor
 	 */
-	public LoginFrame() {
-		this.model = new LoginModel();
+	public LoginFrame(QuizModel model) {
+		this.model = model;
 		setDisplay();	
 	}
 	
@@ -78,7 +80,7 @@ public class LoginFrame extends JPanel implements Observer {
 		public void actionPerformed(ActionEvent e) {
 			model.setUsername(usernameField.getText());
 			model.setPassword(passwordField.getPassword());
-			LoginRequest log1 = model.login(); // the LoginRequest object to be sent to the server	
+			LoginRequest log1 = model.requestLogin(); // the LoginRequest object to be sent to the server	
 			System.out.println(log1.getUsername() + "\n" + log1.getPasswordHash());
 		}
 	}
@@ -92,16 +94,17 @@ public class LoginFrame extends JPanel implements Observer {
 	
 	// Main method tester
 	public static void main(String[] args) {
+		QuizModel model = new QuizModel();
 		
 		JFrame frame = new JFrame("Log in");
-		JPanel pane = new LoginFrame();
+		JPanel pane = new LoginFrame(model);
 		
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(pane);
 		frame.pack();
 		frame.setVisible(true);
-		
+
 	}
 	
 }

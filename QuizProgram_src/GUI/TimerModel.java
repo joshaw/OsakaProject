@@ -1,4 +1,4 @@
-package quizObject;
+package quizGUI;
 
 import java.util.Timer;
 import java.util.TimerTask;

@@ -1,4 +1,4 @@
-package quizObject;
+package quizGUI;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -15,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+
+import quizObject.*;
 
 
 /**
@@ -123,7 +125,7 @@ public class QuestionFrame extends JPanel implements Observer {
 		con.weightx = 0; con.weighty = 1.0;
 		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
 		
-		CountDownTimer timer = new CountDownTimer(10);
+		CountDownTimer timer = new CountDownTimer(q.getTimeLimit());
 		add(timer, con);
 		timer.countDown();
 	}
@@ -133,7 +135,7 @@ public class QuestionFrame extends JPanel implements Observer {
 	public static void main(String[] args) {
 		
 		Question q1 = new Question(true);
-
+		
 		JFrame frame = new JFrame("Question");
 		JPanel pane = new QuestionFrame(q1);
 		

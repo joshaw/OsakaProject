@@ -1,4 +1,4 @@
-package quizObject;
+package quizGUI;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +21,11 @@ public class StudentHomeFrame extends JPanel implements Observer {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private JLabel title = new JLabel("Hi <name> welcome to the quiz");
+	// Model
+	QuizModel model;
+	
+	// GUI
+	private JLabel title;
 	private JButton start = new JButton("Start Quiz");
 	private JButton viewResults = new JButton("View Results");
 	private JButton updateProfile = new JButton("Update Profile");
@@ -30,7 +34,8 @@ public class StudentHomeFrame extends JPanel implements Observer {
 	/**
 	 * Constructor
 	 */
-	public StudentHomeFrame() {
+	public StudentHomeFrame(QuizModel model) {
+		this.model = model;
 		setDisplay();
 	}
 	
@@ -44,6 +49,8 @@ public class StudentHomeFrame extends JPanel implements Observer {
 		
 		JPanel buttons = new JPanel(new GridLayout(4,1,5,10));
 		Dimension d = new Dimension(136, 130);
+		
+		title = new JLabel("Hi " + model.getUsername() + " welcome to the quiz");
 		title.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
 		
 		buttons.add(start);
@@ -114,8 +121,11 @@ public class StudentHomeFrame extends JPanel implements Observer {
 	// Main method tester
 	public static void main(String[] args) {
 		
+		QuizModel model = new QuizModel();
+		model.setUsername("JohnSmith");
+		
 		JFrame frame = new JFrame("Student Home");
-		JPanel pane = new StudentHomeFrame();
+		JPanel pane = new StudentHomeFrame(model);
 		
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

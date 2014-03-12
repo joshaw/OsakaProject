@@ -1,4 +1,4 @@
-package quizObject;
+package quizGUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,9 +27,7 @@ public class CountDownTimer extends JPanel {
 	private int initialSecs;
 	private static int countSecs = 1;
 	private static int seconds;
-	private static Timer timer;
-	
-	
+	private static Timer timer;	
 	
 	// GUI
 	JProgressBar bar = new JProgressBar();
