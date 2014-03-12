@@ -43,6 +43,10 @@ public class Quiz implements Serializable {
 	public String getName() {
 		return name;
 	}
+	
+	public long getQuizID() {
+		return quizID;
+	}
 
 	public Question getQuestion(int i) {
 		try {
@@ -62,7 +66,8 @@ public class Quiz implements Serializable {
 			returnString += questions[i].toString() + "\n";
 		} else returnString += "";
 		}
-		return returnString;
+		//return returnString;
+		return name;
 	}//end of toString
 
 	@Override
