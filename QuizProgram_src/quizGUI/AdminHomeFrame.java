@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,7 +28,7 @@ public class AdminHomeFrame extends JPanel implements Observer {
 	
 	// GUI
 	JLabel label;
-	JComboBox<String> selectQuiz;
+	JComboBox<Quiz> selectQuiz;
 	JButton start = new JButton("Start");
 	JButton modifyQuiz = new JButton("Create/Delete/Modify quiz");
 	JTextArea studentsConnected;
@@ -47,11 +49,8 @@ public class AdminHomeFrame extends JPanel implements Observer {
 		label = new JLabel("Hi " + model.getUsername() + " welcome to the quiz");
 		label.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
 			
-		String[] quizNames = new String[model.getQuizArray().length];
-		for(int i = 0; i < model.getQuizArray().length; i++) {
-			quizNames[i] = model.getQuizArray()[i].getName();
-		}
-		selectQuiz = new JComboBox<String>(quizNames);
+		selectQuiz = new JComboBox<Quiz>(model.getQuizArray());
+		selectQuiz.addActionListener(new SelectQuizListener());
 		
 		studentsConnected = new JTextArea();
 		studentsConnected.setText("Students names will appear here when they're connected\n\nJohnSmith\nMarryBones\nJamesFisher");
@@ -82,6 +81,21 @@ public class AdminHomeFrame extends JPanel implements Observer {
 		c.gridx = 0; c.gridy = 3; c.weightx = 1; c.weighty = 0.1; c.gridwidth = 2;
 		add(modifyQuiz, c);
 		
+	}
+	
+	public class SelectQuizListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+			Quiz q = (Quiz) selectQuiz.getSelectedItem();
+			model.setCurrentQuizID(q.getQuizID());
+		}
+	}
+	
+	public class StartListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			// Start quiz
+			System.out.println("Start");
+		}
 	}
 	
 	@Override
