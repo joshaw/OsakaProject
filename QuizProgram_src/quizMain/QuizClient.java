@@ -1,6 +1,7 @@
 package quizMain;
 
 import quizObject.*;
+import quizGUI.*;
 
 import java.net.Socket;
 import java.net.SocketException;
@@ -24,39 +25,52 @@ public class QuizClient extends Observable {
     private long currentQuizID;
     private Question currentQuestion;
     private int responseNumber = -1;
+    private Long[] quizIDs;
+    private String[] quizNames;
 
-	private char[] password;
-	private int username;
+    private String username;
+    private String passwordHash;
     private long questionReceivedTime;
     private boolean isStudentUser;
-    private boolean loginIsSuccessful;
+    private boolean loginIsSuccessful = false;
 
     // Print notification when starting.
     public QuizClient() {
         System.out.println("Client running");
+        LoginFrame lf = new LoginFrame(this);
+        System.out.println("Started GUI");
     }
 
-/******************************************************************************
-*                                    RUN                                      *
-******************************************************************************/
+    /******************************************************************************
+     *                                    RUN                                      *
+     ******************************************************************************/
     private void run() throws Exception {
 
+        Object object;
         socket = new Socket("localhost", PORT);
         out = new PrintWriter(socket.getOutputStream(), true);
 
         objectOutput = new ObjectOutputStream(socket.getOutputStream());
         objectInput = new ObjectInputStream(socket.getInputStream());
 
-        // Here the name and password fetched by the gui is sent to the server
-        // objectOutput.writeObject(new LoginRequest(1, 25));
-        // System.out.println("login request sent");
+        System.out.println(loginIsSuccessful);
+        while (!loginIsSuccessful) {
+            // Here the name and password fetched by the gui is sent to the server
+            // objectOutput.writeObject(new LoginRequest(1, 25));
+            // System.out.println("login request sent");
+
+            object = objectInput.readObject();
+            if (object instanceof LoginReply) {
+                loginReply = (LoginReply) object;
+                loginIsSuccessful = loginReply.isSuccessful();
+                isStudentUser = loginReply.isStudent();
+            }
+        }
 
         objectOutput.writeObject(new QuizRequest(3L));
-        System.out.println("quiz request sent");
         // TODO check quiz request was successful
 
         /* Until the end of the quiz, keep listening for objects.*/
-        Object object;
         while (loginReply.isSuccessful()) {
             try{
 
@@ -66,29 +80,18 @@ public class QuizClient extends Observable {
                 // ------------------------------------- Quiz
                 if (object instanceof Quiz) {
                     quiz = (Quiz) object;
-                    System.out.println("Quiz object received");
 
                     currentQuestion = quiz.getQuestion(1);
                     System.out.println(currentQuestion);
 
-                    // ------------------------------------- LoginReply
-                } else if (object instanceof LoginReply) {
-                    loginReply = (LoginReply) object;
-
-                    loginIsSuccessful = loginReply.isSuccessful();
-                    isStudentUser = loginReply.isStudent();
-                    System.out.println("User is student is " + isStudentUser);
-
                     // ------------------------------------- StartQuiz
                 } else if (object instanceof StartQuiz) {
                     StartQuiz start = (StartQuiz) object;
-                    System.out.println("Start Quiz received");
                     // Start Quiz!
 
                     // ------------------------------------- DisplayQuestion
                 } else if (object instanceof DisplayQuestion) {
                     DisplayQuestion displayQuestion = (DisplayQuestion) object;
-                    System.out.println("DisplayQuestion received");
 
                     responseNumber = -1;
                     questionReceivedTime = System.currentTimeMillis();
@@ -122,24 +125,57 @@ public class QuizClient extends Observable {
         }
     }
 
-	public void requestLogin() throws Exception {
+    public void setResponseNumber(int responseNumber) {
+        this.responseNumber = responseNumber;
+    }
 
-		String passwordString = "";
-		int passwordHash;
+    public String getAnswer(int i) {
+        return currentQuestion.getAnswer(i);
+    }
 
-		// iterates through the password char[] and creates a password string
-		for (int i = 0; i < password.length; i++) {
-			passwordString = passwordString + password[i];
-		}
+    public Long[] getQuizIDs() {
+        return  quizIDs;
+    }
 
-		passwordHash = passwordString.hashCode();
-		objectOutput.writeObject(new LoginRequest(username, passwordHash));
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	}
+    public String getUsername() {
+        return username;
+    }
 
-    public void adminStart() throws Exception {
+    public void setPassword(String password) {
+        this.passwordHash = password;
+    }
+
+    public void setCurrentQuizID(long CurrentQuizID) {
+        this.currentQuizID = currentQuizID;
+    }
+
+    /**
+     * requestLogin - action for the loginButton in the LoginFrame
+     *
+     * Converts the char[] password to string password and hashes.
+     * Then creates LoginRequest object based on the user name and hashed password string.
+     *
+     * @return LoginRequest
+     */
+    public void requestLogin() {
+        try {
+            objectOutput.writeObject(new LoginRequest(username, passwordHash));
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void adminStart() {
         QuizRequest quizRequest = new QuizRequest(currentQuizID);
-        objectOutput.writeObject(quizRequest);
+        try {
+            objectOutput.writeObject(quizRequest);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     private AnswerResponse waitForUserResponse() {
@@ -147,7 +183,7 @@ public class QuizClient extends Observable {
         while ((responseTime = System.currentTimeMillis() - questionReceivedTime) < 1000
                 && responseNumber == -1) {
             //pause
-        }
+                }
 
         if (responseNumber == -1) {
             System.out.println("No user response. Score of -2");
@@ -187,7 +223,7 @@ public class QuizClient extends Observable {
     /**
      * @return true if the user is a Student, otherwise must be an Admin
      */
-    public boolean isStudentUser() {
+    public boolean isStudent() {
         return isStudentUser;
     }
 
@@ -207,9 +243,9 @@ public class QuizClient extends Observable {
         return true;
     }
 
-/******************************************************************************
-*                                    MAIN                                     *
-******************************************************************************/
+    /******************************************************************************
+     *                                    MAIN                                     *
+     ******************************************************************************/
     /** Main client method. Starts the client running.
      *
      * @param args

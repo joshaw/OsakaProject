@@ -13,25 +13,25 @@ public class LoginRequest implements Serializable {
 
 	private static final long serialVersionUID = 40L;
 
-	private int username;
-	private int passwordHash;
+	private String username;
+	private String passwordHash;
 
-	public LoginRequest(int username, int password) {
+	public LoginRequest(String username, String password) {
 		this.username = username;
 		// this.passwordHash = password.hashCode();
 		this.passwordHash = password;
 		System.out.println("Login username: " + username + "\npassword: " + passwordHash);
 	}
 
-	public void setUsername(int username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	public int getUsername() {
+	public String getUsername() {
 		return username;
 	}
 
-	public int getPasswordHash() {
+	public String getPasswordHash() {
 		return passwordHash;
 	}
 

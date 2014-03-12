@@ -54,9 +54,9 @@ public class QuizJDBC {
           * @param String password
 	  * @return LoginReply
 	  */
-	public static LoginReply isUser(Connection con, int userID, String password)  {
+	public static LoginReply isUser(Connection con, String username, String password)  {
 
-		String sql = "SELECT * FROM users WHERE user_id=? AND password=?";
+		String sql = "SELECT * FROM users WHERE first_name=? AND password=?";
 
 		//instatiate LoginReply and its instance variables
 		boolean isStudent = true;
@@ -67,7 +67,7 @@ public class QuizJDBC {
 		try{
 			PreparedStatement ps = con.prepareStatement(sql);
 		//	System.out.println("userID is: " + userID + ", password is: " + password); //included for testing
-			ps.setInt(1, userID);
+			ps.setString(1, username);
 			ps.setString(2, password);
 
 			ResultSet rs = ps.executeQuery();
@@ -75,6 +75,7 @@ public class QuizJDBC {
 			if(rs.next()){ //if the user is found in the database
 
 				if(rs.getString("role").equals("admin")) isStudent = false;
+
 				name = rs.getString("first_name") + " " + rs.getString("last_name");
 				loginSuccessful = true;
 			}//end of if

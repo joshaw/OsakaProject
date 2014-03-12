@@ -101,14 +101,14 @@ public class QuizServer {
                             LoginRequest loginRequest = (LoginRequest) newObj;
 
                             //Obtain the user name and hashed password from the LoginRequest Object
-                            int username = loginRequest.getUsername();
+                            String username = loginRequest.getUsername();
 
                             //stored in database as a string
-                            String password = String.valueOf(loginRequest.getPasswordHash());
+                            String password = loginRequest.getPasswordHash();
 
                             //query database for login details, create a login reply object and return it
-                            // LoginReply lr = QuizJDBC.isUser(con, username, password);
-                            LoginReply lr = new LoginReply(true, true, "Josh");
+                            LoginReply lr = QuizJDBC.isUser(con, username, password);
+                            // LoginReply lr = new LoginReply(true, true, "Josh");
                             objectOutputStream.writeObject(lr); //send the loginReply to the client
 
                             //is the user exists exit the while loop and move onto quiz
