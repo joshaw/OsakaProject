@@ -24,6 +24,14 @@ public class QuizClient extends Observable {
 
     private JFrame frame;
     private JPanel[] guiElements = new JPanel[10];
+    private final int LOGIN = 0;
+    private final int STUDENTHOME = 1;
+    private final int ADMINHOME = 2;
+    private final int QUESTION = 3;
+	private final int WAITING = 4;
+	private final int STUDENTRESULTS = 5;
+	private final int ADMINRESULTS = 6;
+	private final int FINALRESULTS = 7;
 
     private boolean connected = true;
     private LoginReply loginReply;
@@ -45,11 +53,11 @@ public class QuizClient extends Observable {
         System.out.println("Client running");
 
         frame = new JFrame("Quiz");
-        int LOGIN       = 0; guiElements[LOGIN] = new LoginFrame(this);
-        int STUDENTHOME = 1; guiElements[STUDENTHOME] = new StudentHomeFrame(this);
-        int ADMINHOME   = 2; guiElements[ADMINHOME] = new AdminHomeFrame(this);
-        int QUESTION    = 3; guiElements[QUESTION] = new QuestionFrame(this);
-        int WAITING     = 4; guiElements[WAITING] = new WaitingFrame(this);
+        guiElements[LOGIN] = new LoginFrame(this);
+        guiElements[STUDENTHOME] = new StudentHomeFrame(this);
+        guiElements[ADMINHOME] = new AdminHomeFrame(this);
+        guiElements[QUESTION] = new QuestionFrame(this);
+        //guiElements[WAITING] = new WaitingFrame(this);
 
         JFrame.setDefaultLookAndFeelDecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -215,8 +223,8 @@ public class QuizClient extends Observable {
     public void studentSession(Object object) throws Exception {
         /* Until the end of the quiz, keep listening for objects.*/
         while (loginReply.isSuccessful()) {
-            changeContentPane(WAITING);
-
+            //changeContentPane(WAITING);
+			
             try{
                 // Read an object from the stream.
                 object = objectInput.readObject();
@@ -232,7 +240,8 @@ public class QuizClient extends Observable {
                 } else if (object instanceof StartQuiz) {
                     StartQuiz start = (StartQuiz) object;
                     // Start Quiz!
-
+					System.out.println("STUDENT IS STARTING QUIZ");
+					changeContentPane(QUESTION);
                     // ------------------------------------- DisplayQuestion
                 } else if (object instanceof DisplayQuestion) {
                     DisplayQuestion displayQuestion = (DisplayQuestion) object;

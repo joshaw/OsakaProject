@@ -18,6 +18,8 @@ public class QuizServer {
     private static final int PORT = 9000;
     private ServerSocket listener;
     private Socket clientSocket;
+	private static boolean quizReady = false;
+	private static Quiz quiz;
 
     /**
      * Starts the server
@@ -61,6 +63,7 @@ public class QuizServer {
     private class ClientThread extends Thread {
 
         private Socket clientSocket;
+		private boolean isStudent = true;
 
         //instance variables which allow communication between the Server and Client
         private ObjectOutputStream objectOutputStream;
@@ -80,7 +83,6 @@ public class QuizServer {
          * Handles the client thread
          */
         public void run(){
-
             try{
                 //create the input and output streams for the server to communicate with the client
                 objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -108,6 +110,10 @@ public class QuizServer {
 
                             //query database for login details, create a login reply object and return it
                             LoginReply lr = QuizJDBC.isUser(con, username, password);
+
+							//update status student vs admin
+							isStudent = lr.isStudent();
+
                             // LoginReply lr = new LoginReply(true, true, "Josh");
                             objectOutputStream.writeObject(lr); //send the loginReply to the client
 
@@ -128,30 +134,33 @@ public class QuizServer {
                     }//end of try/catch block
                 }//end of while
 
-                // User has logged in, start quiz
+                // User has logged in
                 if (userExists) {
 
                     /*
-                     * The following try/catch block recieves a QuizRequest Object from
+                     * The following try/catch block receives a QuizRequest Object from
                      * client (admin) and retrieves the required quiz from the database
-                     */
-                    Quiz currentQuiz = null;
+                    */
                     try{
-                        Object potentialQuizObject = objectInputStream.readObject();
-                        if(potentialQuizObject instanceof QuizRequest){
-                            long quizID = ((QuizRequest) potentialQuizObject).getQuizID();
 
-                            //get quiz from database and set to currentQuiz
-                            // currentQuiz = QuizJDBC.getQuiz(con, quizID);
-                            currentQuiz = new Quiz();
+                        if(!isStudent) {
+                        	Object object;
+                        	object = objectInputStream.readObject();
+                        	if(object instanceof QuizRequest){
+                        		QuizRequest qr = (QuizRequest) object;
+                            	//get quiz from database and set to currentQuiz
+                            	setQuiz(QuizJDBC.getQuiz(con, qr.getQuizID()));
+                            	setQuizReady(true);
+                            }
                         }//end of if
-
-                        try {
-                            startQuizSession(con, currentQuiz);
-                        } catch(Exception e){
-                            e.printStackTrace();
+                        System.out.println("BEFORE QUIZ READY LOOP: is Student: "+isStudent+" quizReady: "+quizReady);
+                        while(!quizReady){
+						
                         }
-
+                        System.out.println("STARTING QUIZ isStudent: "+isStudent+" quizReady: "+quizReady);
+						if(isStudent){
+							startQuizSession(con, quiz);
+						}
                     }catch(Exception e){
                         System.out.println(e);
                     }//end of try/catch block
@@ -174,7 +183,7 @@ public class QuizServer {
 
         public boolean startQuizSession(Connection con, Quiz currentQuiz) throws Exception {
             // Send quiz to client
-            objectOutputStream.writeObject(currentQuiz);
+            objectOutputStream.writeObject(quiz);
 
             // Start quiz
             objectOutputStream.writeObject(new StartQuiz());
@@ -221,6 +230,22 @@ public class QuizServer {
         }
 
     }//end of ClientTread class
+
+	public boolean getQuizReady() {
+		return quizReady;
+	}
+
+	public Quiz getQuiz() {
+		return quiz;
+	}
+
+	public void setQuizReady(boolean b) {
+		quizReady = b;
+	}
+
+	public void setQuiz(Quiz quiz) {
+		quiz = quiz;
+	}
 
     public static void main(String[] args) throws Exception {
         QuizServer q = new QuizServer();
