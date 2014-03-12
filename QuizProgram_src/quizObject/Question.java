@@ -11,6 +11,7 @@ public class Question implements Serializable {
 	private String[] answers = new String[4];
 	private int correctAnswerPos; //the position in the array of answers that is the correct one
 	private int questionID;
+	private int timeLimit = 10;
 
 	public Question(boolean test) {
 
@@ -53,6 +54,14 @@ public class Question implements Serializable {
 
 	public String[] getAnswers() {
 		return answers;
+	}
+
+	public int getTimeLimit() {
+		return timeLimit;
+	}
+
+	public void setTimeLimit(int timeLimit) {
+		this.timeLimit = timeLimit;
 	}
 
 	public String toString() {

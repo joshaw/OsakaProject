@@ -14,6 +14,7 @@ public class Quiz implements Serializable {
 
 	private long quizID;
 	private Question[] questions = new Question[7];
+	private String name;
 
 	public Quiz() {
 
@@ -22,12 +23,13 @@ public class Quiz implements Serializable {
 		for (int i = 1; i < 6; i++) {
 			questions[i] = new Question(true);
 		}
+		name = "Test";
 	}
 
-	public Quiz(long quizID, Question[] questions) {
+	public Quiz(long quizID, String name, Question[] questions) {
 		this.quizID = quizID;
 		this.questions = questions;
-
+		this.name = name;
 	}
 
 	public void setQuestions(Question[] questions) {
@@ -36,6 +38,10 @@ public class Quiz implements Serializable {
 
 	public Question[] getQuestions() {
 		return questions;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	public Question getQuestion(int i) {
