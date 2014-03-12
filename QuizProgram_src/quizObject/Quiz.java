@@ -26,10 +26,9 @@ public class Quiz implements Serializable {
 		name = "Test";
 	}
 
-	public Quiz(long quizID, String name, Question[] questions) {
+	public Quiz(long quizID, Question[] questions) {
 		this.quizID = quizID;
 		this.questions = questions;
-		this.name = name;
 	}
 
 	public void setQuestions(Question[] questions) {
@@ -39,7 +38,7 @@ public class Quiz implements Serializable {
 	public Question[] getQuestions() {
 		return questions;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

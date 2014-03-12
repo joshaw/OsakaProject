@@ -48,6 +48,10 @@ public class Question implements Serializable {
 		return question;
 	}
 
+	public int getCorrectAnswerPos() {
+		return correctAnswerPos;
+	}
+
 	public String getAnswer(int i) {
 		return answers[i];
 	}

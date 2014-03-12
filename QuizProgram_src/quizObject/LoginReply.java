@@ -14,14 +14,19 @@ public class LoginReply implements Serializable {
 	private boolean loginSuccessful = false;
 	private boolean isStudent = true;
 	private String name;
-	private Quiz[] quizes;	
+	private Quiz[] quizes;
+
+	public LoginReply(boolean loginSuccessful) {
+		this.loginSuccessful = loginSuccessful;
+	}
 
 	public LoginReply(boolean loginSuccessful, boolean isStudent, String name) {
 		this.loginSuccessful = loginSuccessful;
 		this.isStudent = isStudent;
 		this.name = name;
+		System.out.println("LoginReply sent");
 	}
-		
+
 	public LoginReply(boolean loginSuccessful, boolean isStudent, String name, Quiz[] quizes) {
 		this.loginSuccessful = loginSuccessful;
 		this.isStudent = isStudent;
@@ -36,7 +41,7 @@ public class LoginReply implements Serializable {
 	public boolean isStudent() {
 		return isStudent;
 	}
-	
+
 	public Quiz[] getQuizes() {
 		return quizes;
 	}

@@ -9,9 +9,13 @@ public class AnswerResponse implements Serializable {
 	private int response;
 	private long responseTime;
 
+	public AnswerResponse(int response, long responseTime) {
+		this.response = response;
+		this.responseTime = responseTime;
+	}
+
 	public AnswerResponse(int response) {
 		this.response = response;
-		this.responseTime = System.currentTimeMillis();
 	}
 
 	/**
