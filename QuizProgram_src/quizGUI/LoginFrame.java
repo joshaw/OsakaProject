@@ -1,4 +1,7 @@
 package quizGUI;
+
+import quizObject.*;
+
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -80,7 +83,8 @@ public class LoginFrame extends JPanel implements Observer {
 		public void actionPerformed(ActionEvent e) {
 			model.setUsername(usernameField.getText());
 			model.setPassword(passwordField.getPassword());
-			LoginRequest log1 = model.requestLogin(); // the LoginRequest object to be sent to the server	
+			// LoginRequest log1 = model.requestLogin(); // the LoginRequest object to be sent to the server	
+			model.requestLogin();
 			System.out.println(log1.getUsername() + "\n" + log1.getPasswordHash());
 		}
 	}
