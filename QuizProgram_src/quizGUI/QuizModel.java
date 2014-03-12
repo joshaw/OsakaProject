@@ -18,7 +18,7 @@ public class QuizModel extends Observable {
 	boolean isStudent;
 	
 	Quiz[] quizArray;
-	int currentQuizID;
+	long currentQuizID;
 	int currentQuestionNumber;
 	
 	
@@ -80,7 +80,7 @@ public class QuizModel extends Observable {
 	 * Getter for currentQuizID
 	 * @return currentQuizID as int
 	 */
-	public int getCurrentQuizID() {
+	public long getCurrentQuizID() {
 		return currentQuizID;
 	}
 
@@ -88,7 +88,7 @@ public class QuizModel extends Observable {
 	 * Setter for currentQuizID
 	 * @param currentQuizID as int
 	 */
-	public void setCurrentQuizID(int currentQuizID) {
+	public void setCurrentQuizID(long currentQuizID) {
 		this.currentQuizID = currentQuizID;
 	}
 
@@ -165,6 +165,16 @@ public class QuizModel extends Observable {
 			setPassword(new char[0]);
 		}
 		
+	}
+	
+	/**
+	 * adminStart - action for the start button in the admin frame.
+	 * creates and returns a StartQuiz object
+	 * @return StartQuiz
+	 */
+	public StartQuiz adminStart() {
+		StartQuiz quiz = new StartQuiz(currentQuizID);
+		return quiz; // The start quiz object to be sent to the server...
 	}
 	
 	

@@ -52,6 +52,8 @@ public class AdminHomeFrame extends JPanel implements Observer {
 		selectQuiz = new JComboBox<Quiz>(model.getQuizArray());
 		selectQuiz.addActionListener(new SelectQuizListener());
 		
+		start.addActionListener(new StartListener());
+		
 		studentsConnected = new JTextArea();
 		studentsConnected.setText("Students names will appear here when they're connected\n\nJohnSmith\nMarryBones\nJamesFisher");
 		studentsConnected.setLineWrap(true);
@@ -93,8 +95,8 @@ public class AdminHomeFrame extends JPanel implements Observer {
 	
 	public class StartListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// Start quiz
-			System.out.println("Start");
+			model.adminStart(); // The start quiz object to be sent to the server...
+			
 		}
 	}
 	

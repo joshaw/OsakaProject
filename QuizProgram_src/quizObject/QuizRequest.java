@@ -1,3 +1,5 @@
+package quizObject;
+
 import java.io.Serializable;
 
 public class QuizRequest implements Serializable {
