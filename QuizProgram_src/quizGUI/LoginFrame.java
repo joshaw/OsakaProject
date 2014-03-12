@@ -43,6 +43,7 @@ public class LoginFrame extends JPanel implements Observer {
     private JTextField usernameField = new JTextField(10);
     private JPasswordField passwordField = new JPasswordField(10);
     private JButton loginButton = new JButton("Log in");
+	private JFrame frame;
 
     /**
      * Constructor
@@ -51,15 +52,6 @@ public class LoginFrame extends JPanel implements Observer {
         this.model = model;
 
         setDisplay();
-
-        JFrame frame = new JFrame("Log in");
-        // JPanel pane = new LoginFrame(model);
-
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(this);
-        frame.pack();
-        frame.setVisible(true);
     }
 
     /**
@@ -85,6 +77,10 @@ public class LoginFrame extends JPanel implements Observer {
         add(loginButton);
     }
 
+	public JFrame getFrame() {
+		return frame;
+	}
+
     /**
      * Action Listener for the login button
      */
@@ -93,16 +89,6 @@ public class LoginFrame extends JPanel implements Observer {
             model.setUsername(String.valueOf(usernameField.getText()));
             model.setPassword(String.valueOf(passwordField.getPassword()));
             model.requestLogin();
-
-            if (model.loginIsSuccessful()) {
-                if (model.isStudent()) {
-                    //Student has successfully logged in
-                    // Start home screen
-                    // close this screen
-                } else {
-                    //Admin has successfully logged in
-                }
-            }
         }
     }
 

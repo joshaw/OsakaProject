@@ -3,6 +3,9 @@ package quizMain;
 import quizObject.*;
 import quizGUI.*;
 
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+
 import java.net.Socket;
 import java.net.SocketException;
 import java.io.*;
@@ -18,6 +21,9 @@ public class QuizClient extends Observable {
     private Socket socket;
     private ObjectInputStream objectInput;
     private ObjectOutputStream objectOutput;
+
+    private JFrame frame;
+    private JPanel[] guiElements = new JPanel[10];
 
     private boolean connected = true;
     private LoginReply loginReply;
@@ -37,7 +43,21 @@ public class QuizClient extends Observable {
     // Print notification when starting.
     public QuizClient() {
         System.out.println("Client running");
-        LoginFrame lf = new LoginFrame(this);
+
+        frame = new JFrame("Quiz");
+        guiElements[0] = new LoginFrame(this);
+        guiElements[1] = new StudentHomeFrame(this);
+        guiElements[2] = new AdminHomeFrame(this);
+        guiElements[3] = new QuestionFrame(this);
+
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        frame.setContentPane(guiElements[0]);
+
+        frame.pack();
+        frame.setVisible(true);
+
         System.out.println("Started GUI");
     }
 
@@ -64,6 +84,19 @@ public class QuizClient extends Observable {
                 loginReply = (LoginReply) object;
                 loginIsSuccessful = loginReply.isSuccessful();
                 isStudentUser = loginReply.isStudent();
+
+                if (loginIsSuccessful) {
+                    if (isStudentUser) {
+                        //Student has successfully logged in
+                        frame.setContentPane(guiElements[1]);
+                        System.out.println("User is Student");
+                    } else {
+                        frame.setContentPane(guiElements[2]);
+                        System.out.println("User is Admin");
+                    }
+                    frame.pack();
+                    frame.repaint();
+                }
             }
         }
 
@@ -134,7 +167,9 @@ public class QuizClient extends Observable {
     }
 
     public Long[] getQuizIDs() {
-        return  quizIDs;
+        // return quizIDs;
+        Long[] temp = {1L, 2L, 3L, 4L, 5L, 6L};
+        return temp;
     }
 
     public void setUsername(String username) {

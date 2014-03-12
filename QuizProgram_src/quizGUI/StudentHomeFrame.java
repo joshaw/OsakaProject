@@ -41,14 +41,7 @@ public class StudentHomeFrame extends JPanel implements Observer {
 		this.model = model;
 
 		setDisplay();
-
-		JFrame frame = new JFrame("Student Home");
-
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(this);
-		frame.pack();
-		frame.setVisible(true);
+		System.out.println("StudentHomeFrame Created");
 	}
 
 	/**

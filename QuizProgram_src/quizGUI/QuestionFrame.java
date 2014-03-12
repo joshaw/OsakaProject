@@ -75,8 +75,11 @@ public class QuestionFrame extends JPanel implements Observer {
 	 * Calls the setDiplay method to set up the question panel
 	 * @param q - the question object to create GUI for
 	 */
-	public QuestionFrame(Question q, QuizClient model) {
+	public QuestionFrame(QuizClient model) {
 		this.model = model;
+	}
+
+	public void setQuestion(Question q) {
 		setDisplay(q);
 	}
 
@@ -133,22 +136,22 @@ public class QuestionFrame extends JPanel implements Observer {
 		timer.countDown();
 	}
 
-	// Main method tester
-	public static void main(String[] args) {
+	// // Main method tester
+	// public static void main(String[] args) {
 
-		Question q1 = new Question(true);
-		QuizClient model = new QuizClient();
+	// 	Question q1 = new Question(true);
+	// 	QuizClient model = new QuizClient();
 
-		JFrame frame = new JFrame("Question");
-		JPanel pane = new QuestionFrame(q1, model);
+	// 	JFrame frame = new JFrame("Question");
+	// 	JPanel pane = new QuestionFrame(q1, model);
 
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(pane);
-		frame.pack();
-		frame.setVisible(true);
+	// 	JFrame.setDefaultLookAndFeelDecorated(true);
+	// 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	// 	frame.setContentPane(pane);
+	// 	frame.pack();
+	// 	frame.setVisible(true);
 
-	}
+	// }
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
