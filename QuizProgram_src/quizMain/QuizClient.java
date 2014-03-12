@@ -94,6 +94,7 @@ public class QuizClient extends Observable {
                         frame.setContentPane(guiElements[2]);
                         System.out.println("User is Admin");
                     }
+
                     frame.pack();
                     frame.repaint();
                 }
