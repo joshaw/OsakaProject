@@ -115,6 +115,10 @@ public class QuizClient extends Observable {
         frame.pack();
         frame.repaint();
     }
+	
+    public int getResponseNumber() {
+    	return responseNumber;
+    }
 
     public void setResponseNumber(int responseNumber) {
         this.responseNumber = responseNumber;
