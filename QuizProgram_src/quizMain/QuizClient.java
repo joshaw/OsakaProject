@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.io.*;
 
 import java.util.Observable;
@@ -15,6 +17,14 @@ import java.util.Observable;
 public class QuizClient extends Observable {
 
 	private static final int PORT = 9000;
+	private static final int LOGIN = 0;
+	private static final int STUDENTHOME = 1;
+	private static final int ADMINHOME = 2;
+	private static final int QUESTION = 3;
+	private static final int WAITING = 4;
+	private static final int STUDENTRESULTS = 5;
+	private static final int ADMINRESULTS = 6;
+	private static final int FINALRESULTS = 7;
 
 	private PrintWriter out;
 	private InputStream inputStream;
@@ -24,14 +34,6 @@ public class QuizClient extends Observable {
 
 	private JFrame frame;
 	private JPanel[] guiElements = new JPanel[10];
-	private final int LOGIN = 0;
-	private final int STUDENTHOME = 1;
-	private final int ADMINHOME = 2;
-	private final int QUESTION = 3;
-	private final int WAITING = 4;
-	private final int STUDENTRESULTS = 5;
-	private final int ADMINRESULTS = 6;
-	private final int FINALRESULTS = 7;
 
 	private boolean connected = true;
 	private LoginReply loginReply;
@@ -50,6 +52,13 @@ public class QuizClient extends Observable {
 
 	// Print notification when starting.
 	public QuizClient() {
+		try {
+			socket = new Socket("localhost", PORT);
+		} catch(IOException e) {
+			System.out.println("Can't connect to server. Exiting...");
+			System.exit(1);
+		}
+
 		System.out.println("Client running");
 
 		frame = new JFrame("Quiz");
@@ -68,13 +77,12 @@ public class QuizClient extends Observable {
 		System.out.println("Started GUI");
 	}
 
-	/******************************************************************************
-	 *                                    RUN                                     *
-	 ******************************************************************************/
+	//*************************************************************************
+	//                                  RUN                                   *
+	//************************************************************************/
 	private void run() throws Exception {
 
 		Object object;
-		socket = new Socket("localhost", PORT);
 		out = new PrintWriter(socket.getOutputStream(), true);
 
 		objectOutput = new ObjectOutputStream(socket.getOutputStream());
@@ -115,7 +123,7 @@ public class QuizClient extends Observable {
 		frame.pack();
 		frame.repaint();
 	}
-	
+
     public int getResponseNumber() {
     	return responseNumber;
     }
@@ -129,6 +137,7 @@ public class QuizClient extends Observable {
 	}
 
 	public Long[] getQuizIDs() {
+		// TODO
 		// return quizIDs;
 		Long[] temp = {3L, 2L, 3L, 4L, 5L, 6L};
 		return temp;
@@ -148,46 +157,6 @@ public class QuizClient extends Observable {
 
 	public void setCurrentQuizID(long CurrentQuizID) {
 		this.currentQuizID = currentQuizID;
-	}
-
-	/**
-	 * requestLogin - action for the loginButton in the LoginFrame
-	 *
-	 * Converts the char[] password to string password and hashes.
-	 * Then creates LoginRequest object based on the user name and hashed password string.
-	 *
-	 * @return LoginRequest
-	 */
-	public void requestLogin() {
-		try {
-			objectOutput.writeObject(new LoginRequest(username, passwordHash));
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-
-	public void adminStart() {
-		QuizRequest quizRequest = new QuizRequest(currentQuizID);
-		try {
-			objectOutput.writeObject(quizRequest);
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-
-	private AnswerResponse waitForUserResponse() {
-		long responseTime;
-		while ((responseTime = System.currentTimeMillis() - questionReceivedTime) < 10000
-				&& responseNumber == -1) {
-			//pause
-				}
-
-		if (responseNumber == -1) {
-			System.out.println("No user response. Score of -2");
-			return new AnswerResponse(-1);
-		}
-
-		return new AnswerResponse(responseNumber, responseTime);
 	}
 
 	/**
@@ -220,11 +189,44 @@ public class QuizClient extends Observable {
 	/**
 	 * @return true if the user is a Student, otherwise must be an Admin
 	 */
-   public boolean isStudent() {
+
+	public boolean isStudent() {
 		return isStudentUser;
 	}
 
-	public void studentSession(Object object) throws Exception {
+	/** requestLogin - action for the loginButton in the LoginFrame
+	 *
+	 * @return LoginRequest
+	 */
+	public void requestLogin() {
+		try {
+			objectOutput.writeObject(new LoginRequest(username, passwordHash));
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public void adminStart() {
+		QuizRequest quizRequest = new QuizRequest(currentQuizID);
+		sendObject(quizRequest);
+	}
+
+	private AnswerResponse waitForUserResponse() {
+		long responseTime;
+		while ((responseTime = System.currentTimeMillis() - questionReceivedTime) < 10000
+				&& responseNumber == -1) {
+			//pause
+				}
+
+		if (responseNumber == -1) {
+			System.out.println("No user response. Score of -2");
+			return new AnswerResponse(-1);
+		}
+
+		return new AnswerResponse(responseNumber, responseTime);
+	}
+
+	private void studentSession(Object object) throws Exception {
 		/* Until the end of the quiz, keep listening for objects.*/
 		while (loginReply.isSuccessful()) {
 
@@ -282,7 +284,7 @@ public class QuizClient extends Observable {
 		}
 	}
 
-	public void adminSession(Object object) {
+	private void adminSession(Object object) {
 
 	}
 
@@ -302,9 +304,9 @@ public class QuizClient extends Observable {
 		return true;
 	}
 
-	/******************************************************************************
-	 *                                    MAIN                                     *
-	 ******************************************************************************/
+	/**************************************************************************
+	 *                                  MAIN                                  *
+	 *************************************************************************/
 	/** Main client method. Starts the client running.
 	 *
 	 * @param args

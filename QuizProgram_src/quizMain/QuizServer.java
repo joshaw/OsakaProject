@@ -62,9 +62,9 @@ public class QuizServer {
 
 	}//end of startServer method
 
-	/*##########################################################################
-#                                 INNER CLASS                                 #
-##############################################################################*/
+	//*************************************************************************
+	//                              INNER CLASS                               *
+	//************************************************************************/
 	/**
 	 * Inner class that is created when a new client connects to the server
 	 *
@@ -79,6 +79,7 @@ public class QuizServer {
 		private ObjectInputStream objectInputStream;
 		private DataInputStream dataInputStream;
 		private PrintStream printStream;
+		private String username;
 
 		/**
 		 * Constructor for the client thread
@@ -117,7 +118,7 @@ public class QuizServer {
 
 							//Obtain the user name and hashed password from the
 							//LoginRequest Object
-							String username = loginRequest.getUsername();
+							username = loginRequest.getUsername();
 
 							//stored in database as a string
 							String password = loginRequest.getPasswordHash();
@@ -229,12 +230,14 @@ public class QuizServer {
 						if(currentResponse.getResponse() == (currentQuiz.getQuestion(i).getCorrectAnswerPos())){
 
 							score = (int) (1 / currentResponse.getResponseTime()) / 100;
-							objectOutputStream.writeObject(new Score(score));
+							objectOutputStream.writeObject(
+									new Score(username, score));
 
 						// Otherwise, update client with incorrect answer - 0
 						} else {
 							score = -2;
-							objectOutputStream.writeObject(new Score(score));
+							objectOutputStream.writeObject(
+									new Score(username, score));
 						}
 
 						// TO DO: update database with result
@@ -260,9 +263,9 @@ public class QuizServer {
 		}
 
 	}//end of ClientTread class
-	/*##########################################################################
-#                             END OF INNER CLASS                              #
-##############################################################################*/
+	//*************************************************************************
+	//                           END OF INNER CLASS                           *
+	//************************************************************************/
 
 	public void sendObjectToAll(Object o) {
 		for(ClientThread c: clientArrayList) {
