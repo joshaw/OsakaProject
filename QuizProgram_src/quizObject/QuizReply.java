@@ -1,6 +1,8 @@
+package quizObject;
 
+import java.io.Serializable;
 
-public class QuizReply {
-	private
+public class QuizReply implements Serializable {
+	private QuizReply() {}
 
 }

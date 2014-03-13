@@ -92,7 +92,9 @@ public class AdminHomeFrame extends JPanel implements Observer {
         public void actionPerformed(ActionEvent e) {
 
             long q = (long) selectQuiz.getSelectedItem();
-            model.setCurrentQuizID(q);
+            // model.setCurrentQuizID(q); TODO THIS IS CORRECT
+            model.setCurrentQuizID(0);
+            System.out.println("you have selected a quiz");
         }
     }
 
