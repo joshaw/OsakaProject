@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import quizObject.*;
 
@@ -66,7 +67,7 @@ public class LoginFrame extends JPanel implements Observer {
      * Sets the display for login
      */
     public void setDisplay() {
-
+    	UIManager.put("control", new Color(153,215,229));
     	JPanel view = new JPanel();
     	
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));

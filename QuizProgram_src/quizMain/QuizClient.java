@@ -5,6 +5,7 @@ import quizGUI.*;
 
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import java.net.Socket;
 import java.net.SocketException;
@@ -60,6 +61,13 @@ public class QuizClient extends Observable {
 		}
 
 		System.out.println("Client running");
+		
+		// Changing the LookAndFeel to nimbus
+		try {
+			UIManager.setLookAndFeel( "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch(Exception e) {
+		
+		}
 
 		frame = new JFrame("Quiz");
 		guiElements[LOGIN] = new LoginFrame(this);
