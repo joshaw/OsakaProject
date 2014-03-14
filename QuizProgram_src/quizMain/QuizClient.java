@@ -130,6 +130,11 @@ public class QuizClient extends Observable {
 		frame.setContentPane(guiElements[i]);
 		frame.pack();
 		frame.repaint();
+		
+		// If changing to the QuestionFrame, then start the CountDownTimer.
+		if(i == QUESTION) {
+			((QuestionFrame) guiElements[QUESTION]).startQuestion();
+		}
 	}
 
     public int getResponseNumber() {
@@ -323,5 +328,6 @@ public class QuizClient extends Observable {
 	public static void main(String[] args) throws Exception {
 		QuizClient client = new QuizClient();
 		client.run();
+		
 	}
 }
