@@ -50,7 +50,6 @@ public class QuestionFrame extends JPanel implements Observer {
 	public QuestionFrame(QuizClient model) {
 		this.model = model;
 		setDisplay(new Question(true));
-		
 	}
 
 	public void setQuestion(Question q) {
@@ -106,10 +105,16 @@ public class QuestionFrame extends JPanel implements Observer {
 		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
 
 		// CountDownTimer timer = new CountDownTimer(q.getTimeLimit());
-		timer = new CountDownTimer(10);
+		this.timer = new CountDownTimer(10);
 		add(timer, con);
-		timer.countDown();
 		
+	}
+	/**
+	 * startQuestion is the method that is called to reset and start the CountDownTimer.
+	 */
+	public void startQuestion() {
+		timer.restart();
+		timer.countDown();
 	}
 	
 	/**

@@ -25,7 +25,7 @@ public class CountDownTimer extends JPanel {
 	
 	// Timer
 	private int initialSecs;
-	private static int countSecs = 1;
+	private static int countSecs = 0;
 	private static int seconds;
 	private static Timer timer;
 	
@@ -112,7 +112,7 @@ public class CountDownTimer extends JPanel {
 				reset();
 			}
 
-		}, 1000, 200);
+		}, 400, 100);
 
 	}
 
@@ -122,10 +122,13 @@ public class CountDownTimer extends JPanel {
 	 * @return int seconds
 	 */
 	private static void decrementTimer() {
+		
 		countSecs++;
 		
 		if (seconds < 1) {
+			
 			timer.cancel();
+			timer.purge();
 		}
 		
 		if(countSecs % 10 == 0) {
@@ -134,5 +137,16 @@ public class CountDownTimer extends JPanel {
 		
 		
 	}	
+	
+	/**
+	 * Resets the timer back to its original value.
+	 */
+	public void restart() {
+		countSecs = 0;
+		seconds = initialSecs;
+		timer.cancel();
+		CountDownTimer.timer = new Timer();
+		setDisplay();
+	}
 	
 }
