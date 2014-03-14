@@ -3,13 +3,20 @@ package quizGUI;
 import quizObject.*;
 import quizMain.QuizClient;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,7 +33,7 @@ import quizObject.*;
  * LoginRequest object by the model. This is then sent to the server
  * via the client.
  *
- * @author Benjamin Crispin
+ * @author bxc077
  * @version 20140306
  */
 public class LoginFrame extends JPanel implements Observer {
@@ -40,8 +47,8 @@ public class LoginFrame extends JPanel implements Observer {
     private JLabel titleLabel = new JLabel("Log in to quiz");
     private JLabel usernameLabel = new JLabel("User Name:");
     private JLabel passwordLabel = new JLabel("Password:");
-    private JTextField usernameField = new JTextField(10);
-    private JPasswordField passwordField = new JPasswordField(10);
+    private JTextField usernameField = new JTextField(15);
+    private JPasswordField passwordField = new JPasswordField(15);
     private JButton loginButton = new JButton("Log in");
 	private JFrame frame;
 
@@ -60,21 +67,39 @@ public class LoginFrame extends JPanel implements Observer {
      */
     public void setDisplay() {
 
-        JPanel grid = new JPanel(new GridLayout(2,2,10,5));
+    	JPanel view = new JPanel();
+    	
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-
-        setLayout(new GridLayout(3,1,5,10));
-
-        grid.add(usernameLabel);
-        grid.add(usernameField);
-        grid.add(passwordLabel);
-        grid.add(passwordField);
-
+        usernameLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        passwordLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
         loginButton.addActionListener(new LoginListener());
 
-        add(titleLabel);
-        add(grid);
-        add(loginButton);
+        view.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        view.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
+        
+        
+        c.fill = GridBagConstraints.NONE;
+        c.gridx = 0; c.gridy = 0; c.weightx = 0; c.weighty = 0.1; c.gridwidth = 2;
+        view.add(titleLabel, c);
+        c.insets = new Insets(10,0,0,0);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0; c.gridy = 1; c.weightx = 0; c.weighty = 0; c.gridwidth = 1;
+        view.add(usernameLabel, c);
+        c.gridx = 1; c.gridy = 1; c.weightx = 0; c.weighty = 0; c.gridwidth = 1;
+        view.add(usernameField, c);
+        c.insets = new Insets(0,0,0,0);
+        c.gridx = 0; c.gridy = 2; c.weightx = 0; c.weighty = 0; c.gridwidth = 1;
+        view.add(passwordLabel, c);
+        c.gridx = 1; c.gridy = 2; c.weightx = 0; c.weighty = 0; c.gridwidth = 1;
+        view.add(passwordField, c);
+        c.insets = new Insets(10,0,0,0);
+        c.fill = GridBagConstraints.CENTER;
+        c.gridx = 0; c.gridy = 3; c.weightx = 0; c.weighty = 0.1; c.gridwidth = 2;
+       
+        view.add(loginButton, c);
+        add(view);
+        
     }
 
 	public JFrame getFrame() {

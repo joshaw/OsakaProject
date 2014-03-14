@@ -14,14 +14,11 @@ import java.util.Observer;
 /**
  * The home screen view once a student has logged in.
  *
- * @author Benjamin Crispin
+ * @author bxc077
  * @version 20140307
  */
 public class StudentHomeFrame extends JPanel implements Observer {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 
 	// Model
@@ -76,12 +73,6 @@ public class StudentHomeFrame extends JPanel implements Observer {
 		add(buttons, c);
 	}
 
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * Action Listener for the start button
 	 */
@@ -121,21 +112,10 @@ public class StudentHomeFrame extends JPanel implements Observer {
 			System.out.println("How To Play");
 		}
 	}
-
-	// Main method tester
-	public static void main(String[] args) {
-
-		QuizClient model = new QuizClient();
-		// model.setUsername("JohnSmith");
-
-		JFrame frame = new JFrame("Student Home");
-		JPanel pane = new StudentHomeFrame(model);
-
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(pane);
-		frame.pack();
-		frame.setVisible(true);
+	
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
 
 	}
 

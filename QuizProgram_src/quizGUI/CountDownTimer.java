@@ -1,7 +1,5 @@
 package quizGUI;
 
-import quizObject.*;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -10,16 +8,16 @@ import java.awt.Insets;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 /**
- * 
- * @author benji
- *
+ * Class CountDownTimer is used as a visual count down in the QuestionFrame class
+ * @author bxc077
+ * @version 20140314
  */
 public class CountDownTimer extends JPanel {
 
@@ -29,7 +27,7 @@ public class CountDownTimer extends JPanel {
 	private int initialSecs;
 	private static int countSecs = 1;
 	private static int seconds;
-	private static Timer timer;	
+	private static Timer timer;
 	
 	// GUI
 	JProgressBar bar = new JProgressBar();
@@ -67,12 +65,14 @@ public class CountDownTimer extends JPanel {
 		c.gridx = 0; c.gridy = 1; c.insets = new Insets(10,5,5,5);
 		add(label, c);
 		
-		Color green = new Color(10, 100, 20);
+		Color green = new Color(10, 120, 20);
 		Color red = new Color(120, 10, 10);
 		
 		if(seconds > 3) {
+			UIManager.put("nimbusOrange", green);
 			bar.setForeground(green);
 		} else {
+			UIManager.put("nimbusOrange", red);
 			bar.setForeground(red);
 		}
 		
@@ -84,12 +84,14 @@ public class CountDownTimer extends JPanel {
 	 * Used to repaint the display every time the seconds are decremented
 	 */
 	public void reset() {
-		Color green = new Color(10, 100, 20);
+		Color green = new Color(10, 120, 20);
 		Color red = new Color(120, 10, 10);
-		
+	
 		if(seconds > 3) {
+			UIManager.put("nimbusOrange", green);
 			bar.setForeground(green);
 		} else {
+			UIManager.put("nimbusOrange", red);
 			bar.setForeground(red);
 		}
 		
@@ -102,7 +104,7 @@ public class CountDownTimer extends JPanel {
 	 * Uses helper methods - decrementTimer.
 	 */
 	public void countDown() {
-
+		
 		timer.scheduleAtFixedRate(new TimerTask() {
 
 			public void run() {
@@ -110,7 +112,7 @@ public class CountDownTimer extends JPanel {
 				reset();
 			}
 
-		}, 1000, 100);
+		}, 1000, 200);
 
 	}
 
@@ -131,24 +133,6 @@ public class CountDownTimer extends JPanel {
 		}
 		
 		
-	}
-	
-	public static void main(String[] args) {
-		
-		JFrame frame = new JFrame("Count Down Timer");
-		CountDownTimer pane = new CountDownTimer(20);
-		
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(pane);
-		frame.pack();
-		frame.setVisible(true);
-		
-		pane.countDown();
-		
-		
-	}
-	
-	
+	}	
 	
 }

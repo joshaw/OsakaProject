@@ -15,16 +15,14 @@ import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
-
-import quizObject.*;
 
 /**
  * Question frame is the screen that will display the questions in the quiz
  * Users have a time limit to click on one of the possible multiple choice answers.
- *
+ * @author bxc077
+ * @version 20140314
  */
 public class QuestionFrame extends JPanel implements Observer {
 
@@ -37,38 +35,12 @@ public class QuestionFrame extends JPanel implements Observer {
 	private JTextPane answerC = new JTextPane();
 	private JTextPane answerD = new JTextPane();
 
-	private JButton a = new JButton("A");
+	private JButton a = new JButton("A"); // Buttons for the possible answers
 	private JButton b = new JButton("B");
 	private JButton c = new JButton("C");
 	private JButton d = new JButton("D");
-
-	public class AnswerAListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			model.setResponseNumber(0);
-			System.out.println("A");
-		}
-	}
-
-	public class AnswerBListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			model.setResponseNumber(1);
-			System.out.println("B");
-		}
-	}
-
-	public class AnswerCListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			model.setResponseNumber(2);
-			System.out.println("C");
-		}
-	}
-
-	public class AnswerDListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			model.setResponseNumber(3);
-			System.out.println("D");
-		}
-	}
+	
+	private CountDownTimer timer; // Visual timer
 
 	/**
 	 * Constructor
@@ -78,6 +50,7 @@ public class QuestionFrame extends JPanel implements Observer {
 	public QuestionFrame(QuizClient model) {
 		this.model = model;
 		setDisplay(new Question(true));
+		
 	}
 
 	public void setQuestion(Question q) {
@@ -133,27 +106,51 @@ public class QuestionFrame extends JPanel implements Observer {
 		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
 
 		// CountDownTimer timer = new CountDownTimer(q.getTimeLimit());
-		CountDownTimer timer = new CountDownTimer(10);
+		timer = new CountDownTimer(10);
 		add(timer, con);
 		timer.countDown();
+		
+	}
+	
+	/**
+	 * ActionListener for the A button
+	 */
+	public class AnswerAListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			model.setResponseNumber(0);
+			System.out.println("A");
+		}
 	}
 
-	// // Main method tester
-	// public static void main(String[] args) {
+	/**
+	 * ActionListener for the B button
+	 */
+	public class AnswerBListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			model.setResponseNumber(1);
+			System.out.println("B");
+		}
+	}
+	
+	/**
+	 * ActionListener for the C button
+	 */
+	public class AnswerCListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			model.setResponseNumber(2);
+			System.out.println("C");
+		}
+	}
 
-	// 	Question q1 = new Question(true);
-	// 	QuizClient model = new QuizClient();
-
-	// 	JFrame frame = new JFrame("Question");
-	// 	JPanel pane = new QuestionFrame(q1, model);
-
-	// 	JFrame.setDefaultLookAndFeelDecorated(true);
-	// 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	// 	frame.setContentPane(pane);
-	// 	frame.pack();
-	// 	frame.setVisible(true);
-
-	// }
+	/**
+	 * ActionListener for the D button
+	 */
+	public class AnswerDListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			model.setResponseNumber(3);
+			System.out.println("D");
+		}
+	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {

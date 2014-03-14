@@ -15,12 +15,11 @@ import java.util.Observer;
 
 import javax.swing.*;
 
-import quizObject.*;
 
 /**
- *
- * @author benji
- *
+ * Class AdminHomeFrame is the display that the admin user will see once they have logged in.
+ * @author bxc077
+ * @version 20140314
  */
 public class AdminHomeFrame extends JPanel implements Observer {
 
@@ -91,7 +90,7 @@ public class AdminHomeFrame extends JPanel implements Observer {
     public class SelectQuizListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
 
-            long q = (long) selectQuiz.getSelectedItem();
+            long q = (Long) selectQuiz.getSelectedItem();
             // model.setCurrentQuizID(q); TODO THIS IS CORRECT
             model.setCurrentQuizID(0);
             System.out.println("you have selected a quiz");
@@ -109,5 +108,7 @@ public class AdminHomeFrame extends JPanel implements Observer {
         // TODO Auto-generated method stub
 
     }
+    
+    
 
 }
