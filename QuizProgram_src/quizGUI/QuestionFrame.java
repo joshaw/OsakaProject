@@ -50,11 +50,7 @@ public class QuestionFrame extends MasterFrame implements Observer {
 	 */
 	public QuestionFrame(QuizClient model) {
 		this.model = model;
-		setDisplay(new Question(true));
-	}
-
-	public void setQuestion(Question q) {
-		setDisplay(q);
+		setDisplay(new Question(true)); // TODO model.getCurrentQuestion
 	}
 
 	/**

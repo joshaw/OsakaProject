@@ -1,18 +1,27 @@
 Osaka Team Project: Live Quiz Competition 
 GUI Section – Benjamin Crispin 
 
-The end user will interact with the graphical user interface to take the quiz. The GUI will follow a Model/View seperation format where the model will be seperate from the client. The user will interact with the GUI, which inturn interacts with the model. It is the model that will then be controlling the client. The overall GUI will display different screens depending on which part of the system is currently being used. The intended screens are: 
-	- Admin/Student Login screen
-	- Student home screen
-	- Admin home screen
-	- Question screen
-	- Student Imidiate results screen
-	- Admin Imidiate results screen
-	- Student final results screen
-	- Admin final results screen
-	- Admin create/modify/delete quiz screen
+The end user will interact with the graphical user interface to take the quiz. Originally we decided that the GUI will follow a Model/View seperation format where the model will be seperate from the client. This, however, casused some problems and the model became unnessasay so we decided to make the GUI directly interact with the client. Each GUI screen used in the quiz has its own class which extends the abstract class MasterFrame. Inturn, MasterFrame extends JPanel. I decided to use inheritance because we needed an array of all the possible GUI screens to diplay in the client. We orriginally used a JPanel[] but each GUI screeen need to be updated each time that screen is displayed. To solve this we used masterFrame[] where each of the GUI screens were inserted. The abstract class MasterFrame has an abstrat method resetDisplay() which is called whenever the content pane of the frame is changed. This means that whenever the content pane is changed, it will be up to date with the model.
 
-The intention is that there will be one frame in which everything occurs. Pop-up windows can get annoying and having many windows open can be confusing. When starting the program a login will be displayed. If succsesful in the login then the system will proceed to a home screen (once checked if admin/student). From here a student can take the quiz and look at previous results. The admin will be able to start a quiz, look at previous results, or create/modify /delete a quiz.
+The overall GUI will display different screens depending on which part of the system is currently being used. The intended screens are: 
 
-Each one of these screens will have its own class do define the JPanel it represents. The GUI will be implemented using innerclasses for each of the components to perform the actionPerformed method.
+	- LoginFrame : The first screen users will log-in to (both admin and student).
+	- StudentHomeFrame : The screen a student will see once they have logged in. Here they can push “Start” which adds them to the pool of students ready to start the quiz. This leads them to the WaitingFrame.
+	- AminHomeFrame : The screen the admin will see once they have logged in. Here they can see which students have connected and joined the waiting pool and start the quiz.
+	- QuestionFrame : The frame which displays the question. Is only diplayed for a limited time which is visualised with a CountDownTimer.
+	- WaitingFrame : The frame a student will see when they have pushed start and are waiting for the admin to star the quiz.
+	- StudentResultsFrame :
+	- AdminResultsFrame :
+	- FinalResultsFrame :
+
+Other GUI components that we have created and used within the main GUI are:
+	- CountDownTimer : A visual countdown in sconds. Decreasing bar with label beneath.
+	- LeaderBoard : A table consisting of each student in the quiz, their position and score.
+
+
+The intention is that there will be one frame in which everything occurs. Pop-up windows can get annoying and having many windows open can be confusing. In the client there is a MasterFrame[] guiElements which stores the first instantiation of each GUI screen. Then when the content pane is changed, the panel is updated to show the correct status of the object. 
+
+
+
+
 

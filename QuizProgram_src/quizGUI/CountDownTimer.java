@@ -50,7 +50,7 @@ public class CountDownTimer extends MasterFrame {
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		Dimension d = new Dimension(40,200);
+		Dimension d = new Dimension(40,20);
 
 		bar.setOrientation(SwingConstants.VERTICAL);
 		bar.setPreferredSize(d);

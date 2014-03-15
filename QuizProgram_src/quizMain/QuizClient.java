@@ -13,6 +13,8 @@ import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.io.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Observable;
 
 public class QuizClient extends Observable {
@@ -44,6 +46,7 @@ public class QuizClient extends Observable {
 	private int responseNumber = -1;
 	private Long[] quizIDs;
 	private String[] quizNames;
+	private ArrayList<Score> allScores = new ArrayList<Score>(); // when received should be sorted (in-order)
 
 	private String username;
 	private String passwordHash;
@@ -68,7 +71,15 @@ public class QuizClient extends Observable {
 		} catch(Exception e) {
 		
 		}
-
+		
+		//TODO Remove this...
+		allScores.add(new Score("Lucy", 40));
+		allScores.add(new Score("Emily", 81));
+		allScores.add(new Score("John", 87));
+		allScores.add(new Score("Mary", 66));
+		allScores.add(new Score("George", 67));
+		Collections.sort(allScores);
+		
 		frame = new JFrame("Quiz");
 		guiElements[LOGIN] = new LoginFrame(this);
 		guiElements[STUDENTHOME] = new StudentHomeFrame(this);
@@ -76,7 +87,7 @@ public class QuizClient extends Observable {
 		guiElements[QUESTION] = new QuestionFrame(this);
 		guiElements[WAITING] = new WaitingFrame();
 		guiElements[STUDENTRESULTS] = new StudentResultsFrame(this);
-		
+	
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -173,7 +184,12 @@ public class QuizClient extends Observable {
 	public void setCurrentQuizID(long CurrentQuizID) {
 		this.currentQuizID = currentQuizID;
 	}
-
+	
+	public ArrayList<Score> getAllScores() {
+		
+		return allScores;
+	}
+	
 	/**
 	 * @return a question object which is the current question as specified by
 	 * the server.

@@ -1,6 +1,7 @@
 package quizGUI;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,11 +34,11 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 	private JTextPane answerC = new JTextPane();
 	private JTextPane answerD = new JTextPane();
 	
-	
+	private LeaderBoard leaderBoard;
 	
 	public StudentResultsFrame(QuizClient model) {
 		this.model = model;
-		setDisplay(model.getCurrentQuestion());
+		setDisplay(new Question(true)); // TODO model.getCurrentQuestion
 	}
 	
 	/**
@@ -47,13 +48,11 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 	 * @param q - the question object to create GUI for
 	 */
 	public void setDisplay(Question q) {
-
-
-		q = new Question(true); // COMMENT OUT!!!! ****
-		
+	
 		// Grid layout for the answers
 		JPanel answerPane = new JPanel(new GridLayout(4,1,5,5));
-		JPanel leaderBoard = new JPanel();
+		
+		leaderBoard = new LeaderBoard(model.getAllScores());
 		
 		// Sets the labels to the question/answers
 		question.setText(q.getQuestion()); question.setEditable(false);
@@ -68,16 +67,15 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 		if(model.getResponseNumber() == 2) answerC.setForeground(red);
 		if(model.getResponseNumber() == 3) answerD.setForeground(red);
 
-
 		if(q.getCorrectAnswerPos() == 0) answerA.setForeground(green);
 		if(q.getCorrectAnswerPos() == 1) answerB.setForeground(green);
 		if(q.getCorrectAnswerPos() == 2) answerC.setForeground(green);
 		if(q.getCorrectAnswerPos() == 3) answerD.setForeground(green);
 		
-		answerA.setText(q.getAnswer(0)); answerA.setEditable(false); answerPane.add(answerA);
-		answerB.setText(q.getAnswer(1)); answerB.setEditable(false); answerPane.add(answerB);
-		answerC.setText(q.getAnswer(2)); answerC.setEditable(false); answerPane.add(answerC);
-		answerD.setText(q.getAnswer(3)); answerD.setEditable(false); answerPane.add(answerD);
+		answerA.setText("A: " + q.getAnswer(0)); answerA.setEditable(false); answerPane.add(answerA);
+		answerB.setText("B: " + q.getAnswer(1)); answerB.setEditable(false); answerPane.add(answerB);
+		answerC.setText("C: " + q.getAnswer(2)); answerC.setEditable(false); answerPane.add(answerC);
+		answerD.setText("D: " + q.getAnswer(3)); answerD.setEditable(false); answerPane.add(answerD);
 
 		// Adds the questions to the layout
 		JPanel questionPane = new JPanel(); questionPane.setLayout(new GridLayout(2,1,5,5));
@@ -87,20 +85,22 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 		// The layout for this panel
 		setLayout(new GridBagLayout());
 		GridBagConstraints con = new GridBagConstraints();
-		con.fill = GridBagConstraints.BOTH;
+		
 
 		// adding to questionPane
 		questionPane.add(question);
 		questionPane.add(answerPane);
 
 		// finally adding to main panel
-		
-		con.weightx = 1.0; con.weighty = 1.0;
+		con.fill = GridBagConstraints.BOTH;
+		con.weightx = 1.0; con.weighty = 1;
 		con.gridx = 0; con.gridy = 0; con.insets = new Insets(5,5,0,5);
 		add(questionPane, con);
-		con.weightx = 0; con.weighty = 1.0;
+		con.fill = GridBagConstraints.VERTICAL;
+		con.weightx = 0; con.weighty = 1;
 		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
-
+		add(leaderBoard, con);
+		setPreferredSize(new Dimension(600, 600));
 	}
 	
     /**
@@ -112,13 +112,13 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 		// Sets the labels to the question/answers
 		Question q = model.getCurrentQuestion();
 		
-		question.setText(q.getQuestion()); question.setEditable(false);
+		question.setText(q.getQuestion());
 		question.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
 		
-		answerA.setText(q.getAnswer(0));
-		answerB.setText(q.getAnswer(1));
-		answerC.setText(q.getAnswer(2));
-		answerD.setText(q.getAnswer(3));
+		answerA.setText("A: " + q.getAnswer(0));
+		answerB.setText("B: " + q.getAnswer(1));
+		answerC.setText("C: " + q.getAnswer(2));
+		answerD.setText("D: " + q.getAnswer(3));
 		
 		// Highlights the correctAnswer
 		Color green = new Color(10, 100, 20);
