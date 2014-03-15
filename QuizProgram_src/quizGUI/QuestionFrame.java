@@ -3,6 +3,7 @@ package quizGUI;
 import quizObject.*;
 import quizMain.QuizClient;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,7 +25,7 @@ import javax.swing.JTextPane;
  * @author bxc077
  * @version 20140314
  */
-public class QuestionFrame extends JPanel implements Observer {
+public class QuestionFrame extends MasterFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	QuizClient model;
@@ -101,19 +102,21 @@ public class QuestionFrame extends JPanel implements Observer {
 		con.weightx = 1.0; con.weighty = 1.0;
 		con.gridx = 0; con.gridy = 0; con.insets = new Insets(5,5,0,5);
 		add(questionPane, con);
+		
 		con.weightx = 0; con.weighty = 1.0;
 		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
-
 		// CountDownTimer timer = new CountDownTimer(q.getTimeLimit());
 		this.timer = new CountDownTimer(10);
 		add(timer, con);
+		timer.setMinimumSize(new Dimension(50, 100));
+		//System.out.println(timer.getPreferredSize());
 		
 	}
 	/**
 	 * startQuestion is the method that is called to reset and start the CountDownTimer.
 	 */
 	public void startQuestion() {
-		timer.restart();
+		timer.resetDisplay();
 		timer.countDown();
 	}
 	
@@ -161,6 +164,25 @@ public class QuestionFrame extends JPanel implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 
+	}
+
+    /**
+     * resetDisplay - when the panel is changed to this one, some of its components will need 
+     * to be updated to represent the model
+     */
+	@Override
+	public void resetDisplay() {
+		
+		// Sets the labels to the question/answers
+		Question q = model.getCurrentQuestion();
+		
+		question.setText(q.getQuestion()); question.setEditable(false);
+		question.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
+		answerA.setText(q.getAnswer(0)); answerA.setEditable(false);
+		answerB.setText(q.getAnswer(1)); answerB.setEditable(false);
+		answerC.setText(q.getAnswer(2)); answerC.setEditable(false);
+		answerD.setText(q.getAnswer(3)); answerD.setEditable(false);
+		
 	}
 
 }

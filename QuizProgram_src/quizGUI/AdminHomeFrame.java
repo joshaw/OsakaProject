@@ -1,6 +1,5 @@
 package quizGUI;
 
-import quizObject.*;
 import quizMain.QuizClient;
 
 import java.awt.Dimension;
@@ -21,7 +20,7 @@ import javax.swing.*;
  * @author bxc077
  * @version 20140314
  */
-public class AdminHomeFrame extends JPanel implements Observer {
+public class AdminHomeFrame extends MasterFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
 
@@ -108,6 +107,19 @@ public class AdminHomeFrame extends JPanel implements Observer {
         // TODO Auto-generated method stub
 
     }
+    
+    /**
+     * resetDisplay - when the panel is changed to this one, some of its components will need 
+     * to be updated to represent the model
+     */
+	@Override
+	public void resetDisplay() {
+		
+		// Resets the label info
+        label.setText("Hi " + model.getUsername() + " welcome to the quiz");
+	
+        // TODO Show the students connecting here -> studentsConnected......
+	}
     
     
 

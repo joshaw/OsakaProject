@@ -1,15 +1,11 @@
 package quizGUI;
 
-import quizObject.*;
 import quizMain.QuizClient;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +21,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import quizObject.*;
 
 /**
  * Login GUI is the initial screen the user will see.
@@ -37,7 +32,7 @@ import quizObject.*;
  * @author bxc077
  * @version 20140306
  */
-public class LoginFrame extends JPanel implements Observer {
+public class LoginFrame extends MasterFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
 
@@ -67,7 +62,8 @@ public class LoginFrame extends JPanel implements Observer {
      * Sets the display for login
      */
     public void setDisplay() {
-    	UIManager.put("control", new Color(153,215,229));
+    	UIManager.put("control", new Color(230,204,255));
+
     	JPanel view = new JPanel();
     	
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
@@ -123,5 +119,16 @@ public class LoginFrame extends JPanel implements Observer {
         // TODO Auto-generated method stub
 
     }
+    
+    /**
+     * resetDisplay - when the panel is changed to this one, some of its components will need 
+     * to be updated to represent the model
+     */
+	@Override
+	public void resetDisplay() {
+		usernameField.setText("");
+		passwordField.setText("");
+		
+	}
 
 }

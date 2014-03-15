@@ -18,7 +18,7 @@ import quizObject.Question;
  * @author bxc077
  * @version 20140314
  */
-public class StudentResultsFrame extends JPanel implements Observer {
+public class StudentResultsFrame extends MasterFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -74,7 +74,6 @@ public class StudentResultsFrame extends JPanel implements Observer {
 		if(q.getCorrectAnswerPos() == 2) answerC.setForeground(green);
 		if(q.getCorrectAnswerPos() == 3) answerD.setForeground(green);
 		
-		
 		answerA.setText(q.getAnswer(0)); answerA.setEditable(false); answerPane.add(answerA);
 		answerB.setText(q.getAnswer(1)); answerB.setEditable(false); answerPane.add(answerB);
 		answerC.setText(q.getAnswer(2)); answerC.setEditable(false); answerPane.add(answerC);
@@ -103,37 +102,44 @@ public class StudentResultsFrame extends JPanel implements Observer {
 		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
 
 	}
+	
+    /**
+     * resetDisplay - when the panel is changed to this one, some of its components will need 
+     * to be updated to represent the model
+     */
+	public void resetDisplay() {
+
+		// Sets the labels to the question/answers
+		Question q = model.getCurrentQuestion();
+		
+		question.setText(q.getQuestion()); question.setEditable(false);
+		question.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
+		
+		answerA.setText(q.getAnswer(0));
+		answerB.setText(q.getAnswer(1));
+		answerC.setText(q.getAnswer(2));
+		answerD.setText(q.getAnswer(3));
+		
+		// Highlights the correctAnswer
+		Color green = new Color(10, 100, 20);
+		Color red = Color.RED;
+
+		if(model.getResponseNumber() == 0) answerA.setForeground(red);
+		if(model.getResponseNumber() == 1) answerB.setForeground(red);
+		if(model.getResponseNumber() == 2) answerC.setForeground(red);
+		if(model.getResponseNumber() == 3) answerD.setForeground(red);
+
+		if(q.getCorrectAnswerPos() == 0) answerA.setForeground(green);
+		if(q.getCorrectAnswerPos() == 1) answerB.setForeground(green);
+		if(q.getCorrectAnswerPos() == 2) answerC.setForeground(green);
+		if(q.getCorrectAnswerPos() == 3) answerD.setForeground(green);
+	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	public static void main(String[] args) {
-		
-//		UIManager.put("nimbusBase", new Color());
-//		UIManager.put("nimbusLightBackground", new Color(242,242,189));
-//		UIManager.put("control", new Color(115,164,209));
-		
-		UIManager.put("control", new Color(153,215,229));
-		try {
-			UIManager.setLookAndFeel( "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch(Exception e) {
-		
-		}
-		
-		QuizClient model = new QuizClient();
-		model.setResponseNumber(1);
-		
-		JFrame frame = new JFrame("Student Results");
-		StudentResultsFrame pane = new StudentResultsFrame(model);
-		
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(pane);
-		frame.pack();
-		frame.setVisible(true);
-		
-	}
 	
 }

@@ -1,6 +1,5 @@
 package quizGUI;
 
-import quizObject.*;
 import quizMain.QuizClient;
 
 import java.awt.*;
@@ -17,7 +16,7 @@ import java.util.Observer;
  * @author bxc077
  * @version 20140307
  */
-public class StudentHomeFrame extends JPanel implements Observer {
+public class StudentHomeFrame extends MasterFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,9 +35,7 @@ public class StudentHomeFrame extends JPanel implements Observer {
 	 */
 	public StudentHomeFrame(QuizClient model) {
 		this.model = model;
-
 		setDisplay();
-		System.out.println("StudentHomeFrame Created");
 	}
 
 	/**
@@ -50,7 +47,7 @@ public class StudentHomeFrame extends JPanel implements Observer {
 		GridBagConstraints c = new GridBagConstraints();
 
 		JPanel buttons = new JPanel(new GridLayout(4,1,5,10));
-		Dimension d = new Dimension(136, 130);
+		//Dimension d = new Dimension(136, 130);
 
 		title = new JLabel("Hi " + model.getUsername() + " welcome to the quiz");
 		title.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
@@ -65,7 +62,7 @@ public class StudentHomeFrame extends JPanel implements Observer {
 		updateProfile.addActionListener(new UpdateProfileListener());
 		howToPlay.addActionListener(new HowToPlayListener());
 
-		buttons.setMaximumSize(d);
+		//buttons.setMaximumSize(d);
 		buttons.setAlignmentX(CENTER_ALIGNMENT);
 		c.gridx = 0; c.gridy = 0; c.insets = new Insets(20,20,0,20);
 		add(title, c);
@@ -117,6 +114,16 @@ public class StudentHomeFrame extends JPanel implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 
+	}
+
+    /**
+     * resetDisplay - when the panel is changed to this one, some of its components will need 
+     * to be updated to represent the model
+     */
+	@Override
+	public void resetDisplay() {
+		title.setText("Hi " + model.getUsername() + " welcome to the quiz!");
+		title.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
 	}
 
 }

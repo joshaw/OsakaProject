@@ -10,7 +10,6 @@ import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 
@@ -21,7 +20,7 @@ import javax.swing.UIManager;
  * @author bxc077
  * @version 20140314
  */
-public class WaitingFrame extends JPanel implements Observer {
+public class WaitingFrame extends MasterFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -63,6 +62,15 @@ public class WaitingFrame extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		
+	}
+
+    /**
+     * resetDisplay - when the panel is changed to this one, some of its components will need 
+     * to be updated to represent the model
+     */
+	@Override
+	public void resetDisplay() {
+		UIManager.put("nimbusOrange", new Color(10, 100, 20));
 	}
 	
 }

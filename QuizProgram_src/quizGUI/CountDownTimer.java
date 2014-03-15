@@ -9,7 +9,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -19,7 +18,7 @@ import javax.swing.UIManager;
  * @author bxc077
  * @version 20140314
  */
-public class CountDownTimer extends JPanel {
+public class CountDownTimer extends MasterFrame {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -141,12 +140,14 @@ public class CountDownTimer extends JPanel {
 	/**
 	 * Resets the timer back to its original value.
 	 */
-	public void restart() {
+	@Override
+	public void resetDisplay() {
 		countSecs = 0;
 		seconds = initialSecs;
 		timer.cancel();
 		CountDownTimer.timer = new Timer();
 		setDisplay();
 	}
-	
+
+
 }
