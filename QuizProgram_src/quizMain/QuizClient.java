@@ -34,7 +34,7 @@ public class QuizClient extends Observable {
 	private ObjectOutputStream objectOutput;
 
 	private JFrame frame;
-	private JPanel[] guiElements = new JPanel[10];
+	private MasterFrame[] guiElements = new MasterFrame[10];
 
 	private boolean connected = true;
 	private LoginReply loginReply;
@@ -75,7 +75,8 @@ public class QuizClient extends Observable {
 		guiElements[ADMINHOME] = new AdminHomeFrame(this);
 		guiElements[QUESTION] = new QuestionFrame(this);
 		guiElements[WAITING] = new WaitingFrame();
-
+		guiElements[STUDENTRESULTS] = new StudentResultsFrame(this);
+		
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -130,6 +131,7 @@ public class QuizClient extends Observable {
 		frame.setContentPane(guiElements[i]);
 		frame.pack();
 		frame.repaint();
+		guiElements[i].resetDisplay();
 		
 		// If changing to the QuestionFrame, then start the CountDownTimer.
 		if(i == QUESTION) {
