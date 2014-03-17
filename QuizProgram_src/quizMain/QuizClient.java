@@ -19,7 +19,7 @@ import java.util.Observable;
 
 public class QuizClient extends Observable {
 
-	private static final int PORT = 9000;
+	private static final int PORT = 9001;
 	private static final int LOGIN = 0;
 	private static final int STUDENTHOME = 1;
 	private static final int ADMINHOME = 2;
@@ -73,10 +73,10 @@ public class QuizClient extends Observable {
 		}
 
 		//TODO Remove this...
-		allScores.add(new Score("Lucy", 40));
-		allScores.add(new Score("Emily", 81));
-		allScores.add(new Score("John", 87));
-		allScores.add(new Score("Mary", 66));
+		allScores.add(new Score("Lucy", 71));
+		allScores.add(new Score("Emily", 70));
+		allScores.add(new Score("John", 69));
+		allScores.add(new Score("Mary", 68));
 		allScores.add(new Score("George", 67));
 		Collections.sort(allScores);
 

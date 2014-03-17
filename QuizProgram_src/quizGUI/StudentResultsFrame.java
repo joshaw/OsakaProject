@@ -142,7 +142,8 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 
 		score.setText("Score for the last question: 72");
 		
-		remove(leaderBoard);
+		if(leaderBoard != null){remove(leaderBoard);}
+		
 		leaderBoard = new LeaderBoard(model.getAllScores(), model.getUsername());
 		con.fill = GridBagConstraints.VERTICAL;
 		con.weightx = 0; con.weighty = 1;

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class QuizServer {
 
-	private static final int PORT = 9000;
+	private static final int PORT = 9001;
 	private ServerSocket listener;
 	private Socket clientSocket;
 	private static boolean quizReady = false;
