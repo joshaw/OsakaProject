@@ -51,6 +51,7 @@ public class AdminHomeFrame extends MasterFrame implements Observer {
         label.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
 
         selectQuiz = new JComboBox<Long>(model.getQuizIDs());
+        model.setCurrentQuizID((Long) selectQuiz.getSelectedItem());
         selectQuiz.addActionListener(new SelectQuizListener());
 
         start.addActionListener(new StartListener());

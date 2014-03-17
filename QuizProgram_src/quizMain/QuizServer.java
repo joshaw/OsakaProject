@@ -167,8 +167,10 @@ public class QuizServer {
 							if(object instanceof QuizRequest){
 								QuizRequest qr = (QuizRequest) object;
 								//get quiz from database and set to currentQuiz
+								System.out.println("QUIZ ID: "+ qr.getQuizID());
 								setQuiz(QuizJDBC.getQuiz(con, qr.getQuizID()));
-								System.out.println("JDBC QUIZ: "+QuizJDBC.getQuiz(con, qr.getQuizID()));
+								//setQuiz(QuizJDBC.getQuiz(con, 3));
+								System.out.println("JDBC QUIZ FIRST QUESTION ON SERVER: "+getQuiz().getQuestion(0));
 								setQuizReady(true);
 							}
 						}//end of if

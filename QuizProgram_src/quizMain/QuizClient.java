@@ -297,7 +297,7 @@ public class QuizClient extends Observable {
 					System.out.println(displayQuestion.getNumber());
 					System.out.println(currentQuestion);
 					System.out.println("Quiz: "+getQuiz());
-					System.out.println("Question: "+getQuiz().getQuestion(1));
+					System.out.println("Question: "+getQuiz().getQuestion(0));
 					guiElements[QUESTION].resetDisplay();
 					
 					changeContentPane(QUESTION);
