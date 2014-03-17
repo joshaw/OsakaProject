@@ -40,8 +40,9 @@ public class QuizJDBC {
 	 */
 	public static void main(String[] args) {
 		Connection con = QuizJDBC.getConnection();
-		Quiz q = QuizJDBC.getQuiz(con, 3);
-		System.out.println(q);
+		System.out.println(con);
+		for(int i = 0; i < 10; i++)
+		System.out.println("JDBC QUIZ: "+getQuiz(con, 3).getQuestion(i));
 
 	}//end of main
 
@@ -99,8 +100,8 @@ public class QuizJDBC {
 
 		String sql = "SELECT question_id, question, ans1, ans2, ans3, ans4, correct_ans_id FROM questions, quiz WHERE quiz.quiz_id = ? AND questions.quiz_id = quiz.quiz_id";
 
-		Question[] questionArray = new Question[7]; //array to store the questions
-		Quiz quiz = null;
+		Question[] questionArray = new Question[10]; //array to store the questions
+
 		int i = 0;
 
 		try{
@@ -123,13 +124,11 @@ public class QuizJDBC {
 
 			}//end of while
 
-			quiz = new Quiz(quizID, questionArray); //create Quiz object containing the questionArray
+			return new Quiz(quizID, questionArray); //create Quiz object containing the questionArray
 
 		} catch(SQLException e) {
 			System.out.println(e); return null;
 		}//end of try/catch block
-
-		return quiz;
 
 	}//end of getQuiz
 

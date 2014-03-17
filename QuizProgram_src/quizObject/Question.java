@@ -12,16 +12,18 @@ public class Question implements Serializable {
 	private int correctAnswerPos; //the position in the array of answers that is the correct one
 	private int questionID;
 	private int timeLimit = 10;
-
+	
+	/*
 	public Question(boolean test) {
 
-		/* Create example question with several example answers. This
-		 * information should come from the database. */
+		// Create example question with several example answers. This
+		// information should come from the database.
 		question = "This is the question.";
 		for (int i = 0; i < 4; i++) {
 			answers[i] = "Answer number " + i;
 		}
 	}
+	*/
 
 	public Question() {}
 

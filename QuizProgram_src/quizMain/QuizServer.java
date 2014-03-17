@@ -23,7 +23,8 @@ public class QuizServer {
 	private static Quiz quiz;
 	private ArrayList<ClientThread> clientArrayList
 		= new ArrayList<ClientThread>();
-
+	private static Connection con;
+	
 	/**
 	 * Starts the server
 	 */
@@ -31,6 +32,9 @@ public class QuizServer {
 
 		System.out.println("Server is running");
 
+		//create a connection to the database
+		con = QuizJDBC.getConnection();
+		
 		//initialise the ServerSocket with PORT
 		try {
 			listener = new ServerSocket(PORT);
@@ -102,9 +106,6 @@ public class QuizServer {
 					new DataInputStream(clientSocket.getInputStream());
 				printStream = new PrintStream(clientSocket.getOutputStream());
 
-				//create a connection to the database
-				Connection con = QuizJDBC.getConnection();
-
 				boolean userExists = false;
 
 				/*while loop is designed to run until a successful login has
@@ -167,6 +168,7 @@ public class QuizServer {
 								QuizRequest qr = (QuizRequest) object;
 								//get quiz from database and set to currentQuiz
 								setQuiz(QuizJDBC.getQuiz(con, qr.getQuizID()));
+								System.out.println("JDBC QUIZ: "+QuizJDBC.getQuiz(con, qr.getQuizID()));
 								setQuizReady(true);
 							}
 						}//end of if
@@ -177,7 +179,7 @@ public class QuizServer {
 
 						// System.out.println("STARTING QUIZ isStudent: "+isStudent+" quizReady: "+quizReady);
 						if(isStudent){
-							startQuizSession(con, quiz);
+							startQuizSession(con);
 						}
 					}catch(Exception e){
 						System.out.println(e);
@@ -199,12 +201,19 @@ public class QuizServer {
 
 		}//end of run method
 
-		public boolean startQuizSession(Connection con, Quiz currentQuiz)
+		public boolean startQuizSession(Connection con)
 			throws Exception {
-
+			
+			Quiz currentQuiz = getQuiz();
+			
+			System.out.println(currentQuiz);
+			
 			// Send quiz to client
-			objectOutputStream.writeObject(quiz);
-
+			objectOutputStream.writeObject(currentQuiz);
+			
+			// Wait to give quiz time to transfer
+			sleep(50);
+			
 			// Start quiz
 			objectOutputStream.writeObject(new StartQuiz());
 

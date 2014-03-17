@@ -50,7 +50,6 @@ public class QuestionFrame extends MasterFrame implements Observer {
 	 */
 	public QuestionFrame(QuizClient model) {
 		this.model = model;
-		setDisplay(new Question(true)); // TODO model.getCurrentQuestion
 	}
 
 	/**
@@ -59,16 +58,24 @@ public class QuestionFrame extends MasterFrame implements Observer {
 	 *
 	 * @param q - the question object to create GUI for
 	 */
-	public void setDisplay(Question q) {
+	public void setDisplay() {
 
 		// Sets the labels to the question/answers
-		question.setText(q.getQuestion()); question.setEditable(false);
-		question.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
-		answerA.setText(q.getAnswer(0)); answerA.setEditable(false);
-		answerB.setText(q.getAnswer(1)); answerB.setEditable(false);
-		answerC.setText(q.getAnswer(2)); answerC.setEditable(false);
-		answerD.setText(q.getAnswer(3)); answerD.setEditable(false);
+		//question.setText(q.getQuestion()); question.setEditable(false);
+		//question.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
+		//answerA.setText(q.getAnswer(0)); answerA.setEditable(false);
+		//answerB.setText(q.getAnswer(1)); answerB.setEditable(false);
+		//answerC.setText(q.getAnswer(2)); answerC.setEditable(false);
+		//answerD.setText(q.getAnswer(3)); answerD.setEditable(false);
 
+		// Sets dummy labels
+		question.setText(""); question.setEditable(false);
+		question.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
+		answerA.setText(""); answerA.setEditable(false);
+		answerB.setText(""); answerB.setEditable(false);
+		answerC.setText(""); answerC.setEditable(false);
+		answerD.setText(""); answerD.setEditable(false);
+		
 		// Grid layout for the answer buttons and boxes
 		JPanel answerPane = new JPanel(new GridLayout(4,1,5,5));
 

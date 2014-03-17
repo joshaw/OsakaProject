@@ -13,18 +13,20 @@ public class Quiz implements Serializable {
 	public static final long serialVersionUID = 42L;
 
 	private long quizID;
-	private Question[] questions = new Question[7];
+	private Question[] questions = new Question[10];
 	private String name;
 
+	/*
 	public Quiz() {
 
-		/* Create example quiz object with several question objects. This
-		 * information should be retreived from the database. */
+		// Create example quiz object with several question objects. This
+		// information should be retreived from the database.
 		for (int i = 1; i < 6; i++) {
 			questions[i] = new Question(true);
 		}
 		name = "Test";
 	}
+	*/
 
 	public Quiz(long quizID, Question[] questions) {
 		this.quizID = quizID;
@@ -66,7 +68,7 @@ public class Quiz implements Serializable {
 		} else returnString += "";
 		}
 		//return returnString;
-		return name;
+		return returnString;
 	}//end of toString
 
 	@Override

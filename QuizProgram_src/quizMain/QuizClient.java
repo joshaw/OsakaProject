@@ -85,6 +85,7 @@ public class QuizClient extends Observable {
 		guiElements[STUDENTHOME] = new StudentHomeFrame(this);
 		guiElements[ADMINHOME] = new AdminHomeFrame(this);
 		guiElements[QUESTION] = new QuestionFrame(this);
+		((QuestionFrame) guiElements[QUESTION]).setDisplay();
 		guiElements[WAITING] = new WaitingFrame();
 		guiElements[STUDENTRESULTS] = new StudentResultsFrame(this);
 	
@@ -222,6 +223,10 @@ public class QuizClient extends Observable {
 	public boolean isStudent() {
 		return isStudentUser;
 	}
+	
+	public Quiz getQuiz() {
+		return quiz;
+	}
 
 	/** requestLogin - action for the loginButton in the LoginFrame
 	 *
@@ -278,19 +283,25 @@ public class QuizClient extends Observable {
 				} else if (object instanceof StartQuiz) {
 					StartQuiz start = (StartQuiz) object;
 					System.out.println("STUDENT IS STARTING QUIZ");
-					changeContentPane(QUESTION);
+					
 					// ------------------------------------- DisplayQuestion
 				} else if (object instanceof DisplayQuestion) {
 					DisplayQuestion displayQuestion = (DisplayQuestion) object;
-
+					
 					responseNumber = -1;
 					questionReceivedTime = System.currentTimeMillis();
 
-					currentQuestion = quiz.getQuestion(
+					currentQuestion = getQuiz().getQuestion(
 							displayQuestion.getNumber());
-
+					
 					System.out.println(displayQuestion.getNumber());
-
+					System.out.println(currentQuestion);
+					System.out.println("Quiz: "+getQuiz());
+					System.out.println("Question: "+getQuiz().getQuestion(1));
+					guiElements[QUESTION].resetDisplay();
+					
+					changeContentPane(QUESTION);
+					
 					objectOutput.writeObject(waitForUserResponse());
 					// Display question
 
