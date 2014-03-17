@@ -75,8 +75,8 @@ public class StudentHomeFrame extends MasterFrame implements Observer {
 	 */
 	public class StartListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// INSERT START ACTION HERE!!!
-			System.out.println("Start");
+			model.requestWaitingScreen();
+			System.out.println("Requested waiting screen");
 		}
 	}
 

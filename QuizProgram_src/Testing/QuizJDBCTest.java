@@ -1,8 +1,11 @@
+package Testing;
+
 import static org.junit.Assert.*;
-
 import java.sql.Connection;
-
 import org.junit.Test;
+
+import quizObject.*;
+import quizMain.*;
 
 
 /**
@@ -21,7 +24,7 @@ public class QuizJDBCTest {
 	@Test
 	public void test1(){
 		
-		LoginReply lr = QuizJDBC.isUser(con, 1, "25");
+		LoginReply lr = QuizJDBC.isUser(con, "1", "25");
 		
 		LoginReply expected = new LoginReply(true, true, "Mary Ande");
 		
@@ -35,7 +38,7 @@ public class QuizJDBCTest {
 	@Test
 	public void test2(){
 		
-		LoginReply lr = QuizJDBC.isUser(con, 11, "11");
+		LoginReply lr = QuizJDBC.isUser(con, "11", "11");
 		
 		LoginReply expected = new LoginReply(true, false, "George Kiff");
 		
@@ -48,7 +51,7 @@ public class QuizJDBCTest {
 	@Test
 	public void test3(){
 		
-		LoginReply lr = QuizJDBC.isUser(con, 41, "1");
+		LoginReply lr = QuizJDBC.isUser(con, "41", "1");
 		
 		LoginReply expected = new LoginReply(false, true, "");
 		
@@ -61,7 +64,7 @@ public class QuizJDBCTest {
 	@Test
 	public void test4(){
 		
-		LoginReply lr = QuizJDBC.isUser(con, 1, "11"); //user 1 has "25" as a password
+		LoginReply lr = QuizJDBC.isUser(con, "1", "11"); //user 1 has "25" as a password
 		
 		LoginReply expected = new LoginReply(false, true, "");
 		

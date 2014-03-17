@@ -6,13 +6,12 @@ import java.sql.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Time;
 import java.util.ArrayList;
 
 /**
  * Server class for the interactive quiz game
  * @author sxf796 - server setup, creation and management of client connections
- * @author rjs305 - liason between the server and the client after the
+ * @author rjs305 - liaison between the server and the client after the
  * connection has been made to provide quiz functionality
  */
 public class QuizServer {
@@ -171,12 +170,12 @@ public class QuizServer {
 								setQuizReady(true);
 							}
 						}//end of if
-						System.out.println("BEFORE QUIZ READY LOOP: is Student: "+isStudent+" quizReady: "+quizReady);
+						// System.out.println("BEFORE QUIZ READY LOOP: is Student: "+isStudent+" quizReady: "+quizReady);
 						while(!getQuizReady()){
 							sleep(0);
 						}
 
-						System.out.println("STARTING QUIZ isStudent: "+isStudent+" quizReady: "+quizReady);
+						// System.out.println("STARTING QUIZ isStudent: "+isStudent+" quizReady: "+quizReady);
 						if(isStudent){
 							startQuizSession(con, quiz);
 						}

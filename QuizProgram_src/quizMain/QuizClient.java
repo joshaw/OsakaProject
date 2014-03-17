@@ -123,12 +123,10 @@ public class QuizClient extends Observable {
 				if (loginIsSuccessful) {
 					if (isStudentUser) {
 						changeContentPane(STUDENTHOME);
-						System.out.println("User is Student");
 						studentSession(object);
 
 					} else {
 						changeContentPane(ADMINHOME);
-						System.out.println("User is Admin");
 						adminSession(object);
 					}
 
@@ -138,7 +136,7 @@ public class QuizClient extends Observable {
 
 	}
 
-	private void changeContentPane(int i) {
+	public void changeContentPane(int i) {
 		frame.setContentPane(guiElements[i]);
 		frame.pack();
 		frame.repaint();
@@ -182,7 +180,7 @@ public class QuizClient extends Observable {
 	}
 
 	public void setCurrentQuizID(long CurrentQuizID) {
-		this.currentQuizID = currentQuizID;
+		this.currentQuizID = CurrentQuizID;
 	}
 	
 	public ArrayList<Score> getAllScores() {
@@ -208,7 +206,7 @@ public class QuizClient extends Observable {
 	public LoginReply getLoginReply() {
 		return loginReply;
 	}
-
+	
 	/**
 	 * @return true if the login was successful, username and password were in
 	 * the database or were added successfully.
@@ -236,7 +234,12 @@ public class QuizClient extends Observable {
 			e.printStackTrace();
 		}
 	}
-
+	
+	// Allows GUI to request adding to start pool
+	public void requestWaitingScreen(){
+		changeContentPane(WAITING);
+	}
+	
 	public void adminStart() {
 		QuizRequest quizRequest = new QuizRequest(currentQuizID);
 		sendObject(quizRequest);
@@ -260,7 +263,6 @@ public class QuizClient extends Observable {
 	private void studentSession(Object object) throws Exception {
 		/* Until the end of the quiz, keep listening for objects.*/
 		while (loginReply.isSuccessful()) {
-
 			try{
 				// Read an object from the stream.
 				object = objectInput.readObject();
@@ -275,7 +277,6 @@ public class QuizClient extends Observable {
 					// ------------------------------------- StartQuiz
 				} else if (object instanceof StartQuiz) {
 					StartQuiz start = (StartQuiz) object;
-					// Start Quiz!
 					System.out.println("STUDENT IS STARTING QUIZ");
 					changeContentPane(QUESTION);
 					// ------------------------------------- DisplayQuestion

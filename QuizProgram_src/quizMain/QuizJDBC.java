@@ -58,7 +58,7 @@ public class QuizJDBC {
 
 		String sql = "SELECT * FROM users WHERE first_name=? AND password=?";
 
-		//instatiate LoginReply and its instance variables
+		//instantiate LoginReply and its instance variables
 		boolean isStudent = true;
 		boolean loginSuccessful = false;
 		String name = "";
