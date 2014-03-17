@@ -3,11 +3,7 @@ package quizGUI;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -30,19 +26,25 @@ public class LeaderBoard extends MasterFrame implements Observer {
 	private ArrayList<Score> allScores;
 	private JTable table;
 	
+	
 	/**
 	 * Constructor
 	 * @param model
 	 */
+	public LeaderBoard(ArrayList<Score> allScores, String username) {
+		this.allScores = allScores;
+		setDisplay(username);
+	}
+	
 	public LeaderBoard(ArrayList<Score> allScores) {
 		this.allScores = allScores;
-		setDisplay();
+		setDisplay(null);
 	}
 	
 	/**
 	 * Sets the display for LeaderBoard
 	 */
-	public void setDisplay() {
+	public void setDisplay(String username) {
 		
 		// The pane layout
 		setLayout(new GridBagLayout());
@@ -50,6 +52,7 @@ public class LeaderBoard extends MasterFrame implements Observer {
 		
 		int columns = 3;
 		int rows = allScores.size();
+		int position = -1; // the position of the user
 
 		String[] columnNames = {"Position", "Username", "Score"};
         String[][] data = new String[rows][columns];
@@ -59,6 +62,7 @@ public class LeaderBoard extends MasterFrame implements Observer {
         	data[i][0] = i + 1 + "";
         	data[i][1] = allScores.get(i).getUsername();
         	data[i][2] = allScores.get(i).getMark() + "";
+        	if (allScores.get(i).getUsername().equalsIgnoreCase(username)) position = i;
         }
         
         // Set up the table
@@ -67,11 +71,15 @@ public class LeaderBoard extends MasterFrame implements Observer {
         table.getColumnModel().getColumn(0).setPreferredWidth(70);
         table.getColumnModel().getColumn(1).setPreferredWidth(120);
         table.getColumnModel().getColumn(2).setPreferredWidth(70);
+        
+        // Highlight the row of the current user
+        if(position >= 0) {
+        	table.setRowSelectionInterval(position, position);
+        }
 
         // Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setMinimumSize(new Dimension(260,20));
-       // scrollPane.setMaximumSize(new Dimension(260,20));
         scrollPane.setPreferredSize(new Dimension(260,20));
         
         // Add the scroll pane to this panel.
@@ -80,8 +88,7 @@ public class LeaderBoard extends MasterFrame implements Observer {
 		c.gridx = 0; c.gridy = 0;
         add(scrollPane, c);
 	}
-	
-	
+
 	
 	public static void main(String[] args) {		
 		

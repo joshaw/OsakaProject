@@ -33,12 +33,13 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 	private JTextPane answerB = new JTextPane(); // The correct answer will be highlighted
 	private JTextPane answerC = new JTextPane();
 	private JTextPane answerD = new JTextPane();
-	
 	private LeaderBoard leaderBoard;
+	private JTextPane score = new JTextPane();
+	GridBagConstraints con = new GridBagConstraints();
 	
 	public StudentResultsFrame(QuizClient model) {
 		this.model = model;
-		setDisplay(new Question()); // TODO model.getCurrentQuestion
+		setDisplay(new Question(true)); // TODO model.getCurrentQuestion
 	}
 	
 	/**
@@ -52,7 +53,7 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 		// Grid layout for the answers
 		JPanel answerPane = new JPanel(new GridLayout(4,1,5,5));
 		
-		leaderBoard = new LeaderBoard(model.getAllScores());
+		leaderBoard = new LeaderBoard(model.getAllScores(), model.getUsername());
 		
 		// Sets the labels to the question/answers
 		question.setText(q.getQuestion()); question.setEditable(false);
@@ -77,6 +78,9 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 		answerC.setText("C: " + q.getAnswer(2)); answerC.setEditable(false); answerPane.add(answerC);
 		answerD.setText("D: " + q.getAnswer(3)); answerD.setEditable(false); answerPane.add(answerD);
 
+		score.setText("Score for the last question: 72");
+		score.setPreferredSize(new Dimension(254, 50));
+		
 		// Adds the questions to the layout
 		JPanel questionPane = new JPanel(); questionPane.setLayout(new GridLayout(2,1,5,5));
 		questionPane.add(question);
@@ -84,8 +88,6 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 		
 		// The layout for this panel
 		setLayout(new GridBagLayout());
-		GridBagConstraints con = new GridBagConstraints();
-		
 
 		// adding to questionPane
 		questionPane.add(question);
@@ -93,14 +95,18 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 
 		// finally adding to main panel
 		con.fill = GridBagConstraints.BOTH;
-		con.weightx = 1.0; con.weighty = 1;
+		con.weightx = 1.0; con.weighty = 1; con.gridheight = 2;
 		con.gridx = 0; con.gridy = 0; con.insets = new Insets(5,5,0,5);
 		add(questionPane, con);
 		con.fill = GridBagConstraints.VERTICAL;
-		con.weightx = 0; con.weighty = 1;
+		con.weightx = 0; con.weighty = 1; con.gridheight = 1;
 		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
 		add(leaderBoard, con);
-		setPreferredSize(new Dimension(600, 600));
+		con.fill = GridBagConstraints.HORIZONTAL;
+		con.weightx = 0; con.weighty = 0;
+		con.gridx = 1; con.gridy = 1; con.insets = new Insets(5,8,0,8);
+		add(score, con);
+		setPreferredSize(new Dimension(600, 300));
 	}
 	
     /**
@@ -133,10 +139,20 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 		if(q.getCorrectAnswerPos() == 1) answerB.setForeground(green);
 		if(q.getCorrectAnswerPos() == 2) answerC.setForeground(green);
 		if(q.getCorrectAnswerPos() == 3) answerD.setForeground(green);
+
+		score.setText("Score for the last question: 72");
+		
+		remove(leaderBoard);
+		leaderBoard = new LeaderBoard(model.getAllScores(), model.getUsername());
+		con.fill = GridBagConstraints.VERTICAL;
+		con.weightx = 0; con.weighty = 1;
+		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
+		add(leaderBoard, con);
+		setPreferredSize(new Dimension(600, 300));
 	}
 	
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable model, Object arg) {
 		// TODO Auto-generated method stub
 		
 	}
