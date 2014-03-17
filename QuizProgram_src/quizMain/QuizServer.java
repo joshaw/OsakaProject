@@ -170,7 +170,7 @@ public class QuizServer {
 								System.out.println("QUIZ ID: "+ qr.getQuizID());
 								setQuiz(QuizJDBC.getQuiz(con, qr.getQuizID()));
 								//setQuiz(QuizJDBC.getQuiz(con, 3));
-								System.out.println("JDBC QUIZ FIRST QUESTION ON SERVER: "+getQuiz().getQuestion(0));
+								//System.out.println("JDBC QUIZ FIRST QUESTION ON SERVER: "+getQuiz().getQuestion(0));
 								setQuizReady(true);
 							}
 						}//end of if
@@ -208,7 +208,7 @@ public class QuizServer {
 			
 			Quiz currentQuiz = getQuiz();
 			
-			System.out.println(currentQuiz);
+			//System.out.println(currentQuiz);
 			
 			// Send quiz to client
 			objectOutputStream.writeObject(currentQuiz);
@@ -220,7 +220,7 @@ public class QuizServer {
 			objectOutputStream.writeObject(new StartQuiz());
 
 			// Iterate through each of the quiz questions
-			for(int i = 1; i < 6; i++){
+			for(int i = 0; i < 10; i++){
 
 				// Initiate each question on the client side
 				objectOutputStream.writeObject(new DisplayQuestion(i));

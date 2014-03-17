@@ -64,14 +64,14 @@ public class QuizClient extends Observable {
 		}
 
 		System.out.println("Client running");
-		
+
 		// Changing the LookAndFeel to nimbus
 		try {
 			UIManager.setLookAndFeel( "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch(Exception e) {
-		
+
 		}
-		
+
 		//TODO Remove this...
 		allScores.add(new Score("Lucy", 40));
 		allScores.add(new Score("Emily", 81));
@@ -79,7 +79,7 @@ public class QuizClient extends Observable {
 		allScores.add(new Score("Mary", 66));
 		allScores.add(new Score("George", 67));
 		Collections.sort(allScores);
-		
+
 		frame = new JFrame("Quiz");
 		guiElements[LOGIN] = new LoginFrame(this);
 		guiElements[STUDENTHOME] = new StudentHomeFrame(this);
@@ -88,7 +88,7 @@ public class QuizClient extends Observable {
 		((QuestionFrame) guiElements[QUESTION]).setDisplay();
 		guiElements[WAITING] = new WaitingFrame();
 		guiElements[STUDENTRESULTS] = new StudentResultsFrame(this);
-	
+
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -142,19 +142,22 @@ public class QuizClient extends Observable {
 		frame.pack();
 		frame.repaint();
 		guiElements[i].resetDisplay();
-		
+
 		// If changing to the QuestionFrame, then start the CountDownTimer.
 		if(i == QUESTION) {
 			((QuestionFrame) guiElements[QUESTION]).startQuestion();
 		}
 	}
 
-    public int getResponseNumber() {
-    	return responseNumber;
-    }
+	public int getResponseNumber() {
+		return responseNumber;
+	}
 
-	public void setResponseNumber(int responseNumber) {
-		this.responseNumber = responseNumber;
+	public void setResponseNumber(int n) {
+		System.out.println("response number was "+responseNumber);
+		this.responseNumber = n;
+		System.out.println("response number changed to "+responseNumber);
+
 	}
 
 	public String getAnswer(int i) {
@@ -183,12 +186,12 @@ public class QuizClient extends Observable {
 	public void setCurrentQuizID(long CurrentQuizID) {
 		this.currentQuizID = CurrentQuizID;
 	}
-	
+
 	public ArrayList<Score> getAllScores() {
-		
+
 		return allScores;
 	}
-	
+
 	/**
 	 * @return a question object which is the current question as specified by
 	 * the server.
@@ -207,7 +210,7 @@ public class QuizClient extends Observable {
 	public LoginReply getLoginReply() {
 		return loginReply;
 	}
-	
+
 	/**
 	 * @return true if the login was successful, username and password were in
 	 * the database or were added successfully.
@@ -223,7 +226,7 @@ public class QuizClient extends Observable {
 	public boolean isStudent() {
 		return isStudentUser;
 	}
-	
+
 	public Quiz getQuiz() {
 		return quiz;
 	}
@@ -239,12 +242,12 @@ public class QuizClient extends Observable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// Allows GUI to request adding to start pool
 	public void requestWaitingScreen(){
 		changeContentPane(WAITING);
 	}
-	
+
 	public void adminStart() {
 		QuizRequest quizRequest = new QuizRequest(currentQuizID);
 		sendObject(quizRequest);
@@ -252,11 +255,18 @@ public class QuizClient extends Observable {
 
 	private AnswerResponse waitForUserResponse() {
 		long responseTime;
-		while ((responseTime = System.currentTimeMillis() - questionReceivedTime) < 10000
-				&& responseNumber == -1) {
-			//pause
-				}
 
+		Outerloop:
+			while ((responseTime = System.currentTimeMillis() - questionReceivedTime) < 10000) {
+				if(getResponseNumber() != -1) {
+
+					break Outerloop;
+				}
+				if(getResponseNumber() == -1) { //if this is taken out it won't work
+					System.out.print("");
+				}
+			}
+		changeContentPane(STUDENTRESULTS); 
 		if (responseNumber == -1) {
 			System.out.println("No user response. Score of -2");
 			return new AnswerResponse(-1);
@@ -277,32 +287,37 @@ public class QuizClient extends Observable {
 					quiz = (Quiz) object;
 
 					currentQuestion = quiz.getQuestion(1);
-					System.out.println(currentQuestion);
+					//System.out.println(currentQuestion);
 
 					// ------------------------------------- StartQuiz
 				} else if (object instanceof StartQuiz) {
 					StartQuiz start = (StartQuiz) object;
 					System.out.println("STUDENT IS STARTING QUIZ");
-					
+
 					// ------------------------------------- DisplayQuestion
 				} else if (object instanceof DisplayQuestion) {
 					DisplayQuestion displayQuestion = (DisplayQuestion) object;
-					
-					responseNumber = -1;
+
+					setResponseNumber(-1);
 					questionReceivedTime = System.currentTimeMillis();
 
 					currentQuestion = getQuiz().getQuestion(
 							displayQuestion.getNumber());
-					
-					System.out.println(displayQuestion.getNumber());
-					System.out.println(currentQuestion);
-					System.out.println("Quiz: "+getQuiz());
-					System.out.println("Question: "+getQuiz().getQuestion(0));
+
+					//					System.out.println(displayQuestion.getNumber());
+					//					System.out.println(currentQuestion);
+					//					System.out.println("Quiz: "+getQuiz());
+					//					System.out.println("Question: "+getQuiz().getQuestion(0));
 					guiElements[QUESTION].resetDisplay();
-					
+
 					changeContentPane(QUESTION);
 					
-					objectOutput.writeObject(waitForUserResponse());
+					AnswerResponse ur = waitForUserResponse();
+					objectOutput.writeObject(ur);
+					while (System.currentTimeMillis() - questionReceivedTime < 15000){
+						System.out.print("");
+					}
+					
 					// Display question
 
 					// ------------------------------------- SCORE
@@ -319,7 +334,7 @@ public class QuizClient extends Observable {
 			} catch (SocketException e){
 			} catch (EOFException e) {
 				System.out.println("The connection to the server has been" +
-						" lost. Shutting down.");
+				" lost. Shutting down.");
 				connected = false;
 				socket.close();
 				break;
@@ -358,6 +373,6 @@ public class QuizClient extends Observable {
 	public static void main(String[] args) throws Exception {
 		QuizClient client = new QuizClient();
 		client.run();
-		
+
 	}
 }

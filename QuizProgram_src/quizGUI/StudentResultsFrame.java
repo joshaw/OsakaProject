@@ -39,7 +39,7 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 	
 	public StudentResultsFrame(QuizClient model) {
 		this.model = model;
-		setDisplay(new Question(true)); // TODO model.getCurrentQuestion
+	//	setDisplay(new Question(true)); // TODO model.getCurrentQuestion
 	}
 	
 	/**
