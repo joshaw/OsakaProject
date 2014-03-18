@@ -28,7 +28,7 @@ public class QuizServer {
 	private ArrayList<ClientThread> clientArrayList
 		= new ArrayList<ClientThread>();
 	private static Connection con;
-	private HashMap<String, Integer> allServerScores;
+	private ArrayList<Score> allServerScores;
 	
 	/**
 	 * Starts the server
@@ -41,7 +41,7 @@ public class QuizServer {
 		con = QuizJDBC.getConnection();
 
 		// initialise the server scores ArrayList
-		allServerScores = new HashMap<String, Integer>();
+		allServerScores = new ArrayList<Score>();
 		
 		//initialise the ServerSocket with PORT
 		try {
@@ -187,7 +187,7 @@ public class QuizServer {
 								setQuizReady(true);
 							}
 						} else { // If user is a student put a blank entry into scores HashMap
-							allServerScores.put(username, 0);
+							allServerScores.add(new Score(username));
 						}
 						// System.out.println("BEFORE QUIZ READY LOOP: is Student: "+isStudent+" quizReady: "+quizReady);
 						while(!getQuizReady()){
@@ -205,7 +205,6 @@ public class QuizServer {
 				}
 
 				// TODO sent final scores to client
-
 				//after the quiz has finished, close the connections
 				objectOutputStream.close();
 				objectInputStream.close();
@@ -260,7 +259,13 @@ public class QuizServer {
 							score = -2;
 						}
 						// Updates allScores ArrayList and sends to client
-						allServerScores.put(username, (allServerScores.get(username)+score));
+						for (int k = 0; k < allServerScores.size(); k++){
+							if (allServerScores.get(k).getUsername().equals(username)){
+								allServerScores.add(new Score(username, (allServerScores.get(k).getMark()+score)));
+								allServerScores.remove(k);
+								break;
+							}
+						}
 						// Sends scores to client
 						objectOutputStream.writeObject(allServerScores);
 					}

@@ -52,8 +52,7 @@ public class QuizClient extends Observable {
 	private int responseNumber = -1;
 	private Long[] quizIDs;
 	private String[] quizNames;
-	private HashMap<String, Integer> allScores; // when received should be sorted (in-order)
-	private TreeMap<String, Integer> sortedScores;
+	private ArrayList<Score> allScores; // when received should be sorted (in-order)
 
 	private String username;
 	private String passwordHash;
@@ -189,8 +188,8 @@ public class QuizClient extends Observable {
 		this.currentQuizID = currentQuizID;
 	}
 
-	public Map<String, Integer> getAllScores() {
-		return sortedScores;
+	public ArrayList<Score> getAllScores() {
+		return allScores;
 	}
 
 	/**
@@ -242,6 +241,13 @@ public class QuizClient extends Observable {
 		} catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	/** 
+	 * requestWaitingScreen - action for the start button in the StudentHomeFrame
+	 */
+	public void requestWaitingScreen() {
+			changeContentPane(WAITING);
 	}
 
 	public void adminStart() {
@@ -319,12 +325,10 @@ public class QuizClient extends Observable {
 						System.out.println("IN TIME LOOP: "+(System.currentTimeMillis() - questionReceivedTime));
 						// ------------------------------------- SCORE
 						objectInput.readObject();
-						if (object instanceof Map<?, ?>) {
+						if (object instanceof ArrayList<?>) {
 							System.out.println("ALLSCORES RECEIVED: "+allScores);
-							allScores = (HashMap<String, Integer>) object;
-							
-							ScoreComparator sc =  new ScoreComparator(allScores);
-							sortedScores = new TreeMap<String,Integer>(sc);
+							allScores = (ArrayList<Score>) object;
+							Collections.sort(allScores);
 							changeContentPane(STUDENTRESULTS);
 						}
 						System.out.println("READ OBJECT");

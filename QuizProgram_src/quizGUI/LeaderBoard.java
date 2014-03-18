@@ -26,7 +26,7 @@ public class LeaderBoard extends MasterFrame implements Observer {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Map<String, Integer> allScores;
+	private ArrayList<Score> allScores;
 	private JTable table;
 	
 	
@@ -34,12 +34,12 @@ public class LeaderBoard extends MasterFrame implements Observer {
 	 * Constructor
 	 * @param model
 	 */
-	public LeaderBoard(Map<String, Integer> allScores, String username) {
+	public LeaderBoard(ArrayList<Score> allScores, String username) {
 		this.allScores = allScores;
 		setDisplay(username);
 	}
 	
-	public LeaderBoard(Map<String, Integer> allScores) {
+	public LeaderBoard(ArrayList<Score> allScores) {
 		this.allScores = allScores;
 		setDisplay(null);
 	}
@@ -60,26 +60,15 @@ public class LeaderBoard extends MasterFrame implements Observer {
 		String[] columnNames = {"Position", "Username", "Score"};
         String[][] data = new String[rows][columns];
         
-     // Create 2D array for table from HashMap<String, Integer> allScores
-        Iterator it = allScores.entrySet().iterator();
-        int i = 0;
+      
         
-        while (it.hasNext()) {
-            Map.Entry<String, Integer> pairs = (Map.Entry<String, Integer>) it.next();
-            data[i][1] = pairs.getKey(); 
-            data[i][2] = pairs.getValue() + "";
-            it.remove(); // avoids a ConcurrentModificationException
-            i++;
+        // Create 2D array for table from ArrayList<Score> allScores
+        for(int i = 0; i < rows; i++) {
+        	data[i][0] = i + 1 + "";
+        	data[i][1] = allScores.get(i).getUsername();
+        	data[i][2] = allScores.get(i).getMark() + "";
+        	if (allScores.get(i).getUsername().equalsIgnoreCase(username)) position = i;
         }
-        
-        
-//        // Create 2D array for table from ArrayList<Score> allScores
-//        for(int i = 0; i < rows; i++) {
-//        	data[i][0] = i + 1 + "";
-//        	data[i][1] = allScores.get(i).getUsername();
-//        	data[i][2] = allScores.get(i).getMark() + "";
-//        	if (allScores.get(i).getUsername().equalsIgnoreCase(username)) position = i;
-//        }
         
         // Set up the table
         table = new JTable(data, columnNames);
