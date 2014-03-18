@@ -26,7 +26,7 @@ import java.util.TreeMap;
 public class QuizClient extends Observable {
 
     private static final int PORT = 9001;
-    private static final String IPADDRESS = "147.188.195.142";
+    private static final String IPADDRESS = "localhost";
 
     private static final int LOGIN = 0;
     private static final int STUDENTHOME = 1;

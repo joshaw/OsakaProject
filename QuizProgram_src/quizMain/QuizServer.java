@@ -29,7 +29,7 @@ public class QuizServer {
 		= new ArrayList<ClientThread>();
 	private static Connection con;
 	private ArrayList<Score> allServerScores;
-	
+
 	/**
 	 * Starts the server
 	 */
@@ -42,7 +42,7 @@ public class QuizServer {
 
 		// initialise the server scores ArrayList
 		allServerScores = new ArrayList<Score>();
-		
+
 		//initialise the ServerSocket with PORT
 		try {
 			listener = new ServerSocket(PORT);
@@ -104,7 +104,7 @@ public class QuizServer {
 		public ClientThread(Socket clientSocket){
 			this.clientSocket = clientSocket;
 		}//end of constructor
-		
+
 		/**
 		 * Handles the client thread
 		 */
@@ -173,7 +173,7 @@ public class QuizServer {
 					 * quiz from the database
 					 */
 					try{
-						
+
 						if(!isStudent) {
 							Object object;
 							object = objectInputStream.readObject();
@@ -253,7 +253,7 @@ public class QuizServer {
 						int score;
 						if(currentResponse.getResponse() == (currentQuiz.getQuestion(i).getCorrectAnswerPos())){
 
-							score = (int) (1 / currentResponse.getResponseTime()) / 100;
+							score = (int) (10000000 / currentResponse.getResponseTime()) / 100;
 						// Otherwise, update client with incorrect answer - 0
 						} else {
 							score = -2;
