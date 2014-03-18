@@ -21,7 +21,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-
 /**
  * Login GUI is the initial screen the user will see.
  * User enters login details and then pushes login button.
@@ -46,7 +45,7 @@ public class LoginFrame extends MasterFrame implements Observer {
     private JTextField usernameField = new JTextField(15);
     private JPasswordField passwordField = new JPasswordField(15);
     private JButton loginButton = new JButton("Log in");
-	private JFrame frame;
+    private JFrame frame;
 
     /**
      * Constructor
@@ -62,10 +61,10 @@ public class LoginFrame extends MasterFrame implements Observer {
      * Sets the display for login
      */
     public void setDisplay() {
-    	UIManager.put("control", new Color(230,204,255));
+        UIManager.put("control", new Color(230,204,255));
 
-    	JPanel view = new JPanel();
-    	
+        JPanel view = new JPanel();
+
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         usernameLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
         passwordLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -74,8 +73,7 @@ public class LoginFrame extends MasterFrame implements Observer {
         view.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         view.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
-        
-        
+
         c.fill = GridBagConstraints.NONE;
         c.gridx = 0; c.gridy = 0; c.weightx = 0; c.weighty = 0.1; c.gridwidth = 2;
         view.add(titleLabel, c);
@@ -93,15 +91,15 @@ public class LoginFrame extends MasterFrame implements Observer {
         c.insets = new Insets(10,0,0,0);
         c.fill = GridBagConstraints.CENTER;
         c.gridx = 0; c.gridy = 3; c.weightx = 0; c.weighty = 0.1; c.gridwidth = 2;
-       
+
         view.add(loginButton, c);
         add(view);
-        
+
     }
 
-	public JFrame getFrame() {
-		return frame;
-	}
+    public JFrame getFrame() {
+        return frame;
+    }
 
     /**
      * Action Listener for the login button
@@ -119,16 +117,16 @@ public class LoginFrame extends MasterFrame implements Observer {
         // TODO Auto-generated method stub
 
     }
-    
+
     /**
-     * resetDisplay - when the panel is changed to this one, some of its components will need 
+     * resetDisplay - when the panel is changed to this one, some of its components will need
      * to be updated to represent the model
      */
-	@Override
-	public void resetDisplay() {
-		usernameField.setText("");
-		passwordField.setText("");
-		
-	}
+    @Override
+    public void resetDisplay() {
+        usernameField.setText("");
+        passwordField.setText("");
+
+    }
 
 }
