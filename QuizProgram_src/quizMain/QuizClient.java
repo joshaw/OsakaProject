@@ -94,6 +94,9 @@ public class QuizClient extends Observable {
 		frame.setVisible(true);
 
 		System.out.println("Started GUI");
+		
+		allScores = new ArrayList<Score>();
+		allScores.add(new Score("Mary", 60));
 	}
 
 	//*************************************************************************
@@ -321,17 +324,20 @@ public class QuizClient extends Observable {
 
 					AnswerResponse ur = waitForUserResponse();
 					objectOutput.writeObject(ur);
+					
 					while (System.currentTimeMillis() - questionReceivedTime < 15000){
 						System.out.println("IN TIME LOOP: "+(System.currentTimeMillis() - questionReceivedTime));
 						// ------------------------------------- SCORE
-						objectInput.readObject();
+						//System.out.println("Before reading ALLSCORES object");
+						object = objectInput.readObject();
+						//System.out.println("After reading ALLSCORES object");
 						if (object instanceof ArrayList<?>) {
-							System.out.println("ALLSCORES RECEIVED: "+allScores);
 							allScores = (ArrayList<Score>) object;
+							System.out.println("ALLSCORES RECEIVED: "+allScores);
 							Collections.sort(allScores);
 							changeContentPane(STUDENTRESULTS);
 						}
-						System.out.println("READ OBJECT");
+						//System.out.println("READ OBJECT");
 					}		
 				} 
 					// ------------------------------------- OTHER

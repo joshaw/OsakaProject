@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -69,6 +70,9 @@ public class LeaderBoard extends MasterFrame implements Observer {
         	data[i][2] = allScores.get(i).getMark() + "";
         	if (allScores.get(i).getUsername().equalsIgnoreCase(username)) position = i;
         }
+        
+//        System.out.println("AllScores Username data check: "+allScores.get(0).getUsername());
+//        System.out.println("data array: "+data[0][1]);
         
         // Set up the table
         table = new JTable(data, columnNames);

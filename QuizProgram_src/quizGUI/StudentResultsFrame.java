@@ -107,6 +107,11 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 		con.gridx = 1; con.gridy = 1; con.insets = new Insets(5,8,0,8);
 		add(score, con);
 		setPreferredSize(new Dimension(600, 300));
+		
+		
+		QuizClient client = new QuizClient();
+		LeaderBoard pane = new LeaderBoard(client.getAllScores());
+		add(pane);
 	}
 	
     /**
