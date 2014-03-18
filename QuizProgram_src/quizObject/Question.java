@@ -12,7 +12,7 @@ public class Question implements Serializable {
 	private int correctAnswerPos; //the position in the array of answers that is the correct one
 	private int questionID;
 	private int timeLimit = 10;
-	
+
 	/*
 	public Question(boolean test) {
 
@@ -36,6 +36,14 @@ public class Question implements Serializable {
 		this.answers = answers;
 		this.correctAnswerPos = correctPos;
 		this.questionID = questionID;
+	}
+
+	public Question(int questionID, String question, String[] answers, int correctPos, int timeLimit) {
+		this.question = question;
+		this.answers = answers;
+		this.correctAnswerPos = correctPos;
+		this.questionID = questionID;
+		this.timeLimit = timeLimit;
 	}
 
 	public void setQuestion(String question) {

@@ -14,7 +14,7 @@ import java.util.Properties;
 public class QuizJDBC {
 
 	/**
-          * Static method that returns a Connection to the dbteac2/osakagp database
+	  * Static method that returns a Connection to the dbteac2/osakagp database
 	  * @return Connection
 	  */
 	public static Connection getConnection() {
@@ -47,12 +47,12 @@ public class QuizJDBC {
 	}//end of main
 
 	/**
-          * Static method that takes a user ID and password of a user as arguments, queries
+	  * Static method that takes a user ID and password of a user as arguments, queries
 	  * the database for the existence of the user, and returns a LoginReply object containing the
-          * query results
-          * @param Connection
- 	  * @param String userId
-          * @param String password
+	  * query results
+	  * @param Connection
+	  * @param String userId
+	  * @param String password
 	  * @return LoginReply
 	  */
 	public static LoginReply isUser(Connection con, String username, String password)  {
@@ -91,10 +91,10 @@ public class QuizJDBC {
 	}//end of isUser
 
 	/**
- 	  * Static method that takes a Connection and quiz id, and returns a Quiz object containing Question objects
+	  * Static method that takes a Connection and quiz id, and returns a Quiz object containing Question objects
 	  * @param Connection
 	  * @param long quizID
-          * @return Quiz object that matches quizID
+	  * @return Quiz object that matches quizID
 	  */
 	public static Quiz getQuiz(Connection con, long quizID) {
 

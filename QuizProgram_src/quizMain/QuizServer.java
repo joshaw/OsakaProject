@@ -19,22 +19,22 @@ public class QuizServer {
 	private static final int PORT = 9001;
 	private ServerSocket listener;
 	private Socket clientSocket;
-	private static boolean quizReady = false;
-	private static Quiz quiz;
+	private boolean quizReady = false;
+	private Quiz quiz;
 	private ArrayList<ClientThread> clientArrayList
 		= new ArrayList<ClientThread>();
-	private static Connection con;
-	
+	private Connection con;
+
 	/**
 	 * Starts the server
 	 */
-	public void ServerMain() throws Exception{
+	public void ServerMain() throws Exception {
 
 		System.out.println("Server is running");
 
 		//create a connection to the database
 		con = QuizJDBC.getConnection();
-		
+
 		//initialise the ServerSocket with PORT
 		try {
 			listener = new ServerSocket(PORT);
@@ -65,6 +65,11 @@ public class QuizServer {
 
 	}//end of startServer method
 
+	//
+	//
+	//
+	//
+	//
 	//*************************************************************************
 	//                              INNER CLASS                               *
 	//************************************************************************/
@@ -205,17 +210,17 @@ public class QuizServer {
 
 		public boolean startQuizSession(Connection con)
 			throws Exception {
-			
+
 			Quiz currentQuiz = getQuiz();
-			
+
 			//System.out.println(currentQuiz);
-			
+
 			// Send quiz to client
 			objectOutputStream.writeObject(currentQuiz);
-			
+
 			// Wait to give quiz time to transfer
 			sleep(50);
-			
+
 			// Start quiz
 			objectOutputStream.writeObject(new StartQuiz());
 
@@ -264,9 +269,9 @@ public class QuizServer {
 
 		}
 
-		public void sendObject(Object o) {
+		public void sendObject(Object object) {
 			try {
-				objectOutputStream.writeObject(o);
+				objectOutputStream.writeObject(object);
 			} catch(Exception e){
 				e.printStackTrace();
 			}
@@ -276,11 +281,15 @@ public class QuizServer {
 	//*************************************************************************
 	//                           END OF INNER CLASS                           *
 	//************************************************************************/
+	//
+	//
+	//
+	//
 
-	public void sendObjectToAll(Object o) {
-		for(ClientThread c: clientArrayList) {
+	public void sendObjectToAll(Object object) {
+		for(ClientThread thread: clientArrayList) {
 			try {
-				c.sendObject(o);
+				thread.sendObject(object);
 			} catch(Exception e){ }
 		}
 	}
@@ -294,18 +303,18 @@ public class QuizServer {
 		return quiz;
 	}
 
-	public void setQuizReady(boolean b) {
+	public void setQuizReady(boolean ready) {
 		System.out.println("setQuizReady");
-		quizReady = b;
+		quizReady = ready;
 	}
 
-	public void setQuiz(Quiz q) {
-		quiz = q;
+	public void setQuiz(Quiz quiz) {
+		this.quiz = quiz;
 	}
 
 	public static void main(String[] args) throws Exception {
-		QuizServer q = new QuizServer();
-		q.ServerMain();
+		QuizServer quizServer = new QuizServer();
+		quizServer.ServerMain();
 	}
 
 }//end of QuizServer

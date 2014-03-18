@@ -20,6 +20,7 @@ import java.util.Observable;
 public class QuizClient extends Observable {
 
 	private static final int PORT = 9001;
+
 	private static final int LOGIN = 0;
 	private static final int STUDENTHOME = 1;
 	private static final int ADMINHOME = 2;
@@ -180,15 +181,16 @@ public class QuizClient extends Observable {
 	}
 
 	public void setPassword(String password) {
+		// TODO
+		// hash password
 		this.passwordHash = password;
 	}
 
-	public void setCurrentQuizID(long CurrentQuizID) {
-		this.currentQuizID = CurrentQuizID;
+	public void setCurrentQuizID(long currentQuizID) {
+		this.currentQuizID = currentQuizID;
 	}
 
 	public ArrayList<Score> getAllScores() {
-
 		return allScores;
 	}
 
@@ -243,11 +245,6 @@ public class QuizClient extends Observable {
 		}
 	}
 
-	// Allows GUI to request adding to start pool
-	public void requestWaitingScreen(){
-		changeContentPane(WAITING);
-	}
-
 	public void adminStart() {
 		QuizRequest quizRequest = new QuizRequest(currentQuizID);
 		sendObject(quizRequest);
@@ -266,7 +263,7 @@ public class QuizClient extends Observable {
 					System.out.print("");
 				}
 			}
-		changeContentPane(STUDENTRESULTS); 
+		changeContentPane(STUDENTRESULTS);
 		if (responseNumber == -1) {
 			System.out.println("No user response. Score of -2");
 			return new AnswerResponse(-1);
@@ -311,13 +308,13 @@ public class QuizClient extends Observable {
 					guiElements[QUESTION].resetDisplay();
 
 					changeContentPane(QUESTION);
-					
+
 					AnswerResponse ur = waitForUserResponse();
 					objectOutput.writeObject(ur);
 					while (System.currentTimeMillis() - questionReceivedTime < 15000){
 						System.out.print("");
 					}
-					
+
 					// Display question
 
 					// ------------------------------------- SCORE
