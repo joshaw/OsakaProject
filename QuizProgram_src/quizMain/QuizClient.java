@@ -11,11 +11,16 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
+import java.awt.Dimension;
 import java.io.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
+import java.util.TreeMap;
 
 public class QuizClient extends Observable {
 
@@ -47,7 +52,8 @@ public class QuizClient extends Observable {
 	private int responseNumber = -1;
 	private Long[] quizIDs;
 	private String[] quizNames;
-	private ArrayList<Score> allScores = new ArrayList<Score>(); // when received should be sorted (in-order)
+	private HashMap<String, Integer> allScores; // when received should be sorted (in-order)
+	private TreeMap<String, Integer> sortedScores;
 
 	private String username;
 	private String passwordHash;
@@ -71,15 +77,7 @@ public class QuizClient extends Observable {
 			UIManager.setLookAndFeel( "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch(Exception e) {
 
-		}
-
-		//TODO Remove this...
-		allScores.add(new Score("Lucy", 71));
-		allScores.add(new Score("Emily", 70));
-		allScores.add(new Score("John", 69));
-		allScores.add(new Score("Mary", 68));
-		allScores.add(new Score("George", 67));
-		Collections.sort(allScores);
+		}		
 
 		frame = new JFrame("Quiz");
 		guiElements[LOGIN] = new LoginFrame(this);
@@ -148,6 +146,7 @@ public class QuizClient extends Observable {
 		if(i == QUESTION) {
 			((QuestionFrame) guiElements[QUESTION]).startQuestion();
 		}
+		frame.setPreferredSize(new Dimension(600, 300));
 	}
 
 	public int getResponseNumber() {
@@ -190,8 +189,8 @@ public class QuizClient extends Observable {
 		this.currentQuizID = currentQuizID;
 	}
 
-	public ArrayList<Score> getAllScores() {
-		return allScores;
+	public Map<String, Integer> getAllScores() {
+		return sortedScores;
 	}
 
 	/**
@@ -250,6 +249,11 @@ public class QuizClient extends Observable {
 		sendObject(quizRequest);
 	}
 
+	// Allows GUI to get score for last question
+	//public int getScore(){
+		//score.get
+	//}
+	
 	private AnswerResponse waitForUserResponse() {
 		long responseTime;
 
@@ -263,12 +267,12 @@ public class QuizClient extends Observable {
 					System.out.print("");
 				}
 			}
-		changeContentPane(STUDENTRESULTS);
+		
 		if (responseNumber == -1) {
-			System.out.println("No user response. Score of -2");
+			//System.out.println("No user response. Score of -2");
 			return new AnswerResponse(-1);
 		}
-
+		
 		return new AnswerResponse(responseNumber, responseTime);
 	}
 
@@ -312,17 +316,22 @@ public class QuizClient extends Observable {
 					AnswerResponse ur = waitForUserResponse();
 					objectOutput.writeObject(ur);
 					while (System.currentTimeMillis() - questionReceivedTime < 15000){
-						System.out.print("");
-					}
-
-					// Display question
-
-					// ------------------------------------- SCORE
-				} else if (object instanceof Score) {
-					Score score = (Score) object;
-
+						System.out.println("IN TIME LOOP: "+(System.currentTimeMillis() - questionReceivedTime));
+						// ------------------------------------- SCORE
+						objectInput.readObject();
+						if (object instanceof Map<?, ?>) {
+							System.out.println("ALLSCORES RECEIVED: "+allScores);
+							allScores = (HashMap<String, Integer>) object;
+							
+							ScoreComparator sc =  new ScoreComparator(allScores);
+							sortedScores = new TreeMap<String,Integer>(sc);
+							changeContentPane(STUDENTRESULTS);
+						}
+						System.out.println("READ OBJECT");
+					}		
+				} 
 					// ------------------------------------- OTHER
-				} else {
+				else {
 					System.out.println("I don't know what to do.");
 				}
 

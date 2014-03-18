@@ -17,6 +17,15 @@ public class Score implements Serializable, Comparable<Score> {
 		this.username = username;
 		this.mark = mark;
 	}
+	
+	/**
+	 * Initialising constructor with just Username to create HashMap entry on server
+	 * @param username
+	 */
+	public Score(String username){
+		this.username = username;
+		this.mark = 0;
+	}
 
 	public int getMark(){
 		return mark;

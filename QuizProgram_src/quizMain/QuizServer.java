@@ -6,7 +6,11 @@ import java.sql.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Server class for the interactive quiz game
@@ -23,8 +27,9 @@ public class QuizServer {
 	private Quiz quiz;
 	private ArrayList<ClientThread> clientArrayList
 		= new ArrayList<ClientThread>();
-	private Connection con;
-
+	private static Connection con;
+	private HashMap<String, Integer> allServerScores;
+	
 	/**
 	 * Starts the server
 	 */
@@ -35,6 +40,9 @@ public class QuizServer {
 		//create a connection to the database
 		con = QuizJDBC.getConnection();
 
+		// initialise the server scores ArrayList
+		allServerScores = new HashMap<String, Integer>();
+		
 		//initialise the ServerSocket with PORT
 		try {
 			listener = new ServerSocket(PORT);
@@ -96,7 +104,7 @@ public class QuizServer {
 		public ClientThread(Socket clientSocket){
 			this.clientSocket = clientSocket;
 		}//end of constructor
-
+		
 		/**
 		 * Handles the client thread
 		 */
@@ -114,7 +122,7 @@ public class QuizServer {
 				boolean userExists = false;
 
 				/*while loop is designed to run until a successful login has
-				 *been recieved */
+				 *been received */
 				try{
 					while(!userExists) {
 						Object newObj = objectInputStream.readObject();
@@ -165,7 +173,7 @@ public class QuizServer {
 					 * quiz from the database
 					 */
 					try{
-
+						
 						if(!isStudent) {
 							Object object;
 							object = objectInputStream.readObject();
@@ -178,7 +186,9 @@ public class QuizServer {
 								//System.out.println("JDBC QUIZ FIRST QUESTION ON SERVER: "+getQuiz().getQuestion(0));
 								setQuizReady(true);
 							}
-						}//end of if
+						} else { // If user is a student put a blank entry into scores HashMap
+							allServerScores.put(username, 0);
+						}
 						// System.out.println("BEFORE QUIZ READY LOOP: is Student: "+isStudent+" quizReady: "+quizReady);
 						while(!getQuizReady()){
 							sleep(0);
@@ -245,21 +255,21 @@ public class QuizServer {
 						if(currentResponse.getResponse() == (currentQuiz.getQuestion(i).getCorrectAnswerPos())){
 
 							score = (int) (1 / currentResponse.getResponseTime()) / 100;
-							objectOutputStream.writeObject(
-									new Score(username, score));
-
 						// Otherwise, update client with incorrect answer - 0
 						} else {
 							score = -2;
-							objectOutputStream.writeObject(
-									new Score(username, score));
 						}
-
-						// TO DO: update database with result
+						// Updates allScores ArrayList and sends to client
+						allServerScores.put(username, (allServerScores.get(username)+score));
+						// Sends scores to client
+						objectOutputStream.writeObject(allServerScores);
 					}
 
 				} catch(ClassNotFoundException e){
 					e.printStackTrace();
+				} catch(SocketException e){
+					e.printStackTrace();
+					System.out.println("Client has diconnected.");
 				} catch(EOFException e){
 					System.out.println("Client has disconnected.");
 					return false;

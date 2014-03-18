@@ -140,11 +140,13 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 		if(q.getCorrectAnswerPos() == 2) answerC.setForeground(green);
 		if(q.getCorrectAnswerPos() == 3) answerD.setForeground(green);
 
-		score.setText("Score for the last question: 72");
+		//score.setText("Score for the last question: "+model.getScore().getMark());
+		
 		
 		if(leaderBoard != null){remove(leaderBoard);}
 		
 		leaderBoard = new LeaderBoard(model.getAllScores(), model.getUsername());
+		//System.out.println("LEADERBOARD IS: "+leaderBoard);
 		con.fill = GridBagConstraints.VERTICAL;
 		con.weightx = 0; con.weighty = 1;
 		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
