@@ -70,6 +70,13 @@ public class Question implements Serializable {
 		this.timeLimit = timeLimit;
 	}
 
+	public boolean isCorrect(int i) {
+		if (i == correctAnswerPos) {
+			return true;
+		}
+		return false;
+	}
+
 	public String toString() {
 		String answerString = "";
 		for (int i=0; i<4; i++) {

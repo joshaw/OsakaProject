@@ -248,15 +248,16 @@ public class QuizServer {
 						AnswerResponse currentResponse = (AnswerResponse)object;
 
 						// Check if response is correct
-						// TO DO: Implement getCorrect in the Question class
 						int score;
-						if(currentResponse.getResponse() == (currentQuiz.getQuestion(i).getCorrectAnswerPos())){
-
+						int answer = currentResponse.getResponse();
+						if(currentQuiz.getQuestion(i).isCorrect(answer)) {
 							score = (int) (10000000 / currentResponse.getResponseTime()) / 100;
+
 						// Otherwise, update client with incorrect answer - 0
 						} else {
 							score = -2;
 						}
+
 						// Updates allScores ArrayList and sends to client
 						for (int k = 0; k < allServerScores.size(); k++){
 							if (allServerScores.get(k).getUsername().equals(username)){
