@@ -13,6 +13,9 @@ import java.net.SocketException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.*;
 
 import java.util.ArrayList;
@@ -55,12 +58,30 @@ public class QuizClient extends Observable {
     private Long[] quizIDs;
     private String[] quizNames;
     private ArrayList<Score> allScores; // when received should be sorted (in-order)
+    private static ArrayList<String> connectedUsers= new ArrayList<String>();
 
     private String username;
     private String passwordHash;
     private long questionReceivedTime;
     private boolean isStudentUser;
     private boolean loginIsSuccessful = false;
+    
+    
+    WindowListener l = new WindowAdapter(){
+        
+        public void windowClosing(WindowEvent w){
+        	
+        	//something should happen here to signify the window closing
+        	try {
+        		System.out.println("closing socket");
+				objectOutput.writeObject(new WindowClosing());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
+        };
 
     // Print notification when starting.
     public QuizClient() {
@@ -90,8 +111,13 @@ public class QuizClient extends Observable {
         guiElements[STUDENTRESULTS] = new StudentResultsFrame(this);
 
         JFrame.setDefaultLookAndFeelDecorated(true);
+        
+        frame.addWindowListener(l);
+        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        
+        
         changeContentPane(LOGIN);
         frame.setVisible(true);
 
@@ -126,6 +152,8 @@ public class QuizClient extends Observable {
 
                 if (loginIsSuccessful) {
                     if (isStudentUser) {
+                    	connectedUsers.add(loginReply.getName());
+                    	System.out.println(connectedUsers);
                         changeContentPane(STUDENTHOME);
                         studentSession(object);
 
