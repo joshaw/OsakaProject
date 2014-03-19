@@ -114,9 +114,6 @@ public class QuizClient extends Observable {
 
         System.out.println(loginIsSuccessful);
         while (!loginIsSuccessful) {
-            // Here the name and password fetched by the gui is sent to the server
-            // objectOutput.writeObject(new LoginRequest(1, 25));
-            // System.out.println("login request sent");
 
             object = objectInput.readObject();
             if (object instanceof LoginReply) {
@@ -242,7 +239,7 @@ public class QuizClient extends Observable {
      */
     public void requestLogin() {
         try {
-            objectOutput.writeObject(new LoginRequest(username, passwordHash));
+            sendObject(new LoginRequest(username, passwordHash));
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -316,21 +313,17 @@ public class QuizClient extends Observable {
                     currentQuestion = getQuiz().getQuestion(
                             displayQuestion.getNumber());
 
-                    //					System.out.println(displayQuestion.getNumber());
-                    //					System.out.println(currentQuestion);
-                    //					System.out.println("Quiz: "+getQuiz());
-                    //					System.out.println("Question: "+getQuiz().getQuestion(0));
                     guiElements[QUESTION].resetDisplay();
 
                     changeContentPane(QUESTION);
 
                     AnswerResponse ur = waitForUserResponse();
-                    objectOutput.writeObject(ur);
+                    sendObject(ur);
 
                     while (System.currentTimeMillis() - questionReceivedTime < 15000){
                         System.out.println("IN TIME LOOP: "+(System.currentTimeMillis() - questionReceivedTime));
                         // ------------------------------------- SCORE
-                        //System.out.println("Before reading ALLSCORES object");
+
                         object = objectInput.readObject();
                         //System.out.println("After reading ALLSCORES object");
                         if (object instanceof ArrayList<?>) {

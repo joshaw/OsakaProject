@@ -145,14 +145,13 @@ public class QuizServer {
 							isStudent = lr.isStudent();
 
 							//send the loginReply to the client
-							objectOutputStream.writeObject(lr);
+							sendObject(lr);
 
 							//if the user exists exit loop and move onto quiz
 							if(lr.isSuccessful()) {
 								userExists = true;
 							} else {
-								objectOutputStream.writeObject(
-										new LoginReply(false));
+								sendObject(new LoginReply(false));
 							}
 
 						}//end of if
@@ -225,19 +224,19 @@ public class QuizServer {
 			//System.out.println(currentQuiz);
 
 			// Send quiz to client
-			objectOutputStream.writeObject(currentQuiz);
+			sendObject(currentQuiz);
 
 			// Wait to give quiz time to transfer
 			sleep(50);
 
 			// Start quiz
-			objectOutputStream.writeObject(new StartQuiz());
+			sendObject(new StartQuiz());
 
 			// Iterate through each of the quiz questions
 			for(int i = 0; i < 10; i++){
 
 				// Initiate each question on the client side
-				objectOutputStream.writeObject(new DisplayQuestion(i));
+				sendObject(new DisplayQuestion(i));
 
 				try{
 					// Read an object from the stream
@@ -267,7 +266,7 @@ public class QuizServer {
 							}
 						}
 						// Sends scores to client
-						objectOutputStream.writeObject(allServerScores);
+						sendObject(new AllScores(allServerScores));
 					}
 
 				} catch(ClassNotFoundException e){

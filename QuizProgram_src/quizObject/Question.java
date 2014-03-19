@@ -9,21 +9,11 @@ public class Question implements Serializable {
 
 	private String question;
 	private String[] answers = new String[4];
-	private int correctAnswerPos; //the position in the array of answers that is the correct one
+
+	//the position in the array of answers that is the correct one
+	private int correctAnswerPos;
 	private int questionID;
 	private int timeLimit = 10;
-
-	/*
-	public Question(boolean test) {
-
-		// Create example question with several example answers. This
-		// information should come from the database.
-		question = "This is the question.";
-		for (int i = 0; i < 4; i++) {
-			answers[i] = "Answer number " + i;
-		}
-	}
-	*/
 
 	public Question() {}
 
@@ -31,14 +21,16 @@ public class Question implements Serializable {
 		this.question = question;
 	}
 
-	public Question(int questionID, String question, String[] answers, int correctPos) {
+	public Question(int questionID, String question,
+							String[] answers, int correctPos) {
 		this.question = question;
 		this.answers = answers;
 		this.correctAnswerPos = correctPos;
 		this.questionID = questionID;
 	}
 
-	public Question(int questionID, String question, String[] answers, int correctPos, int timeLimit) {
+	public Question(int questionID, String question,
+			String[] answers, int correctPos, int timeLimit) {
 		this.question = question;
 		this.answers = answers;
 		this.correctAnswerPos = correctPos;
@@ -83,7 +75,8 @@ public class Question implements Serializable {
 		for (int i=0; i<4; i++) {
 			answerString += "A" + i + ": " + answers[i] + "\n";
 		}
-		return "Q: " + question + "\n" + answerString + "\nCorrectAns: " + answers[correctAnswerPos] +"\n";
+		return "Q: " + question + "\n" + answerString +
+			"\nCorrectAns: " + answers[correctAnswerPos] +"\n";
 	}
 
 	public boolean equals(Object o){
