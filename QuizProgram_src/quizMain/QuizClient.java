@@ -325,9 +325,9 @@ public class QuizClient extends Observable {
                         // ------------------------------------- SCORE
 
                         object = objectInput.readObject();
-                        //System.out.println("After reading ALLSCORES object");
-                        if (object instanceof ArrayList<?>) {
-                            allScores = (ArrayList<Score>) object;
+                        if (object instanceof AllScores) {
+                            AllScores as = (AllScores) object;
+                            allScores = as.getAllScores();
                             System.out.println("ALLSCORES RECEIVED: "+allScores);
                             Collections.sort(allScores);
                             changeContentPane(STUDENTRESULTS);
