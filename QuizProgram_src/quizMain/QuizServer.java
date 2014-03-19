@@ -24,6 +24,8 @@ public class QuizServer {
 	private ServerSocket listener;
 	private Socket clientSocket;
 	private boolean quizReady = false;
+	private QuizTime qt;
+	private static int displayQuestionNumber = 0;
 	private Quiz quiz;
 	private ArrayList<ClientThread> clientArrayList
 		= new ArrayList<ClientThread>();
@@ -145,13 +147,14 @@ public class QuizServer {
 							isStudent = lr.isStudent();
 
 							//send the loginReply to the client
-							sendObject(lr);
+							objectOutputStream.writeObject(lr);
 
 							//if the user exists exit loop and move onto quiz
 							if(lr.isSuccessful()) {
 								userExists = true;
 							} else {
-								sendObject(new LoginReply(false));
+								objectOutputStream.writeObject(
+										new LoginReply(false));
 							}
 
 						}//end of if
@@ -183,6 +186,8 @@ public class QuizServer {
 								setQuiz(QuizJDBC.getQuiz(con, qr.getQuizID()));
 								//setQuiz(QuizJDBC.getQuiz(con, 3));
 								//System.out.println("JDBC QUIZ FIRST QUESTION ON SERVER: "+getQuiz().getQuestion(0));
+								qt = new QuizTime();
+								qt.start();
 								setQuizReady(true);
 							}
 						} else { // If user is a student put a blank entry into scores HashMap
@@ -224,20 +229,21 @@ public class QuizServer {
 			//System.out.println(currentQuiz);
 
 			// Send quiz to client
-			sendObject(currentQuiz);
+			objectOutputStream.writeObject(currentQuiz);
 
 			// Wait to give quiz time to transfer
 			sleep(50);
 
 			// Start quiz
-			sendObject(new StartQuiz());
+			objectOutputStream.writeObject(new StartQuiz());
 
 			// Iterate through each of the quiz questions
-			for(int i = 0; i < 10; i++){
+			while(quizReady && (getDisplayQuestionNumber() < 10)){
 
 				// Initiate each question on the client side
-				sendObject(new DisplayQuestion(i));
-
+				objectOutputStream.writeObject(new DisplayQuestion(getDisplayQuestionNumber()));
+				System.out.println("Question sent to client: "+getDisplayQuestionNumber());
+				
 				try{
 					// Read an object from the stream
 					Object object = objectInputStream.readObject();
@@ -248,16 +254,15 @@ public class QuizServer {
 						AnswerResponse currentResponse = (AnswerResponse)object;
 
 						// Check if response is correct
+						// TO DO: Implement getCorrect in the Question class
 						int score;
-						int answer = currentResponse.getResponse();
-						if(currentQuiz.getQuestion(i).isCorrect(answer)) {
-							score = (int) (10000000 / currentResponse.getResponseTime()) / 100;
+						if(currentResponse.getResponse() == (currentQuiz.getQuestion(getDisplayQuestionNumber()).getCorrectAnswerPos())){
 
+							score = (int) (10000000 / currentResponse.getResponseTime()) / 100;
 						// Otherwise, update client with incorrect answer - 0
 						} else {
 							score = -2;
 						}
-
 						// Updates allScores ArrayList and sends to client
 						for (int k = 0; k < allServerScores.size(); k++){
 							if (allServerScores.get(k).getUsername().equals(username)){
@@ -267,14 +272,14 @@ public class QuizServer {
 							}
 						}
 						// Sends scores to client
-						sendObject(new AllScores(allServerScores));
+						objectOutputStream.writeObject(allServerScores);
 					}
 
 				} catch(ClassNotFoundException e){
 					e.printStackTrace();
 				} catch(SocketException e){
 					e.printStackTrace();
-					System.out.println("Client has diconnected.");
+					System.out.println("Client has disconnected.");
 				} catch(EOFException e){
 					System.out.println("Client has disconnected.");
 					return false;
@@ -292,7 +297,7 @@ public class QuizServer {
 			}
 		}
 
-	}//end of ClientTread class
+	}//end of ClientThread class
 	//*************************************************************************
 	//                           END OF INNER CLASS                           *
 	//************************************************************************/
@@ -300,7 +305,55 @@ public class QuizServer {
 	//
 	//
 	//
-
+	
+	//
+	//
+	//
+	//
+	//
+	//*************************************************************************
+	//                              INNER CLASS                               *
+	//************************************************************************/
+	/**
+	 * Inner class that is created when quiz starts to regulate timing
+	 *
+	 */
+	private class QuizTime extends Thread {
+		
+		long startTime;
+		
+		public QuizTime(){}
+		
+		public void run(){
+			System.out.println("QUIZ TIME IS RUNNING");	
+			while(getDisplayQuestionNumber() < 10){
+				while(System.currentTimeMillis() - startTime < 10000){ // controls time length of question
+					System.out.print("");
+				}
+				startTime = System.currentTimeMillis();
+				// Updates display question available
+				incrementDisplayQuestionNumber();
+				System.out.println("Incremented DQ to "+getDisplayQuestionNumber());
+			}
+		}
+	}//end of QuizTime class
+	
+	//*************************************************************************
+	//                           END OF INNER CLASS                           *
+	//************************************************************************/
+	//
+	//
+	//
+	//
+	
+	public int getDisplayQuestionNumber(){
+		return displayQuestionNumber;
+	}
+	
+	public void incrementDisplayQuestionNumber(){
+		displayQuestionNumber++;
+	}
+	
 	public void sendObjectToAll(Object object) {
 		for(ClientThread thread: clientArrayList) {
 			try {

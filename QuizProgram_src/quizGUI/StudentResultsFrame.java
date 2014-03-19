@@ -83,7 +83,7 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
         con.weightx = 0; con.weighty = 1;
         con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
         this.add(leaderBoard, con);
-        System.out.println("LEADERBOARD IS: "+leaderBoard);
+        //System.out.println("LEADERBOARD IS: "+leaderBoard);
     }
 
     @Override

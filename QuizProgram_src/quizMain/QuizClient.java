@@ -114,6 +114,9 @@ public class QuizClient extends Observable {
 
         System.out.println(loginIsSuccessful);
         while (!loginIsSuccessful) {
+            // Here the name and password fetched by the gui is sent to the server
+            // objectOutput.writeObject(new LoginRequest(1, 25));
+            // System.out.println("login request sent");
 
             object = objectInput.readObject();
             if (object instanceof LoginReply) {
@@ -239,7 +242,7 @@ public class QuizClient extends Observable {
      */
     public void requestLogin() {
         try {
-            sendObject(new LoginRequest(username, passwordHash));
+            objectOutput.writeObject(new LoginRequest(username, passwordHash));
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -310,15 +313,15 @@ public class QuizClient extends Observable {
                     setResponseNumber(-1);
                     questionReceivedTime = System.currentTimeMillis();
 
-                    currentQuestion = getQuiz().getQuestion(
-                            displayQuestion.getNumber());
-                    //System.out.println(username+": "+);
+                    currentQuestion = getQuiz().getQuestion(displayQuestion.getNumber());
+                    System.out.println(username+" is currently answering question "+displayQuestion.getNumber());
+                    
                     guiElements[QUESTION].resetDisplay();
 
                     changeContentPane(QUESTION);
 
                     AnswerResponse ur = waitForUserResponse();
-                    sendObject(ur);
+                    objectOutput.writeObject(ur);
                     
                     // ------------------------------------- SCORE
                     object = objectInput.readObject();
