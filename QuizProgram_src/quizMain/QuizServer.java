@@ -20,16 +20,17 @@ import java.util.Map;
  */
 public class QuizServer {
 
-	private static final int PORT = 9001;
+	private static final int PORT = 9010;
+	private static final int WCPORT = 9009;
 	private ServerSocket listener;
+	private ServerSocket wcListener;
 	private Socket clientSocket;
-	private Socket wccSocket;
 	private boolean quizReady = false;
 	private QuizTime qt;
 	private static int displayQuestionNumber = 0;
 	private Quiz quiz;
 	private ArrayList<ClientThread> clientArrayList
-	= new ArrayList<ClientThread>();
+		= new ArrayList<ClientThread>();
 	private static Connection con;
 	private ArrayList<Score> allServerScores;
 
@@ -62,7 +63,6 @@ public class QuizServer {
 				clientArrayList.add(new ClientThread(clientSocket));
 				System.out.println("Size of arrayList = " + clientArrayList.size());
 				clientArrayList.get(clientArrayList.size()-1).start();
-				//WindowClosingChecker wcc = new WindowClosingChecker(clientSocket);
 
 			}//end of while
 
@@ -122,10 +122,7 @@ public class QuizServer {
 				dataInputStream =
 					new DataInputStream(clientSocket.getInputStream());
 				printStream = new PrintStream(clientSocket.getOutputStream());
-				
-				//create new WindowCloserChecker
-				
-				
+
 				boolean userExists = false;
 
 				/*while loop is designed to run until a successful login has
@@ -162,7 +159,8 @@ public class QuizServer {
 										new LoginReply(false));
 							}
 
-						} 
+						}//end of if
+
 					}//end of while
 				} catch(EOFException e){
 					System.out.println("Client has not logged in.");
@@ -183,10 +181,6 @@ public class QuizServer {
 //						clientSocket = listener.accept();
 //						clientArrayList.add(new ClientThread(clientSocket));
 						
-						wccSocket = listener.accept();
-						
-						WindowClosingChecker wcc = new WindowClosingChecker(wccSocket); wcc.start();
-						
 						if(!isStudent) {
 							Object object;
 							object = objectInputStream.readObject();
@@ -200,8 +194,6 @@ public class QuizServer {
 								qt = new QuizTime();
 								qt.start();
 								setQuizReady(true);
-							} else if(object instanceof WindowClosing){
-								System.out.println("WINDOW HERE IS CLSING FOR CLIENT");
 							}
 						} else { // If user is a student put a blank entry into scores HashMap
 							allServerScores.add(new Score(username));
@@ -213,7 +205,7 @@ public class QuizServer {
 
 						// System.out.println("STARTING QUIZ isStudent: "+isStudent+" quizReady: "+quizReady);
 						if(isStudent){
-							
+							System.out.println("MADE IT INSIDE THE student chence");
 							startQuizSession(con);
 						}
 					}catch(Exception e){
@@ -236,8 +228,8 @@ public class QuizServer {
 		}//end of run method
 
 		public boolean startQuizSession(Connection con)
-		throws Exception {
-
+			throws Exception {
+			System.out.println("IM GETTING HERE");
 			Quiz currentQuiz = getQuiz();
 
 			//System.out.println(currentQuiz);
@@ -257,7 +249,7 @@ public class QuizServer {
 				// Initiate each question on the client side
 				objectOutputStream.writeObject(new DisplayQuestion(getDisplayQuestionNumber()));
 				System.out.println("Question sent to client: "+getDisplayQuestionNumber());
-
+				
 				try{
 					// Read an object from the stream
 					Object object = objectInputStream.readObject();
@@ -273,7 +265,7 @@ public class QuizServer {
 						if(currentResponse.getResponse() == (currentQuiz.getQuestion(getDisplayQuestionNumber()).getCorrectAnswerPos())){
 
 							score = (int) (10000000 / currentResponse.getResponseTime()) / 100;
-							// Otherwise, update client with incorrect answer - 0
+						// Otherwise, update client with incorrect answer - 0
 						} else {
 							score = -2;
 						}
@@ -311,61 +303,6 @@ public class QuizServer {
 			}
 		}
 		
-		/**
-		 * inner class to check for window closing
-		 */
-		private class WindowClosingChecker extends Thread {
-			
-			private Socket windowSocket;
-			
-			private ObjectInputStream o;
-			
-			public WindowClosingChecker(Socket w){
-				
-					this.windowSocket = w;
-					
-					try {
-						o = new ObjectInputStream(w.getInputStream());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
-					System.out.println("NEW WCC OBJECT CREATED");
-					
-			}
-			
-			
-			public void run(){
-				
-				Object o;
-				while(true) {
-					try {
-						
-						System.out.println("IN THE WCC WHILE LOOP");
-						
-						 int i = dataInputStream.readInt();
-						
-						if(i == 0) {
-							System.out.println("THE WINDOW HAS BEEN CLOSED");
-							
-						}
-						
-					} 
-					 catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					
-					 }
-					
-				} //end of while loop
-				
-				
-				
-			}//end of run method
-			
-			
-		}//end of windown closing class
 		
 	}//end of ClientThread class
 	//*************************************************************************
@@ -375,7 +312,7 @@ public class QuizServer {
 	//
 	//
 	//
-
+	
 	//
 	//
 	//
@@ -389,11 +326,11 @@ public class QuizServer {
 	 *
 	 */
 	private class QuizTime extends Thread {
-
+		
 		long startTime;
-
+		
 		public QuizTime(){}
-
+		
 		public void run(){
 			System.out.println("QUIZ TIME IS RUNNING");	
 			while(getDisplayQuestionNumber() < 10){
@@ -403,13 +340,10 @@ public class QuizServer {
 				startTime = System.currentTimeMillis();
 				// Updates display question available
 				incrementDisplayQuestionNumber();
-				System.out.println("Incremented DQ to " + getDisplayQuestionNumber());
+				System.out.println("Incremented DQ to "+getDisplayQuestionNumber());
 			}
 		}
 	}//end of QuizTime class
-
-
-
 	
 	//*************************************************************************
 	//                           END OF INNER CLASS                           *
@@ -418,15 +352,15 @@ public class QuizServer {
 	//
 	//
 	//
-
+	
 	public int getDisplayQuestionNumber(){
 		return displayQuestionNumber;
 	}
-
+	
 	public void incrementDisplayQuestionNumber(){
 		displayQuestionNumber++;
 	}
-
+	
 	public void sendObjectToAll(Object object) {
 		for(ClientThread thread: clientArrayList) {
 			try {

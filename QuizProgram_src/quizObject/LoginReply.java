@@ -45,7 +45,11 @@ public class LoginReply implements Serializable {
 	public Quiz[] getQuizes() {
 		return quizes;
 	}
-
+	
+	public String getName() {
+		return name;
+	}
+	
 	public void setQuizes(Quiz[] quizes) {
 		this.quizes = quizes;
 	}

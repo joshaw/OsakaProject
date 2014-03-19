@@ -31,15 +31,15 @@ public class QuestionFrame extends MasterFrame implements Observer {
 	QuizClient model;
 
 	private JTextPane question = new JTextPane(); // Text-box displaying the question
-//	private JTextPane answerA = new JTextPane(); // Text-box displaying possible answers...
-//	private JTextPane answerB = new JTextPane();
-//	private JTextPane answerC = new JTextPane();
-//	private JTextPane answerD = new JTextPane();
+	private JTextPane answerA = new JTextPane(); // Text-box displaying possible answers...
+	private JTextPane answerB = new JTextPane();
+	private JTextPane answerC = new JTextPane();
+	private JTextPane answerD = new JTextPane();
 
-	private JButton answerA = new JButton("A"); // Buttons for the possible answers
-	private JButton answerB = new JButton("B");
-	private JButton answerC = new JButton("C");
-	private JButton answerD = new JButton("D");
+	private JButton a = new JButton("A"); // Buttons for the possible answers
+	private JButton b = new JButton("B");
+	private JButton c = new JButton("C");
+	private JButton d = new JButton("D");
 	
 	private CountDownTimer timer; // Visual timer
 
@@ -71,16 +71,14 @@ public class QuestionFrame extends MasterFrame implements Observer {
 		// Sets dummy labels
 		question.setText(""); question.setEditable(false);
 		question.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
-		answerA.setText(""); //answerA.setEditable(false);
-		answerB.setText(""); //answerB.setEditable(false);
-		answerC.setText(""); //answerC.setEditable(false);
-		answerD.setText(""); //answerD.setEditable(false);
+		answerA.setText(""); answerA.setEditable(false);
+		answerB.setText(""); answerB.setEditable(false);
+		answerC.setText(""); answerC.setEditable(false);
+		answerD.setText(""); answerD.setEditable(false);
 		
 		// Grid layout for the answer buttons and boxes
-		//JPanel answerPane = new JPanel(new GridLayout(4,1,5,5));
-		
-		JPanel answerPane = new JPanel(new GridLayout(4,0));
-		
+		JPanel answerPane = new JPanel(new GridLayout(4,1,5,5));
+
 		// Adds the questions to the layout
 		JPanel panelA = new JPanel(); panelA.setLayout(new BoxLayout(panelA, BoxLayout.LINE_AXIS));
 		JPanel panelB = new JPanel(); panelB.setLayout(new BoxLayout(panelB, BoxLayout.LINE_AXIS));
@@ -94,10 +92,10 @@ public class QuestionFrame extends MasterFrame implements Observer {
 		con.fill = GridBagConstraints.BOTH;
 
 		// Adding the components to the answerPane
-		 answerPane.add(answerA); answerA.addActionListener(new AnswerAListener()); //answerPane.add(panelA);
-		 answerPane.add(answerB); answerB.addActionListener(new AnswerBListener()); //answerPane.add(panelB);
-		 answerPane.add(answerC); answerC.addActionListener(new AnswerCListener()); //answerPane.add(panelC);
-		 answerPane.add(answerD); answerD.addActionListener(new AnswerDListener()); //answerPane.add(panelD);
+		panelA.add(a); panelA.add(answerA); a.addActionListener(new AnswerAListener()); answerPane.add(panelA);
+		panelB.add(b); panelB.add(answerB); b.addActionListener(new AnswerBListener()); answerPane.add(panelB);
+		panelC.add(c); panelC.add(answerC); c.addActionListener(new AnswerCListener()); answerPane.add(panelC);
+		panelD.add(d); panelD.add(answerD); d.addActionListener(new AnswerDListener()); answerPane.add(panelD);
 
 		// adding to questionPane
 		questionPane.add(question);
@@ -111,7 +109,7 @@ public class QuestionFrame extends MasterFrame implements Observer {
 		con.weightx = 0; con.weighty = 1.0;
 		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
 		// CountDownTimer timer = new CountDownTimer(q.getTimeLimit());
-		this.timer = new CountDownTimer(10);
+		this.timer = new CountDownTimer(7);
 		add(timer, con);
 		timer.setMinimumSize(new Dimension(50, 100));
 		//System.out.println(timer.getPreferredSize());
@@ -183,10 +181,10 @@ public class QuestionFrame extends MasterFrame implements Observer {
 		
 		question.setText(q.getQuestion()); question.setEditable(false);
 		question.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
-		answerA.setText(q.getAnswer(0)); //answerA.setEditable(false);
-		answerB.setText(q.getAnswer(1)); //answerB.setEditable(false);
-		answerC.setText(q.getAnswer(2)); //answerC.setEditable(false);
-		answerD.setText(q.getAnswer(3)); //answerD.setEditable(false);
+		answerA.setText(q.getAnswer(0)); answerA.setEditable(false);
+		answerB.setText(q.getAnswer(1)); answerB.setEditable(false);
+		answerC.setText(q.getAnswer(2)); answerC.setEditable(false);
+		answerD.setText(q.getAnswer(3)); answerD.setEditable(false);
 		
 	}
 
