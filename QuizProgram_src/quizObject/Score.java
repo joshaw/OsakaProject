@@ -35,12 +35,20 @@ public class Score implements Serializable, Comparable<Score> {
 		this.mark = mark;
 	}
 	
+	public void addMark(int newMark) {
+		this.mark += newMark;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String toString(){
+		return "" + mark;
 	}
 
 	/**

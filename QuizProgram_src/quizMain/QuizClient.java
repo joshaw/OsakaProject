@@ -26,7 +26,6 @@ import java.util.TreeMap;
 public class QuizClient extends Observable {
 
     private static final int PORT = 9010;
-    private static final int WCPORT = 9009;
     private static final String IPADDRESS = "localhost";
 
     private static final int LOGIN = 0;
@@ -161,9 +160,9 @@ public class QuizClient extends Observable {
     }
 
     public void setResponseNumber(int n) {
-        System.out.println("response number was "+responseNumber);
+        //System.out.println("response number was "+responseNumber);
         this.responseNumber = n;
-        System.out.println("response number changed to "+responseNumber);
+        //System.out.println("response number changed to "+responseNumber);
 
     }
 
@@ -174,7 +173,7 @@ public class QuizClient extends Observable {
     public Long[] getQuizIDs() {
         // TODO
         // return quizIDs;
-        Long[] temp = {3L, 2L, 3L, 4L, 5L, 6L};
+        Long[] temp = {1L, 2L, 3L, 6L, 7L, 8L};
         return temp;
     }
 
@@ -317,7 +316,7 @@ public class QuizClient extends Observable {
                     questionReceivedTime = System.currentTimeMillis();
 
                     currentQuestion = getQuiz().getQuestion(displayQuestion.getNumber());
-                    System.out.println(username+" is currently answering question "+displayQuestion.getNumber());
+                    //System.out.println(username+" is currently answering question "+displayQuestion.getNumber());
                     
                     guiElements[QUESTION].resetDisplay();
 
@@ -331,8 +330,7 @@ public class QuizClient extends Observable {
                     if (object instanceof ArrayList<?>) {
                         allScores = (ArrayList<Score>) object;
                         Collections.sort(allScores);
-                        changeContentPane(STUDENTRESULTS);
-                        
+                        changeContentPane(STUDENTRESULTS);  
                     }
                     
                     while ((System.currentTimeMillis() - questionReceivedTime) < 10000){                       

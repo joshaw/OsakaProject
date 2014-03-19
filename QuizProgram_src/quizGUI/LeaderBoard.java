@@ -29,6 +29,7 @@ public class LeaderBoard extends MasterFrame implements Observer {
 
     private ArrayList<Score> allScores;
     private JTable table;
+    private String user;
 
     /**
      * Constructor
@@ -42,14 +43,16 @@ public class LeaderBoard extends MasterFrame implements Observer {
 
     public LeaderBoard(ArrayList<Score> allScores) {
         this.allScores = allScores;
-        setDisplay(null);
+        //setDisplay(null);
     }
 
     /**
      * Sets the display for LeaderBoard
      */
     public void setDisplay(String username) {
-
+    	
+    	this.user = username;
+    	
         // The pane layout
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -66,7 +69,7 @@ public class LeaderBoard extends MasterFrame implements Observer {
             data[i][0] = i + 1 + "";
             data[i][1] = allScores.get(i).getUsername();
             data[i][2] = allScores.get(i).getMark() + "";
-            if (allScores.get(i).getUsername().equalsIgnoreCase(username)) position = i;
+            if (allScores.get(i).getUsername().equalsIgnoreCase(user)) position = i;
         }
 
 //        System.out.println("AllScores Username data check: "+allScores.get(0).getUsername());
@@ -116,11 +119,68 @@ public class LeaderBoard extends MasterFrame implements Observer {
         // TODO Auto-generated method stub
 
     }
-
+    
+    public void updateAllScores(ArrayList<Score> aS){
+		allScores = aS;
+    }
+    
     @Override
     public void resetDisplay() {
-        // TODO Auto-generated method stub
+    	
+    	// The pane layout
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        
+        int columns = 3;
+        int rows = allScores.size();
+        int position = -1; // the position of the user
 
+        System.out.println("NUMBER OF ROWS: "+rows);
+        
+        String[] columnNames = {"Position", "Username", "Score"};
+        String[][] data = new String[rows][columns];
+
+        // Create 2D array for table from ArrayList<Score> allScores
+        for(int i = 0; i < rows; i++) {
+            data[i][0] = i + 1 + "";
+            data[i][1] = allScores.get(i).getUsername();
+            data[i][2] = allScores.get(i).getMark() + "";
+            if (allScores.get(i).getUsername().equalsIgnoreCase(user)) position = i;
+        }
+        
+        // Set up the table
+        table = new JTable(data, columnNames);
+        table.setFillsViewportHeight(true);
+        table.getColumnModel().getColumn(0).setPreferredWidth(70);
+        table.getColumnModel().getColumn(1).setPreferredWidth(120);
+        table.getColumnModel().getColumn(2).setPreferredWidth(70);
+        
+        System.out.println("NUMBER OF ROWS"+table.getRowCount());
+        
+        // Highlight the row of the current user
+        if(position >= 0) {
+            table.setRowSelectionInterval(position, position);
+        }
+
+        // Create the scroll pane and add the table to it.
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setMinimumSize(new Dimension(260,20));
+        scrollPane.setPreferredSize(new Dimension(260,20));
+
+        // Add the scroll pane to this panel.
+        c.weightx = 0; c.weighty = 1.0;
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 0; c.gridy = 0;
+        add(table, c);
+    }
+    
+    public String toString(){
+    	
+    	String returnString = "";
+    	
+    	for(int i=0; i<allScores.size(); i++){
+    		returnString += allScores.get(i);
+    	} return returnString;
     }
 
 }

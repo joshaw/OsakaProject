@@ -93,7 +93,7 @@ public class AdminHomeFrame extends MasterFrame implements Observer {
             long q = (Long) selectQuiz.getSelectedItem();
             // model.setCurrentQuizID(q); TODO THIS IS CORRECT
             model.setCurrentQuizID(q);
-            System.out.println("you have selected a quiz");
+            System.out.println("you have selected quiz "+q);
         }
     }
 

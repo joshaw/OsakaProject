@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,6 +15,7 @@ import javax.swing.*;
 
 import quizMain.QuizClient;
 import quizObject.Question;
+import quizObject.Score;
 /**
  * Class StudentResultsFrame is the display the student will see after they have answered a question.
  * @author bxc077
@@ -25,6 +27,9 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 
     // Quiz model
     QuizClient model;
+    
+    // Data
+    ArrayList<Score> allScores;
 
     // GUI components
     JProgressBar progressBar = new JProgressBar(); //questions answered so far
@@ -39,6 +44,8 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
 
     public StudentResultsFrame(QuizClient model) {
         this.model = model;
+        allScores = model.getAllScores(); 
+        leaderBoard = new LeaderBoard(allScores);
     }
 
     /**
@@ -46,7 +53,7 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
      * to be updated to represent the model
      */
     public void resetDisplay() {
-
+    	
         // Sets the labels to the question/answers
         Question q = model.getCurrentQuestion();
 
@@ -73,18 +80,17 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
         if(q.getCorrectAnswerPos() == 3) answerD.setForeground(green);
 
         //score.setText("Score for the last question: "+model.getScore().getMark());
-
-        if(leaderBoard != null){
-            remove(leaderBoard);
-        }
-
-        leaderBoard = new LeaderBoard(model.getAllScores(), model.getUsername());
+        
+        allScores = model.getAllScores();
+        leaderBoard.updateAllScores(allScores);
+        leaderBoard.resetDisplay();
+        
         con.fill = GridBagConstraints.VERTICAL;
         con.weightx = 0; con.weighty = 1;
         con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
         this.add(leaderBoard, con);
         //System.out.println("LEADERBOARD IS: "+leaderBoard);
-    }
+    }//end of reset display
 
     @Override
     public void update(Observable model, Object arg) {

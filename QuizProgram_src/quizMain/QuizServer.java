@@ -196,7 +196,7 @@ public class QuizServer {
 								setQuizReady(true);
 							}
 						} else { // If user is a student put a blank entry into scores HashMap
-							allServerScores.add(new Score(username));
+							allServerScores.add(new Score(username, 0));
 						}
 						// System.out.println("BEFORE QUIZ READY LOOP: is Student: "+isStudent+" quizReady: "+quizReady);
 						while(!getQuizReady()){
@@ -253,7 +253,9 @@ public class QuizServer {
 				try{
 					// Read an object from the stream
 					Object object = objectInputStream.readObject();
-
+					
+					int user = 0;
+					
 					// Check if the object is an AnswerResponse
 					if (object instanceof AnswerResponse) {
 
@@ -264,21 +266,29 @@ public class QuizServer {
 						int score;
 						if(currentResponse.getResponse() == (currentQuiz.getQuestion(getDisplayQuestionNumber()).getCorrectAnswerPos())){
 
-							score = (int) (10000000 / currentResponse.getResponseTime()) / 100;
+							score = (int) (10 + (500000 / currentResponse.getResponseTime()));
 						// Otherwise, update client with incorrect answer - 0
 						} else {
 							score = -2;
 						}
 						// Updates allScores ArrayList and sends to client
+						
+						ForLoop:
 						for (int k = 0; k < allServerScores.size(); k++){
 							if (allServerScores.get(k).getUsername().equals(username)){
-								allServerScores.add(new Score(username, (allServerScores.get(k).getMark()+score)));
-								allServerScores.remove(k);
-								break;
-							}
+								user = k;
+								System.out.println("Mark before update: "+ allServerScores.get(k).getMark());
+								System.out.println("Adding Score: "+score);
+								allServerScores.get(k).addMark(score);
+								System.out.println("Mark after update: "+ allServerScores.get(k).getMark());
+								
+								System.out.println("THE OBJECT HAS BEEN SENT");
+								break ForLoop;
+							} 
 						}
 						// Sends scores to client
 						objectOutputStream.writeObject(allServerScores);
+						System.out.println("Mark after sending: "+ allServerScores.get(user).getMark());
 					}
 
 				} catch(ClassNotFoundException e){
