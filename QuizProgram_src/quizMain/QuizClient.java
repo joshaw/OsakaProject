@@ -266,7 +266,7 @@ public class QuizClient extends Observable {
         long responseTime;
 
         Outerloop:
-            while ((responseTime = System.currentTimeMillis() - questionReceivedTime) < 10000) {
+            while ((responseTime = System.currentTimeMillis() - questionReceivedTime) < 7000) {
                 if(getResponseNumber() != -1) {
 
                     break Outerloop;
@@ -312,27 +312,25 @@ public class QuizClient extends Observable {
 
                     currentQuestion = getQuiz().getQuestion(
                             displayQuestion.getNumber());
-
+                    //System.out.println(username+": "+);
                     guiElements[QUESTION].resetDisplay();
 
                     changeContentPane(QUESTION);
 
                     AnswerResponse ur = waitForUserResponse();
                     sendObject(ur);
-
-                    while (System.currentTimeMillis() - questionReceivedTime < 15000){
-                        System.out.println("IN TIME LOOP: "+(System.currentTimeMillis() - questionReceivedTime));
-                        // ------------------------------------- SCORE
-
-                        object = objectInput.readObject();
-                        if (object instanceof AllScores) {
-                            AllScores as = (AllScores) object;
-                            allScores = as.getAllScores();
-                            System.out.println("ALLSCORES RECEIVED: "+allScores);
-                            Collections.sort(allScores);
-                            changeContentPane(STUDENTRESULTS);
-                        }
-                        //System.out.println("READ OBJECT");
+                    
+                    // ------------------------------------- SCORE
+                    object = objectInput.readObject();
+                    if (object instanceof ArrayList<?>) {
+                        allScores = (ArrayList<Score>) object;
+                        Collections.sort(allScores);
+                        changeContentPane(STUDENTRESULTS);
+                        
+                    }
+                    
+                    while ((System.currentTimeMillis() - questionReceivedTime) < 10000){                       
+                    	System.out.print("");
                     }
                 }
                     // ------------------------------------- OTHER

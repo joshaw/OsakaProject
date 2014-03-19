@@ -109,7 +109,7 @@ public class QuestionFrame extends MasterFrame implements Observer {
 		con.weightx = 0; con.weighty = 1.0;
 		con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
 		// CountDownTimer timer = new CountDownTimer(q.getTimeLimit());
-		this.timer = new CountDownTimer(10);
+		this.timer = new CountDownTimer(7);
 		add(timer, con);
 		timer.setMinimumSize(new Dimension(50, 100));
 		//System.out.println(timer.getPreferredSize());
