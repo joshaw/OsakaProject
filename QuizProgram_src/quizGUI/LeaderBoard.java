@@ -135,7 +135,7 @@ public class LeaderBoard extends MasterFrame implements Observer {
         int rows = allScores.size();
         int position = -1; // the position of the user
 
-        System.out.println("NUMBER OF ROWS: "+rows);
+        //System.out.println("NUMBER OF ROWS: "+rows);
         
         String[] columnNames = {"Position", "Username", "Score"};
         String[][] data = new String[rows][columns];
@@ -155,7 +155,7 @@ public class LeaderBoard extends MasterFrame implements Observer {
         table.getColumnModel().getColumn(1).setPreferredWidth(120);
         table.getColumnModel().getColumn(2).setPreferredWidth(70);
         
-        System.out.println("NUMBER OF ROWS"+table.getRowCount());
+        //System.out.println("NUMBER OF ROWS"+table.getRowCount());
         
         // Highlight the row of the current user
         if(position >= 0) {

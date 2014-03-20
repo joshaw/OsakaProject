@@ -131,7 +131,7 @@ public class QuestionFrame extends MasterFrame implements Observer {
 	public class AnswerAListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			model.setResponseNumber(0);
-			System.out.println("A");
+			//System.out.println("A");
 		}
 	}
 
@@ -141,7 +141,7 @@ public class QuestionFrame extends MasterFrame implements Observer {
 	public class AnswerBListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			model.setResponseNumber(1);
-			System.out.println("B");
+			//System.out.println("B");
 		}
 	}
 	
@@ -151,7 +151,7 @@ public class QuestionFrame extends MasterFrame implements Observer {
 	public class AnswerCListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			model.setResponseNumber(2);
-			System.out.println("C");
+			//System.out.println("C");
 		}
 	}
 
@@ -161,7 +161,7 @@ public class QuestionFrame extends MasterFrame implements Observer {
 	public class AnswerDListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			model.setResponseNumber(3);
-			System.out.println("D");
+			//System.out.println("D");
 		}
 	}
 

@@ -4,6 +4,7 @@ import quizObject.*;
 
 import java.sql.*;
 import java.io.*;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -29,17 +30,14 @@ public class QuizServer {
 	private QuizTime qt;
 	private static int displayQuestionNumber = 0;
 	private Quiz quiz;
-	private ArrayList<ClientThread> clientArrayList
-		= new ArrayList<ClientThread>();
+	private ArrayList<ClientThread> clientArrayList = new ArrayList<ClientThread>();
 	private static Connection con;
 	private ArrayList<Score> allServerScores;
 
 	/**
 	 * Starts the server
 	 */
-	public void ServerMain() throws Exception {
-
-		System.out.println("Server is running");
+	public boolean ServerMain() throws Exception {
 
 		//create a connection to the database
 		con = QuizJDBC.getConnection();
@@ -50,31 +48,37 @@ public class QuizServer {
 		//initialise the ServerSocket with PORT
 		try {
 			listener = new ServerSocket(PORT);
-		}catch (IOException ioe){
-			System.out.println(ioe);
-		}//end of try/catch block
+		} catch (IOException ioe){
+			System.out.println("Port unavailable - server may already be on.");
+			return false;
+		}
+		//end of try/catch block
 
 		try{
-
+			
+			System.out.println("Server is running.");
+			
 			while(true){
 
 				//wait for clients to connect, accept and start new ClientThread
 				clientSocket = listener.accept();
 				clientArrayList.add(new ClientThread(clientSocket));
-				System.out.println("Size of arrayList = " + clientArrayList.size());
+				System.out.println("Number of connected users is " + clientArrayList.size());
 				clientArrayList.get(clientArrayList.size()-1).start();
 
 			}//end of while
 
 		} catch(IOException ioe){
-			/* when would this be throw? write in when and why here, then
+			/* when would this be thrown? write in when and why here, then
 			 * include a way of handling it at a later point - decide this with
 			 * the group */
 			System.out.println(ioe);
 		} finally{
 			clientSocket.close();
 		}//end of try/catch/finally block
-
+		
+		System.out.println("Server shutting down.");
+		return true;
 	}//end of startServer method
 
 	//
@@ -192,8 +196,8 @@ public class QuizServer {
 								//setQuiz(QuizJDBC.getQuiz(con, 3));
 								//System.out.println("JDBC QUIZ FIRST QUESTION ON SERVER: "+getQuiz().getQuestion(0));
 								qt = new QuizTime();
-								qt.start();
 								setQuizReady(true);
+								qt.start();
 							}
 						} else { // If user is a student put a blank entry into scores HashMap
 							allServerScores.add(new Score(username, 0));
@@ -205,7 +209,6 @@ public class QuizServer {
 
 						// System.out.println("STARTING QUIZ isStudent: "+isStudent+" quizReady: "+quizReady);
 						if(isStudent){
-							System.out.println("MADE IT INSIDE THE student chence");
 							startQuizSession(con);
 						}
 					}catch(Exception e){
@@ -216,6 +219,7 @@ public class QuizServer {
 
 				// TODO sent final scores to client
 				//after the quiz has finished, close the connections
+				System.out.println("SERVER THINKS QUIZ HAS FINISHED - CLOSING CLIENT THREAD STREAMS");
 				objectOutputStream.close();
 				objectInputStream.close();
 				dataInputStream.close();
@@ -229,7 +233,7 @@ public class QuizServer {
 
 		public boolean startQuizSession(Connection con)
 			throws Exception {
-			System.out.println("IM GETTING HERE");
+
 			Quiz currentQuiz = getQuiz();
 
 			//System.out.println(currentQuiz);
@@ -244,11 +248,11 @@ public class QuizServer {
 			objectOutputStream.writeObject(new StartQuiz());
 
 			// Iterate through each of the quiz questions
-			while(quizReady && (getDisplayQuestionNumber() < 10)){
+			while(getDisplayQuestionNumber() < 10){
 
 				// Initiate each question on the client side
+				System.out.println("Current question on Server is: "+getDisplayQuestionNumber());
 				objectOutputStream.writeObject(new DisplayQuestion(getDisplayQuestionNumber()));
-				System.out.println("Question sent to client: "+getDisplayQuestionNumber());
 				
 				try{
 					// Read an object from the stream
@@ -277,12 +281,14 @@ public class QuizServer {
 						for (int k = 0; k < allServerScores.size(); k++){
 							if (allServerScores.get(k).getUsername().equals(username)){
 								user = k;
-								System.out.println("Mark before update: "+ allServerScores.get(k).getMark());
-								System.out.println("Adding Score: "+score);
-								allServerScores.get(k).addMark(score);
-								System.out.println("Mark after update: "+ allServerScores.get(k).getMark());
 								
-								System.out.println("THE OBJECT HAS BEEN SENT");
+								//System.out.println("Mark before update: "+ allServerScores.get(k).getMark());
+								//System.out.println("Adding Score: "+score);
+								
+								allServerScores.get(k).addMark(score);
+								
+								//System.out.println("Mark after update: "+ allServerScores.get(k).getMark());
+								
 								break ForLoop;
 							} 
 						}
@@ -294,7 +300,7 @@ public class QuizServer {
 				} catch(ClassNotFoundException e){
 					e.printStackTrace();
 				} catch(SocketException e){
-					e.printStackTrace();
+					//e.printStackTrace();
 					System.out.println("Client has disconnected.");
 				} catch(EOFException e){
 					System.out.println("Client has disconnected.");
@@ -316,20 +322,12 @@ public class QuizServer {
 		
 	}//end of ClientThread class
 	//*************************************************************************
-	//                           END OF INNER CLASS                           *
+	//                       END OF INNER CLASS CLIENTTHREAD                  *
 	//************************************************************************/
-	//
-	//
-	//
-	//
+
 	
-	//
-	//
-	//
-	//
-	//
 	//*************************************************************************
-	//                              INNER CLASS                               *
+	//                           INNER CLASS QUIZ TIME                        *
 	//************************************************************************/
 	/**
 	 * Inner class that is created when quiz starts to regulate timing
@@ -342,16 +340,33 @@ public class QuizServer {
 		public QuizTime(){}
 		
 		public void run(){
-			System.out.println("QUIZ TIME IS RUNNING");	
+			//System.out.println("QUIZ TIME IS RUNNING");
+			
+			QuestionLoop:
 			while(getDisplayQuestionNumber() < 10){
+				startTime = System.currentTimeMillis();
+				
 				while(System.currentTimeMillis() - startTime < 10000){ // controls time length of question
 					System.out.print("");
 				}
-				startTime = System.currentTimeMillis();
+				
+				// Stops quiz entrants starting after first question
+				if(getDisplayQuestionNumber() > 0){
+					setQuizReady(false);
+				}
+				
 				// Updates display question available
 				incrementDisplayQuestionNumber();
-				System.out.println("Incremented DQ to "+getDisplayQuestionNumber());
+								
+				if(allServerScores.size() == 0){ // All Clients have disconnected during the quiz
+					break QuestionLoop;
+				}
 			}
+		
+			// Quiz cleanup
+			setDisplayQuestionNumber(0);
+		
+		
 		}
 	}//end of QuizTime class
 	
@@ -365,6 +380,10 @@ public class QuizServer {
 	
 	public int getDisplayQuestionNumber(){
 		return displayQuestionNumber;
+	}
+	
+	public void setDisplayQuestionNumber(int i){
+		displayQuestionNumber = i;
 	}
 	
 	public void incrementDisplayQuestionNumber(){
@@ -389,7 +408,7 @@ public class QuizServer {
 	}
 
 	public void setQuizReady(boolean ready) {
-		System.out.println("setQuizReady");
+		//System.out.println("setQuizReady");
 		quizReady = ready;
 	}
 

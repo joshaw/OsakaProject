@@ -71,7 +71,7 @@ public class QuizClient extends Observable {
             System.exit(1);
         }
 
-        System.out.println("Client running");
+        System.out.println("Client running.");
 
         // Changing the LookAndFeel to nimbus
         try {
@@ -95,7 +95,7 @@ public class QuizClient extends Observable {
         changeContentPane(LOGIN);
         frame.setVisible(true);
 
-        System.out.println("Started GUI");
+        System.out.println("Client GUI loaded.");
 
         allScores = new ArrayList<Score>();
         //allScores.add(new Score("Mary", 60));
@@ -112,7 +112,6 @@ public class QuizClient extends Observable {
         objectOutput = new ObjectOutputStream(socket.getOutputStream());
         objectInput = new ObjectInputStream(socket.getInputStream());
 
-        System.out.println(loginIsSuccessful);
         while (!loginIsSuccessful) {
             // Here the name and password fetched by the gui is sent to the server
             // objectOutput.writeObject(new LoginRequest(1, 25));
@@ -120,25 +119,24 @@ public class QuizClient extends Observable {
 
             object = objectInput.readObject();
             if (object instanceof LoginReply) {
-            	System.out.println("Login Reply Received");
                 loginReply = (LoginReply) object;
                 loginIsSuccessful = loginReply.isSuccessful();
                 isStudentUser = loginReply.isStudent();
 
                 if (loginIsSuccessful) {
                     if (isStudentUser) {
+                    	System.out.println("Client Student user "+getUsername()+" logged in.");
                         changeContentPane(STUDENTHOME);
                         studentSession(object);
 
                     } else {
+                    	System.out.println("Client Admin user "+getUsername()+" logged in.");
                         changeContentPane(ADMINHOME);
                         adminSession(object);
                     }
-
                 }
             }
         }
-
     }
 
     public void changeContentPane(int i) {
@@ -243,6 +241,7 @@ public class QuizClient extends Observable {
      */
     public void requestLogin() {
         try {
+        	setUsername(username);
             objectOutput.writeObject(new LoginRequest(username, passwordHash));
         } catch(Exception e){
             e.printStackTrace();
@@ -292,20 +291,24 @@ public class QuizClient extends Observable {
         /* Until the end of the quiz, keep listening for objects.*/
         while (loginReply.isSuccessful()) {
             try{
-                // Read an object from the stream.
-                object = objectInput.readObject();
+                try {
+                    object = objectInput.readObject();
+                } catch (EOFException e){
+                	System.out.println("Reading the object causes an EOF.");
+                }
+            	// Read an object from the stream.
 
                 // ------------------------------------- Quiz
                 if (object instanceof Quiz) {
                     quiz = (Quiz) object;
 
-                    currentQuestion = quiz.getQuestion(1);
+                    currentQuestion = quiz.getQuestion(0);
                     //System.out.println(currentQuestion);
 
                     // ------------------------------------- StartQuiz
                 } else if (object instanceof StartQuiz) {
                     StartQuiz start = (StartQuiz) object;
-                    System.out.println("STUDENT IS STARTING QUIZ");
+                    System.out.println("Student user "+getUsername()+" is starting the quiz.");
 
                     // ------------------------------------- DisplayQuestion
                 } else if (object instanceof DisplayQuestion) {
@@ -315,13 +318,15 @@ public class QuizClient extends Observable {
                     questionReceivedTime = System.currentTimeMillis();
 
                     currentQuestion = getQuiz().getQuestion(displayQuestion.getNumber());
-                    //System.out.println(username+" is currently answering question "+displayQuestion.getNumber());
+                    System.out.println(username+" is currently answering question "+displayQuestion.getNumber());
 
                     guiElements[QUESTION].resetDisplay();
 
                     changeContentPane(QUESTION);
 
                     AnswerResponse ur = waitForUserResponse();
+                    
+
                     objectOutput.writeObject(ur);
 
                     // ------------------------------------- SCORE

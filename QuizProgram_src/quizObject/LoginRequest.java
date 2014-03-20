@@ -20,7 +20,7 @@ public class LoginRequest implements Serializable {
 		this.username = username;
 		// this.passwordHash = password.hashCode();
 		this.passwordHash = password;
-		System.out.println("Login username: " + username + "\npassword: " + passwordHash);
+		//System.out.println("Login username: " + username + "\npassword: " + passwordHash);
 	}
 
 	public void setUsername(String username) {

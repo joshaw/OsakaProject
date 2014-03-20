@@ -24,7 +24,7 @@ public class LoginReply implements Serializable {
 		this.loginSuccessful = loginSuccessful;
 		this.isStudent = isStudent;
 		this.name = name;
-		System.out.println("LoginReply sent");
+		//System.out.println("LoginReply sent");
 	}
 
 	public LoginReply(boolean loginSuccessful, boolean isStudent, String name, Quiz[] quizes) {
@@ -56,7 +56,7 @@ public class LoginReply implements Serializable {
 
 	public String toString() {
 
-		return "isSuuccessful: " + loginSuccessful + ", isStudent: " + isStudent + ", Name: " + name;
+		return "isSuccessful: " + loginSuccessful + ", isStudent: " + isStudent + ", Name: " + name;
 
 	}//end of toString
 
