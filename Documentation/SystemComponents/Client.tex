@@ -24,7 +24,17 @@ to the server.
 	unsuccessful, the user is asked to re-input their details, otherwise, the
 	display is changed and the options screen is shown.
 
-	\item \textbf{Start}
+	\item \textbf{Student/Admin}
+
+	There exists separate functionality withing the client depending on if the
+	user is a Student user, i.e.\ going to be answering questions, or an Admin,
+	i.e.\ the teacher who starts and moderates the quiz. Distinguishing between
+	these two is done by the server by checking the details associated with
+	that user in the database. The \texttt{LoginReply} object contains this
+	information and the client can then display the correct interface depending
+	on the type of user that logged in.
+
+	\item \textbf{Client Listens from Server}
 
 	From here, the user can select the ``Start Quiz'' option to start the
 	quiz. This causes the display to change to display the waiting screen and
@@ -65,6 +75,29 @@ to the server.
 		current client's position in this list. This object tells the client
 		the relevant information for displaying the scores of the other
 		clients.
+	\end{description}
+
+	\item \textbf{Sent by Client}
+
+	There are also a number of objects that the client can create and send to
+	the server at different stages of the quiz:
+	\begin{itemize}
+		\item \texttt{LoginRequest}
+		\item \texttt{QuizRequest}
+		\item \texttt{AnswerResponse}
+	\end{itemize}
+
+	\begin{description}
+		\item[\texttt{QuizRequest}]\hfill \\ This is sent by the client when an
+		Admin is logged in in order to request a particular quiz from the
+		server. Since the server can hold many quizzes, each with their own set
+		of questions and answers, the Admin has the option to choose which of
+		these to play when they log in.
+
+		\item[\texttt{AnswerResponse}]\hfill \\ This is the object that tells
+		the server what answer the Student gave. It contains their response, so
+		that it can be logged in the database, and the time it took for the
+		Student to make their selection.
 	\end{description}
 
 \end{enumerate}
