@@ -61,7 +61,6 @@ public class QuizClient extends Observable {
     private long questionReceivedTime;
     private boolean isStudentUser;
     private boolean loginIsSuccessful = false;
-    
 
     // Print notification when starting.
     public QuizClient() {
@@ -317,23 +316,23 @@ public class QuizClient extends Observable {
 
                     currentQuestion = getQuiz().getQuestion(displayQuestion.getNumber());
                     //System.out.println(username+" is currently answering question "+displayQuestion.getNumber());
-                    
+
                     guiElements[QUESTION].resetDisplay();
 
                     changeContentPane(QUESTION);
 
                     AnswerResponse ur = waitForUserResponse();
                     objectOutput.writeObject(ur);
-                    
+
                     // ------------------------------------- SCORE
                     object = objectInput.readObject();
                     if (object instanceof ArrayList<?>) {
                         allScores = (ArrayList<Score>) object;
                         Collections.sort(allScores);
-                        changeContentPane(STUDENTRESULTS);  
+                        changeContentPane(STUDENTRESULTS);
                     }
-                    
-                    while ((System.currentTimeMillis() - questionReceivedTime) < 10000){                       
+
+                    while ((System.currentTimeMillis() - questionReceivedTime) < 10000){
                     	System.out.print("");
                     }
                 }

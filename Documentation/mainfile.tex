@@ -1,32 +1,15 @@
 % !TEX TS-program = pdflatex
 % !TEX encoding = UTF-8 Unicode
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
 
 %%% PAGE DIMENSIONS ------------------------------------------------------------
-% \usepackage[marginpar=5cm,  margin=1.5in]{geometry}
-\usepackage[marginpar=5cm,
-	marginparsep=1cm,
-	top=2in,
-	bottom=1.5in,
-	left=3cm,
-	right=3cm]{geometry}
+\usepackage[marginpar=5cm,  margin=1.5in]{geometry}
 \usepackage[parfill]{parskip}
 
 %%% HEADERS & FOOTERS ----------------------------------------------------------
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-% \fancyheadoffset[R]{3.84cm}
-%\renewcommand{\headrulewidth}{0.3pt}
-%\rhead{}
-%\lhead{\nouppercase{\leftmark}}
-\lhead{}\chead{}\rhead{}
-\renewcommand{\headrulewidth}{0pt}
-\lfoot{}\cfoot{page \thepage}\rfoot{}
-
-%%% SECTION TITLE APPEARANCE ---------------------------------------------------
-\usepackage{sectsty}
-\allsectionsfont{\sffamily\mdseries\upshape}
 
 %%% PACKAGES -------------------------------------------------------------------
 %\usepackage{morefloats}
@@ -36,38 +19,32 @@
 	textfont=it]{caption}
 \usepackage[pdftex]{graphicx}
 \usepackage{booktabs}
-\usepackage[strict]{changepage}
 \usepackage{array}
 \usepackage{enumitem}
 \usepackage{longtable}
-\usepackage{tabu}
-\usepackage{subcaption}
-\usepackage{verbatim}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{pdflscape}
 \usepackage[percentage]{overpic}
 \usepackage{pdfpages}
-\usepackage{marginfix}
 \usepackage{tikz}
 \usetikzlibrary{patterns}
-\usepackage[%
-	activate={true,nocompatibility},
-	final,
-	tracking=true,
-	kerning=true,
-	spacing=true,
-	factor=1100,
-	stretch=10,
-	shrink=10]{microtype}
-\microtypecontext{spacing=nonfrench}
+% \usepackage[%
+% 	activate={true,nocompatibility},
+% 	final,
+% 	tracking=true,
+% 	kerning=true,
+% 	spacing=true,
+% 	factor=1100,
+% 	stretch=10,
+% 	shrink=10]{microtype}
+% \microtypecontext{spacing=nonfrench}
 
 %% BIBIOGRAPHY -----------------------------------------------------------------
 \usepackage{cite}
 
 %%% ToC (table of contents) APPEARANCE -----------------------------------------
 % \usepackage[nottoc,notlof,notlot]{tocbibind}
-\usepackage[titles,subfigure]{tocloft}
 % \renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
 % \renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape}
 \setcounter{tocdepth}{2}

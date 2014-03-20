@@ -9,6 +9,62 @@ to the server.
 \subsection{System Design}
 \label{sub:client_system_design}
 
-When a client is started, a client object is created and starts the main loop.
-The initial stages set up the connection with the server and waits for the
-user to login.
+\begin{enumerate}
+
+	\item \textbf{Login}
+
+	When a client is started, a \texttt{QuizClient} object is created and
+	starts the main loop.  The initial stages set up the connection with the
+	server and waits for the user to login. When the user enters their
+	information, a \texttt{LoginRequest} object is created and pass to the
+	server containing the username and password, to be checked against the
+	contents of the database. The client then waits for a reponse from the
+	server to indicate if the login was successfull or not. This comes in the
+	form of a \texttt{LoginReply} object. If this says that the login was
+	unsuccessful, the user is asked to re-input their details, otherwise, the
+	display is changed and the options screen is shown.
+
+	\item \textbf{Start}
+
+	From here, the user can select the ``Start Quiz'' option to start the
+	quiz. This causes the display to change to display the waiting screen and
+	the client waits for information from the server.
+
+	From this point on, the client waits for any object to be sent from the
+	server and acts according to what that object was. The possible objects
+	that the client now expects to be able to distinguish between are:
+	\begin{itemize}
+		\item \texttt{Quiz}
+		\item \texttt{StartQuiz}
+		\item \texttt{DisplayQuestion}
+		\item \texttt{Score}
+	\end{itemize}
+
+	\begin{description}
+		\item[\texttt{Quiz}]\hfill \\ This object contains the information
+		about the quiz itself, the number of questions, their contents and the
+		duration that each question should be displayed for. It should only
+		ever be recieved once by the client, at the start of the session,
+		reducing the transfer of information over the connection.
+
+		\item[\texttt{StartQuiz}]\hfill \\ Once an Admin has logged in, they
+		have control over the start of the quiz. When they decide to start the
+		quiz, this object is sent to each of the listening clients and so the
+		client will procede to show the first question from the \texttt{Quiz}
+		object.
+
+		\item[\texttt{DisplayQuestion}]\hfill \\ The first question is
+		displayed as soon as the \texttt{StartQuiz} object is recieved. After
+		this point in the quiz, the questions are changed when this object is
+		received. The value contained verifies which question is to be
+		displayed.
+
+		\item[\texttt{Score}]\hfill \\ After each question has been answered,
+		the client can display a leader board showing the score of all the
+		clients that have so far answered the current question along with the
+		current client's position in this list. This object tells the client
+		the relevant information for displaying the scores of the other
+		clients.
+	\end{description}
+
+\end{enumerate}
