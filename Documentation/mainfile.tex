@@ -81,13 +81,27 @@
 \newpage
 
 \input{SystemComponents/Protocol.tex}
-\includepdf[landscape]{img/objectDiagram.pdf}
 \input{SystemComponents/Client.tex}
 \input{SystemComponents/Server.tex}
 \input{SystemComponents/Database.tex}
 
+% \includepdf[landscape]{img/objectDiagram.pdf}
+
 \bibliographystyle{unsrt}
 \bibliography{references}
+
+\appendix
+
+\section{Class Diagram}
+\label{sec:class_diagram}
+
+\newpage
+\thispagestyle{empty}
+\begin{figure}[h!]
+	\vspace{-2cm}
+	\centering
+	\includegraphics[angle=90,height=1.2\textheight]{img/objectDiagram.pdf}
+\end{figure}
 
 \end{document}
 

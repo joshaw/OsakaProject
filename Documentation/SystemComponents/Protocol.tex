@@ -6,7 +6,8 @@ based around objects. There exists an object class that can be created for any
 of the several message types that could be needed to transfer information from
 the server to the client, or from the client to the server. Each of these
 objects implements the \texttt{Serializable} interface, allowing them to be
-converted to bytes and transfered across the socket connection.
+converted to bytes and transfered across the socket connection using object
+streams.
 
 \begin{description}
 	\item[AnswerResponse object] \hfill \\ To respond to a question, the
