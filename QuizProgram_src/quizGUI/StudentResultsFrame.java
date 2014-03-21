@@ -1,6 +1,7 @@
 package quizGUI;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -34,6 +35,7 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
     private JTextPane answerB = new JTextPane(); // The correct answer will be highlighted
     private JTextPane answerC = new JTextPane();
     private JTextPane answerD = new JTextPane();
+    private JTextPane score = new JTextPane();
     private LeaderBoard leaderBoard;
     private GridBagConstraints con = new GridBagConstraints();
    
@@ -77,15 +79,21 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
         questionPane.add(question);
         questionPane.add(answerPane);
 
+        score.setPreferredSize(new Dimension(40,40));
+        
         // finally adding to main panel
         con.fill = GridBagConstraints.BOTH;
-        con.weightx = 1.0; con.weighty = 1;
+        con.weightx = 1.0; con.weighty = 1; con.gridheight = 2;
         con.gridx = 0; con.gridy = 0; con.insets = new Insets(5,5,0,5);
         add(questionPane, con);
         con.fill = GridBagConstraints.VERTICAL;
-        con.weightx = 0; con.weighty = 1;
+        con.weightx = 0; con.weighty = 1; con.gridheight = 1;
         con.gridx = 1; con.gridy = 0; con.insets = new Insets(5,5,0,5);
         add(leaderBoard, con);
+        con.fill = GridBagConstraints.HORIZONTAL;
+        con.weightx = 0; con.weighty = 0;
+        con.gridx = 1; con.gridy = 1; con.insets = new Insets(5,8,0,8);
+        add(score, con);
        
     }
    
@@ -106,6 +114,8 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
         answerC.setText("C: " + q.getAnswer(2));
         answerD.setText("D: " + q.getAnswer(3));
        
+        score.setText("Your score for previous question: " + model.getQuestionScore());
+        
         // Highlights the correctAnswer
         Color green = new Color(10, 100, 20);
         Color red = Color.RED;

@@ -55,7 +55,8 @@ public class QuizClient extends Observable {
     private Long[] quizIDs;
     private String[] quizNames;
     private ArrayList<Score> allScores; // when received should be sorted (in-order)
-
+    private int questionScore;
+    
     private String username;
     private String passwordHash;
     private long questionReceivedTime;
@@ -196,6 +197,10 @@ public class QuizClient extends Observable {
         return allScores;
     }
 
+    public int getQuestionScore() { 
+    	return questionScore;
+    }
+    
     /**
      * @return a question object which is the current question as specified by
      * the server.
@@ -332,8 +337,23 @@ public class QuizClient extends Observable {
                     // ------------------------------------- SCORE
                     object = objectInput.readObject();
                     if (object instanceof ArrayList<?>) {
+                    	
+                    	int mark = 0;
+                    	for(int j = 0; j < allScores.size(); j++){
+                    		if(allScores.get(j).getUsername().equalsIgnoreCase(username)) {
+                    			mark = allScores.get(j).getMark();
+                    		}
+                    	}
+
                         allScores = (ArrayList<Score>) object;
                         Collections.sort(allScores);
+                        
+                    	for(int j = 0; j < allScores.size(); j++){
+                    		if(allScores.get(j).getUsername().equalsIgnoreCase(username)) {
+                    			mark = allScores.get(j).getMark() - mark;
+                    		}
+                    	}
+                        questionScore = mark;
                         changeContentPane(STUDENTRESULTS);
                     }
 
