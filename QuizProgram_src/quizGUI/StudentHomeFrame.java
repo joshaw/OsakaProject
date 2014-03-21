@@ -49,7 +49,7 @@ public class StudentHomeFrame extends MasterFrame implements Observer {
 		JPanel buttons = new JPanel(new GridLayout(4,1,5,10));
 		//Dimension d = new Dimension(136, 130);
 
-		title = new JLabel("Hi " + model.getUsername() + " welcome to the quiz");
+		title = new JLabel("Hi " + model.getUsername() + " welcome to Edify!");
 		title.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
 
 		buttons.add(start);
@@ -122,7 +122,7 @@ public class StudentHomeFrame extends MasterFrame implements Observer {
      */
 	@Override
 	public void resetDisplay() {
-		title.setText("Hi " + model.getUsername() + " welcome to the quiz!");
+		title.setText("Hi " + model.getUsername() + " welcome to Edify!");
 		title.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
 	}
 

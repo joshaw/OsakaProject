@@ -47,7 +47,7 @@ public class AdminHomeFrame extends MasterFrame implements Observer {
      */
     public void setDisplay() {
 
-        label = new JLabel("Hi " + model.getUsername() + " welcome to the quiz");
+        label = new JLabel("Hi " + model.getUsername() + " welcome to Edify!");
         label.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));
 
         selectQuiz = new JComboBox<Long>(model.getQuizIDs());
@@ -57,7 +57,7 @@ public class AdminHomeFrame extends MasterFrame implements Observer {
         start.addActionListener(new StartListener());
 
         studentsConnected = new JTextArea();
-        studentsConnected.setText("Students names will appear here when they're connected\n\nJohnSmith\nMarryBones\nJamesFisher");
+        studentsConnected.setText("");
         studentsConnected.setLineWrap(true);
         studentsConnected.setWrapStyleWord(true);
         studentsConnected.setMargin(new Insets(5,5,5,5));
@@ -91,7 +91,6 @@ public class AdminHomeFrame extends MasterFrame implements Observer {
         public void actionPerformed(ActionEvent e) {
 
             long q = (Long) selectQuiz.getSelectedItem();
-            // model.setCurrentQuizID(q); TODO THIS IS CORRECT
             model.setCurrentQuizID(q);
             System.out.println("you have selected quiz "+q);
         }
@@ -117,8 +116,13 @@ public class AdminHomeFrame extends MasterFrame implements Observer {
 	public void resetDisplay() {
 		
 		// Resets the label info
-        label.setText("Hi " + model.getUsername() + " welcome to the quiz");
-	
+        label.setText("Hi " + model.getUsername() + " welcome to Edify!");
+        
+        String students = "";
+        for(int i = 0; i < model.getAllScores().size(); i++) {
+        	students = students + model.getAllScores().get(i).getUsername();
+        }
+        studentsConnected.setText(students);
         // TODO Show the students connecting here -> studentsConnected......
 	}
     

@@ -39,7 +39,7 @@ public class LoginFrame extends MasterFrame implements Observer {
     private QuizClient model;
 
     // GUI Components
-    private JLabel titleLabel = new JLabel("Log in to quiz");
+    private JLabel titleLabel = new JLabel("Log in to Edify!");
     private JLabel usernameLabel = new JLabel("User Name:");
     private JLabel passwordLabel = new JLabel("Password:");
     private JTextField usernameField = new JTextField(15);
