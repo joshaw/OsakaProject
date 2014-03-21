@@ -248,10 +248,14 @@ public class QuizServer {
 			objectOutputStream.writeObject(new StartQuiz());
 
 			// Iterate through each of the quiz questions
+			
+		
+			
 			while(getDisplayQuestionNumber() < 10){
 
 				// Initiate each question on the client side
 				System.out.println("Current question on Server is: "+getDisplayQuestionNumber());
+				System.out.println();
 				objectOutputStream.writeObject(new DisplayQuestion(getDisplayQuestionNumber()));
 				
 				try{
@@ -295,6 +299,9 @@ public class QuizServer {
 						// Sends scores to client
 						objectOutputStream.writeObject(allServerScores);
 						System.out.println("Mark after sending: "+ allServerScores.get(user).getMark());
+						
+						//Update the display question number 
+						incrementDisplayQuestionNumber(); //this has been added recently TODO
 					}
 
 				} catch(ClassNotFoundException e){
@@ -343,10 +350,13 @@ public class QuizServer {
 			//System.out.println("QUIZ TIME IS RUNNING");
 			
 			QuestionLoop:
+				
+				//for(int i=0; i<10; i++) {
+				
 			while(getDisplayQuestionNumber() < 10){
 				startTime = System.currentTimeMillis();
 				
-				while(System.currentTimeMillis() - startTime < 10000){ // controls time length of question
+				while(System.currentTimeMillis() - startTime < 9000){ // controls time length of question
 					System.out.print("");
 				}
 				
@@ -355,16 +365,16 @@ public class QuizServer {
 					setQuizReady(false);
 				}
 				
-				// Updates display question available
-				incrementDisplayQuestionNumber();
+				
+				
 								
 				if(allServerScores.size() == 0){ // All Clients have disconnected during the quiz
 					break QuestionLoop;
 				}
 			}
 		
-			// Quiz cleanup
-			setDisplayQuestionNumber(0);
+			// Quiz cleanup COMMENTING THIS OUT DOESNT DO ANYTHING???
+			//setDisplayQuestionNumber(1);
 		
 		
 		}
