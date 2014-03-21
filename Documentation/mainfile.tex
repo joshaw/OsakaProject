@@ -80,6 +80,7 @@
 \addcontentsline{toc}{section}{Contents}
 \newpage
 
+\nocite{*}
 \input{SystemComponents/Protocol.tex}
 \input{SystemComponents/Client.tex}
 \input{SystemComponents/Server.tex}
@@ -92,16 +93,22 @@
 
 \appendix
 
-\section{Class Diagram}
-\label{sec:class_diagram}
+% \section{Class Diagram}
+% \label{sec:class_diagram}
 
-\newpage
-\thispagestyle{empty}
+\addcontentsline{toc}{section}{Class Diagram}
+\pagestyle{empty}
 \begin{figure}[h!]
 	\vspace{-2cm}
 	\centering
 	\includegraphics[angle=90,height=1.2\textheight]{img/objectDiagram.pdf}
 \end{figure}
+
+% \section{Database Design}
+% \label{sec:database_design}
+
+\addcontentsline{toc}{section}{Database Design}
+\includepdf[pages=-]{img/Database_Design_Specification_v2.pdf}
 
 \end{document}
 
