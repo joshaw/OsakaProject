@@ -1,0 +1,37 @@
+Server
+
+The server exists to create a link between the database and the quiz program, as well creating connections with, and processing requests from, clients. 
+
+System Design
+
+
+Initialising the Server 
+
+When the server starts, a QuizServer object is created. The object creates a connection with the database, which allows the server object to retrieve, and update, information contained in the database. In addition to this, a ServerSocket object is created, which waits to receive connections from QuizClient objects. When a connection from a client is received, a new ClientThread object is created. 
+
+
+Database Connectivity 
+
+The server interacts with the database through static methods contained in the QuizJDBC class.
+The class allows the server to establish a connection with the database through a getConnection method, which  returns a Connection object.
+
+A second method, isUser, is called by the server when it recieves a LoginRequest object from a client thread. The method returns a LoginReply object containing the results of the query, which is sent to the client. 
+
+The final method, getQuiz, is called when the server recieves a QuizRequest object from a client, and returns the a Quiz object. 
+
+
+
+ClientThread Objects
+
+When the server establishes a connection with a client, a ClientThread object is created, spawing a thread which allows interactions to occur between the server and  client. The server then waits to receive a LoginRequest from the client, and returns a LoginReply object upon recieval.  Once the client has logged in, the server distinguishes between student and admin users. 
+
+
+Admin Clients
+
+If a connection to an admin has been made, the server waits for a QuizRequest object. Once received, the server updates a static boolean variable, which informs all connected clients that a Quiz object has been created, and the quiz is started.
+
+Student Client
+
+Once a quiz has been started, the server sends a Quiz object to all connected clients, and then waits to receive an AnswerReponse from each of the student client threads. The AnswerReposnse objects contain the clients response to a question, and the time that it took for them to anwer it. The server than calculates the clients score, and the results are stored in ArrayList, which contains the results of all connected student clients. This ArrayList of scores is then sent to the connected clients at the end of each question. 
+
+
