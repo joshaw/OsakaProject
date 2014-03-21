@@ -296,9 +296,16 @@ public class QuizServer {
 								break ForLoop;
 							} 
 						}
+						
+						// Clone Arraylist
+						ArrayList<Score> allScores = new ArrayList<Score>();
+						for(int i = 0; i < allServerScores.size(); i++) {
+							allScores.add(allServerScores.get(i).deepClone());
+						}
+						
 						// Sends scores to client
-						objectOutputStream.writeObject(allServerScores);
-						System.out.println("Mark after sending: "+ allServerScores.get(user).getMark());
+						objectOutputStream.writeObject(allScores);
+						System.out.println("Mark after sending: "+ allScores.get(user).getMark());
 						
 						//Update the display question number 
 						incrementDisplayQuestionNumber(); //this has been added recently TODO

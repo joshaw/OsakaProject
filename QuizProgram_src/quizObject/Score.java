@@ -51,6 +51,10 @@ public class Score implements Serializable, Comparable<Score> {
 		return "" + mark;
 	}
 
+	public Score deepClone() {
+		return new Score(this.username, this.mark);
+	}
+	
 	/**
 	 * compareTo compares two score objects.
 	 * Natural ordering is higher marks before lower marks (opposite to int ordering)
