@@ -358,7 +358,7 @@ public class QuizClient extends Observable {
                     	}
                         questionScore = mark;
                         changeContentPane(STUDENTRESULTS);
-                        
+                        System.out.println("Displaying results having got scores.");
                         if(currentQuestionNumber >= 9){
                         	// After quiz is complete, finish quiz 
                         	break QuizLoop;

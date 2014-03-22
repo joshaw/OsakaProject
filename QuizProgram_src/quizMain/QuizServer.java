@@ -45,6 +45,7 @@ public class QuizServer {
 		// initialise the server scores ArrayList
 		allServerScores = new ArrayList<Score>();
 
+
 		//initialise the ServerSocket with PORT
 		try {
 			listener = new ServerSocket(PORT);
@@ -200,7 +201,9 @@ public class QuizServer {
 								qt.start();
 							}
 						} else { // If user is a student put a blank entry into scores HashMap
-							allServerScores.add(new Score(username, 0));
+							synchronized(allServerScores){
+								allServerScores.add(new Score(username, 0));
+							}
 						}
 						// System.out.println("BEFORE QUIZ READY LOOP: is Student: "+isStudent+" quizReady: "+quizReady);
 						while(!getQuizReady()){
@@ -281,9 +284,13 @@ public class QuizServer {
 						}
 						// Updates allScores ArrayList and sends to client
 						
+						
+					synchronized(allServerScores){
 						ForLoop:
 						for (int k = 0; k < allServerScores.size(); k++){
+							
 							if (allServerScores.get(k).getUsername().equals(username)){
+								
 								user = k;
 								
 								//System.out.println("Mark before update: "+ allServerScores.get(k).getMark());
@@ -296,7 +303,7 @@ public class QuizServer {
 								break ForLoop;
 							} 
 						}
-						
+
 						// Clone Arraylist
 						ArrayList<Score> allScores = new ArrayList<Score>();
 						for(int i = 0; i < allServerScores.size(); i++) {
@@ -306,6 +313,8 @@ public class QuizServer {
 						// Sends scores to client
 						objectOutputStream.writeObject(allScores);
 						System.out.println("Mark after sending: "+ allScores.get(user).getMark());
+						
+						}
 						
 						//Update the display question number 
 						incrementDisplayQuestionNumber(); //this has been added recently TODO
@@ -372,11 +381,10 @@ public class QuizServer {
 					setQuizReady(false);
 				}
 				
-				
-				
-								
-				if(allServerScores.size() == 0){ // All Clients have disconnected during the quiz
-					break QuestionLoop;
+				synchronized(allServerScores){				
+					if(allServerScores.size() == 0){ // All Clients have disconnected during the quiz
+						break QuestionLoop;
+					}
 				}
 			}
 		
