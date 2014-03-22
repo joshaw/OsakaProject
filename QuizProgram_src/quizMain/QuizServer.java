@@ -341,12 +341,15 @@ public class QuizServer {
 						// Wait until all users have answered before sending next display question
 
 						waitForOthers:
-						while((getUsersAnswered() < allServerScores.size())){	
-							synchronized(usersAnswered){
-								//System.out.println("Wait at loop: "+getUsersAnswered()+" / "+ allServerScores.size() + " through.");
-								if(lastThrough){lastThrough = false; break waitForOthers;}
-							}
-						}				
+						if(!lastThrough){
+							boolean wait = true;
+							while(wait){	
+								synchronized(usersAnswered){
+									wait = (getUsersAnswered() < allServerScores.size());
+								}
+							}	
+						}
+						if(lastThrough){lastThrough = false;}
 					}	
 				} catch(ClassNotFoundException e){
 					e.printStackTrace();
