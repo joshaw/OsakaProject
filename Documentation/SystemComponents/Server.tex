@@ -40,7 +40,7 @@ as well creating connections with, and processing requests from, clients.
 	interactions to occur between the server and  client. The server then waits
 	to receive a \texttt{LoginRequest} from the client, and returns a
 	\texttt{LoginReply} object upon receiving it.  Once the client has logged in,
-	the server distinguishes between student and Admin users.
+	the server distinguishes between Student and Admin users.
 
 	\item \textbf{Admin Clients}
 
@@ -53,11 +53,11 @@ as well creating connections with, and processing requests from, clients.
 
 	Once a quiz has been started, the server sends a \texttt{Quiz} object to
 	all connected clients, and then waits to receive an \texttt{AnswerReponse}
-	from each of the student client threads. The \texttt{AnswerReposnse}
+	from each of the Student client threads. The \texttt{AnswerReposnse}
 	objects contain the clients response to a question, and the time that it
 	took for them to answer it.  The server than calculates the clients score,
 	and the results are stored in an ArrayList, which contains the results of
-	all connected student clients.  This ArrayList of scores is then sent to
+	all connected Student clients.  This ArrayList of scores is then sent to
 	the connected clients at the end of each question.
 
 \end{enumerate}

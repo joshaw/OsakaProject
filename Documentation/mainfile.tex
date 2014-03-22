@@ -83,6 +83,9 @@
 \begin{document}
 
 \input{titlepage.tex}
+\mbox{}
+\thispagestyle{empty}
+\newpage
 
 \tableofcontents
 \addcontentsline{toc}{section}{Contents}
@@ -96,8 +99,11 @@
 \input{SystemComponents/GUI.tex}
 \input{SystemComponents/TestPlan.tex}
 
-\input{SystemComponents/Evaluation.tex}
+\section{Evaluation}
+\label{sec:evaluation}
+
 \input{TeamOrganisation.tex}
+\input{SystemComponents/Evaluation.tex}
 
 \bibliographystyle{unsrt}
 \bibliography{references}
@@ -116,7 +122,7 @@
 \restoregeometry%
 
 \addcontentsline{toc}{section}{Database Design}
-\includepdf[pages=-]{img/Database_Design_Specification_v2.pdf}
+\includepdf[pages=3-]{img/Database_Design_Specification_v2.pdf}
 
 \includepdf[pages=-]{../MeetingMinutes/OSAKA_04032014_Minutes.pdf}
 \includepdf[pages=-]{../MeetingMinutes/OSAKA_06032014_Tutorial_Notes.pdf}

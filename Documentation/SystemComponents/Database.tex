@@ -2,7 +2,7 @@
 \label{sec:database}
 
 A database is an important part of any system which is designed to provide a
-mechanism for storing, managing and retrieving information.  PostgreSQL, an
+mechanism for storing, managing and retrieving information. PostgreSQL, an
 object-relational database, was considered for the project. The two reasons
 behind choosing PostgreSQL were---availability on School's system and
 familiarity with the database model. The database designer considered business
@@ -22,24 +22,24 @@ The four tables created in osakagp DB are \verb+quiz+, \verb+questions+,
 
 	\item[\texttt{Users}] \hfill \\ The user login details are stored in the
 		users table. The user details are inserted into this table when a new
-		user or administrator registers. The login credentials entered by the
-		users are validated and the users are allowed to login only if the
-		entered credentials exist in the users table.
+		user or Admin registers. The login credentials entered by the users are
+		validated and the users are allowed to login only if the entered
+		credentials exist in the users table.
 
 	\item[\texttt{Quiz}] \hfill \\ The quiz topics are stored in this table.
 		The quiz could be on the following topics---Politics, Sports, History,
-		Geography, Music, and Science and Technology. The admin chooses the
+		Geography, Music, and Science and Technology. The Admin chooses the
 		quiz topic from quiz table and fetches the topic-related questions from
 		the questions table.
 
 	\item[\texttt{Questions}] \hfill \\ The questions table contains the
-		questions which are answered in quiz.  Question and possible answers
-		are stored as rows in the questions table.  The table also contains a
-		separate column for quiz ID\@. The admin uses the quiz ID to get the
+		questions which are answered in quiz. Question and possible answers
+		are stored as rows in the questions table. The table also contains a
+		separate column for quiz ID\@. The Admin uses the quiz ID to get the
 		questions for the chosen quiz topic.
 
 	\item[\texttt{User\_result}] \hfill \\ This table contains the quiz results
-		for all the students. It is loaded with quiz result once the quiz is
+		for all the Students. It is loaded with quiz result once the quiz is
 		completed. The user can see the result by quiz date, quiz topic, score
 		and quiz status.
 
@@ -52,7 +52,7 @@ The four tables created in osakagp DB are \verb+quiz+, \verb+questions+,
 	\centering
 	\includegraphics[width=0.8\linewidth]{img/Entity_Relationship_Diagram.png}
 	\caption{This is the entity-relationship (ER) diagram for the tables used
-	in Edify quiz.  The relationship shared among these tables is explained in
+	in Edify quiz. The relationship shared among these tables is explained in
 	Section~\ref{sub:entity_relationship_diagram}.
 	}\label{fig:entity_relationship_diagram}
 \end{figure}
@@ -67,7 +67,7 @@ The four tables created in osakagp DB are \verb+quiz+, \verb+questions+,
 
 	\item The table \verb+user_result+ shares a one-to-one relationship with
 		users and quiz tables.The \verb+user_result+ table stores the result of
-		all the quizes played by the students. Each row in the
+		all the quizes played by the Students. Each row in the
 		\verb+user_result+ table is linked to one quiz in the quiz table and
 		one user in the users table.
 
@@ -86,9 +86,9 @@ The four tables created in osakagp DB are \verb+quiz+, \verb+questions+,
 		Each quiz topic has 10 questions in the questions table.
 
 	\item The quiz table shares one-to-many relationship with
-	\verb+users_result+ table. Each quiz topic in the quiz table is linked to
-	multiple rows in the \verb+users_result+ table as quiz result is stored for
-	multiple players and can be played on multiple days.
+		\verb+users_result+ table. Each quiz topic in the quiz table is linked
+		to multiple rows in the \verb+users_result+ table as quiz result is
+		stored for multiple players and can be played on multiple days.
 
 	\item The quiz table shares one-to-many relationship with users table. One
 		quiz can be played by mutilple users in the users table.
@@ -97,8 +97,8 @@ The four tables created in osakagp DB are \verb+quiz+, \verb+questions+,
 		user in the users table can play one or more quiz in the quiz table.
 
 	\item The users table shares one-to-many relationship with
-	\verb+user_result+ table. Each user in the users table can have one or more
-	quiz results in the \verb+user_result+ table
+		\verb+user_result+ table. Each user in the users table can have one or
+		more quiz results in the \verb+user_result+ table.
 
 \end{itemize}
 
@@ -109,14 +109,14 @@ Data normalization was implemented to reduce and eliminate data redundancy.
 
 \begin{description}
 
-	\item[First Normal Form]  \hfill \\ All the tables are in 1NF as they
+	\item[First Normal Form] \hfill \\ All the tables are in 1NF as they
 		contain only atomic values and there are no repeating groups of data.
 
-	\item[Second Normal Form]  \hfill \\ All tables are in 1NF and all of their
-		non-key attributes are fully dependent on their primary keys.  There is
+	\item[Second Normal Form] \hfill \\ All tables are in 1NF and all of their
+		non-key attributes are fully dependent on their primary keys. There is
 		no partial dependency of any column on primary key.
 
-	\item[Third Normal Form]  \hfill \\ All the tables are in 1NF and 2NF and
+	\item[Third Normal Form] \hfill \\ All the tables are in 1NF and 2NF and
 		all non-key attributes are fully functional dependent only on the
 		primary key.
 

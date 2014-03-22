@@ -10,123 +10,123 @@ quiz.
 
 \begin{enumerate}
 
-    \item \textbf{Model/View Seperation}
+	\item \textbf{Model/View Seperation}
 
-        Originally we decided that the GUI would follow a model/view separation
-        format where the model will be separate from the client. This, however,
-        caused some problems so we decided to not have a separate model and use
-        the client as the model instead. One of the problems we encountered was
-        that the GUI would interact with the model and create an object that
-        needs to be sent to the server. We found it tricky to find a way to
-        send objects from the model to the client and realized that there was a
-        lot of redundancy as objects had to go through the model and the client
-        when really there only needed to be one.
+		Originally we decided that the GUI would follow a model/view separation
+		format where the model will be separate from the client. This, however,
+		caused some problems so we decided to not have a separate model and use
+		the client as the model instead. One of the problems we encountered was
+		that the GUI would interact with the model and create an object that
+		needs to be sent to the server. We found it tricky to find a way to
+		send objects from the model to the client and realized that there was a
+		lot of redundancy as objects had to go through the model and the client
+		when really there only needed to be one.
 
-    \item \textbf{GUI Panels}
+	\item \textbf{GUI Panels}
 
-        Each GUI panel used in the quiz has its own class.  When a client is
-        created, each of the GUI panels is instantiated and added to an array.
-        To accomplish this we used inheritance. Each of the GUI panels extends
-        the abstract class \texttt{MasterFrame}, and in turn,
-        \texttt{MasterFrame} extends \texttt{JPanel}.  Each of the GUI panels
-        is added to the \texttt{guiElements}' \texttt{MasterFrame[]}.
-        \texttt{MasterFrame} is an abstract class with one abstract method
-        \verb+resetDisplay()+.  This method is used to reset the contents of
-        the current panel to an updated version of the model.  Whenever the
-        content panel of the frame is changed, the \verb+resetDisplay()+ method
-        is called to ensure correct information is displayed.
+		Each GUI panel used in the quiz has its own class.  When a client is
+		created, each of the GUI panels is instantiated and added to an array.
+		To accomplish this we used inheritance. Each of the GUI panels extends
+		the abstract class \texttt{MasterFrame}, and in turn,
+		\texttt{MasterFrame} extends \texttt{JPanel}.  Each of the GUI panels
+		is added to the \texttt{guiElements}' \texttt{MasterFrame[]}.
+		\texttt{MasterFrame} is an abstract class with one abstract method
+		\verb+resetDisplay()+.  This method is used to reset the contents of
+		the current panel to an updated version of the model.  Whenever the
+		content panel of the frame is changed, the \verb+resetDisplay()+ method
+		is called to ensure correct information is displayed.
 
-        The overall GUI will display different panels depending on which part of
-        the system is currently being used. The GUI panels are:
+		The overall GUI will display different panels depending on which part of
+		the system is currently being used. The GUI panels are:
 
-    \begin{description}
+	\begin{description}
 
-        \item[\texttt{LoginFrame}]\hfill \\ The first panel users will log-in
-            to (both Admin and Student). \texttt{LoginFrame} contains a
-            username field, a password field and login button. When the login
-            button is activated, it send the contents of the two fields to the
-            client model to create a \texttt{LoginRequest} object using the
-            \verb+requestLogin()+ method.
+		\item[\texttt{LoginFrame}]\hfill \\ The first panel users will log-in
+			to (both Admin and Student). \texttt{LoginFrame} contains a
+			username field, a password field and login button. When the login
+			button is activated, it send the contents of the two fields to the
+			client model to create a \texttt{LoginRequest} object using the
+			\verb+requestLogin()+ method.
 
-        \item[\texttt{StudentHomeFrame}]\hfill \\ The panel a Student will see
-            once they have logged in / received successful login reply object.
-            Here they can push the Start quiz button which adds them to a pool
-            of Students ready to start the quiz. This leads them to the
-            \texttt{WaitingFrame} panel using the
-            \verb+requestWaitingScreen()+ method.
+		\item[\texttt{StudentHomeFrame}]\hfill \\ The panel a Student will see
+			once they have logged in / received successful login reply object.
+			Here they can push the Start quiz button which adds them to a pool
+			of Students ready to start the quiz. This leads them to the
+			\texttt{WaitingFrame} panel using the
+			\verb+requestWaitingScreen()+ method.
 
-        \item[\texttt{AdminHomeFrame}]\hfill \\ The panel the Admin will see
-            once they have logged in / received successful login reply object.
-            Here they can see which Students have connected and joined the
-            waiting pool to start the quiz. \texttt{AdminHomeFrame} has a
-            \texttt{JComboBox} which lists the possible quizzes to run. This
-            uses the \verb+setCurrentQuizID()+ method. The Admin can then
-            push the start quiz button which sends the selected quiz to all the
-            waiting Students using the \verb+adminStart()+ method.
+		\item[\texttt{AdminHomeFrame}]\hfill \\ The panel the Admin will see
+			once they have logged in / received successful login reply object.
+			Here they can see which Students have connected and joined the
+			waiting pool to start the quiz. \texttt{AdminHomeFrame} has a
+			\texttt{JComboBox} which lists the possible quizzes to run. This
+			uses the \verb+setCurrentQuizID()+ method. The Admin can then
+			push the start quiz button which sends the selected quiz to all the
+			waiting Students using the \verb+adminStart()+ method.
 
-        \item[\texttt{WaitingFrame}]\hfill \\ The panel a Student will see when
-            they have pushed start and are waiting for the Admin to start
-            the quiz. Contains a message to the Student letting them know
-            they are waiting for the Admin to start the quiz as well as a
-            JProgressBar in intermediate state.
+		\item[\texttt{WaitingFrame}]\hfill \\ The panel a Student will see when
+			they have pushed start and are waiting for the Admin to start
+			the quiz. Contains a message to the Student letting them know
+			they are waiting for the Admin to start the quiz as well as a
+			JProgressBar in intermediate state.
 
-        \item[\texttt{QuestionFrame}]\hfill \\ The panel which displays the
-            question to the Students. This panel is Is only displayed for a
-            limited time as each question has a short time limit. The question
-            is displayed in a \texttt{JTextPane,} and each of the four possible
-            multiple choice answers is displayed as a \texttt{JButton} beneath.
-            To the side there is a countdown timer which visually displays the
-            time to answer the question. As soon as the question is answered or
-            the time has run out, the panel is changed to the
-            \texttt{StudentResultsFrame} panel. When a button is pushed, the
-            \verb+setResponseNumber(i)+ method is called. If a student
-            doesn't answer, then the response number is set to -1.
+		\item[\texttt{QuestionFrame}]\hfill \\ The panel which displays the
+			question to the Students. This panel is Is only displayed for a
+			limited time as each question has a short time limit. The question
+			is displayed in a \texttt{JTextPane,} and each of the four possible
+			multiple choice answers is displayed as a \texttt{JButton} beneath.
+			To the side there is a countdown timer which visually displays the
+			time to answer the question. As soon as the question is answered or
+			the time has run out, the panel is changed to the
+			\texttt{StudentResultsFrame} panel. When a button is pushed, the
+			\verb+setResponseNumber(i)+ method is called. If a Student
+			doesn't answer, then the response number is set to -1.
 
-        \item[\texttt{StudentResultsFrame}]\hfill \\ Once a Student has
-            completed a question, they are displayed with this panel.
-            \texttt{StudentResultsFrame} displays the last question with
-            highlighted text for the correct answer and Students answer. It
-            also displays the score received for the last question and current
-            leader board for the quiz where each client is ranked by their
-            total score so far. This panel is shown for a set amount of time
-            before leading back to the \texttt{QuestionFrame} for a new
-            question.
+		\item[\texttt{StudentResultsFrame}]\hfill \\ Once a Student has
+			completed a question, they are displayed with this panel.
+			\texttt{StudentResultsFrame} displays the last question with
+			highlighted text for the correct answer and Students answer. It
+			also displays the score received for the last question and current
+			leader board for the quiz where each client is ranked by their
+			total score so far. This panel is shown for a set amount of time
+			before leading back to the \texttt{QuestionFrame} for a new
+			question.
 
-        \item[\texttt{AdminResultsFrame}]\hfill \\ The
-            \texttt{AdminResultsFrame} is displayed once the Admin has started
-            the quiz. It displays the current question Students are completing
-            and a live leader board showing the current scores of the students.
-            The leader board ranks the Students by their current total score
-            from the completed questions so far.
+		\item[\texttt{AdminResultsFrame}]\hfill \\ The
+			\texttt{AdminResultsFrame} is displayed once the Admin has started
+			the quiz. It displays the current question Students are completing
+			and a live leader board showing the current scores of the Students.
+			The leader board ranks the Students by their current total score
+			from the completed questions so far.
 
-        \item[\texttt{FinalResultsFrame}]\hfill \\ This is similar to
-            \texttt{StudentResultsFrame} but is the final panel the student
-            sees in the quiz. It shows the correct answers to the previous
-            question and the score for the previous question. It also shows the
-            final leader board rankings. Unlike \texttt{StudentResultsFrame,}
-            there is no time limit so the Student can see the final results as
-            long as they wish. There is a back button to return the Student to
-            the \texttt{StudentHomeFrame} which uses the \verb+returnHome()+
-            method.
+		\item[\texttt{FinalResultsFrame}]\hfill \\ This is similar to
+			\texttt{StudentResultsFrame} but is the final panel the Student
+			sees in the quiz. It shows the correct answers to the previous
+			question and the score for the previous question. It also shows the
+			final leader board rankings. Unlike \texttt{StudentResultsFrame,}
+			there is no time limit so the Student can see the final results as
+			long as they wish. There is a back button to return the Student to
+			the \texttt{StudentHomeFrame} which uses the \verb+returnHome()+
+			method.
 
-    \end{description}
+	\end{description}
 
-    Other GUI components that we have created and used within the GUI panels are:
+	Other GUI components that we have created and used within the GUI panels are:
 
-    \begin{description}
+	\begin{description}
 
-        \item[\texttt{CountDownTimer}]\hfill \\ \texttt{CountDownTimer} is GUI
-            component that counts down seconds. It shows a
-            \texttt{JProgressBar} decrease as the time decreases. Also has a
-            label beneath showing the seconds left to count down. Used in
-            \texttt{QuestionFrame}.
+		\item[\texttt{CountDownTimer}]\hfill \\ \texttt{CountDownTimer} is GUI
+			component that counts down seconds. It shows a
+			\texttt{JProgressBar} decrease as the time decreases. Also has a
+			label beneath showing the seconds left to count down. Used in
+			\texttt{QuestionFrame}.
 
-        \item[\texttt{LeaderBoard}]\hfill \\ A table consisting of each student
-            in the quiz, their position and score. This is updated whenever the
-            \verb+resetDislplay()+ method is called in its parent panel
-            (\texttt{MasterFrame}). Used in \texttt{StudentResultsFrame,}
-            \texttt{AdminResultsFrame} and \texttt{FinalResultsFrame}.
+		\item[\texttt{LeaderBoard}]\hfill \\ A table consisting of each Student
+			in the quiz, their position and score. This is updated whenever the
+			\verb+resetDislplay()+ method is called in its parent panel
+			(\texttt{MasterFrame}). Used in \texttt{StudentResultsFrame,}
+			\texttt{AdminResultsFrame} and \texttt{FinalResultsFrame}.
 
-    \end{description}
+	\end{description}
 
 \end{enumerate}
