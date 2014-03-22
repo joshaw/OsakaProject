@@ -63,6 +63,8 @@ public class QuizClient extends Observable {
     private long questionReceivedTime;
     private boolean isStudentUser;
     private boolean loginIsSuccessful = false;
+    private boolean continueListening = true;
+    private int numberOfUsers = 1;
 
     // Print notification when starting.
     public QuizClient() {
@@ -336,38 +338,65 @@ public class QuizClient extends Observable {
                     
 
                     objectOutput.writeObject(ur);
-
+                    
+                    System.out.println("WAIT 1");
                     // ------------------------------------- SCORE
-                    object = objectInput.readObject();
-                    if (object instanceof ArrayList<?>) {
+                    int updates = 0;
+                    boolean continueListening = false;     
                     	
-                    	int mark = 0;
-                    	for(int j = 0; j < allScores.size(); j++){
-                    		if(allScores.get(j).getUsername().equalsIgnoreCase(username)) {
-                    			mark = allScores.get(j).getMark();
-                    		}
-                    	}
+                	// Check results for every user
+                	do {
+                		System.out.println("Start of listening loop ");  
+                    	// Read input stream if data is available
+	                    object = objectInput.readObject();
+	                    
+	                    if (object instanceof ArrayList<?>) {
 
-                        allScores = (ArrayList<Score>) object;
-                        Collections.sort(allScores);
-                        
-                    	for(int j = 0; j < allScores.size(); j++){
-                    		if(allScores.get(j).getUsername().equalsIgnoreCase(username)) {
-                    			mark = allScores.get(j).getMark() - mark;
-                    		}
-                    	}
-                        questionScore = mark;
-                        changeContentPane(STUDENTRESULTS);
-                        System.out.println("Displaying results having got scores.");
-                        if(currentQuestionNumber >= 9){
-                        	// After quiz is complete, finish quiz 
-                        	break QuizLoop;
-                        }
-                    }
-
-                    while ((System.currentTimeMillis() - questionReceivedTime) < 10000){
-                    	System.out.print("");
-                    }
+	                    	int mark = 0;
+	                    	for(int j = 0; j < allScores.size(); j++){
+	                    		if(allScores.get(j).getUsername().equalsIgnoreCase(username)) {
+	                    			mark = allScores.get(j).getMark();
+	                    		}
+	                    	}
+	
+	                        allScores = (ArrayList<Score>) object;
+	                        Collections.sort(allScores);
+	                        
+	                    	for(int j = 0; j < allScores.size(); j++){
+	                    		if(allScores.get(j).getUsername().equalsIgnoreCase(username)) {
+	                    			mark = allScores.get(j).getMark() - mark;
+	                    		}
+	                    	}
+	                    	
+	                        questionScore = mark;
+	                        
+	                        // Reset student results pane when new results are available
+	                        changeContentPane(STUDENTRESULTS);
+	                        
+	                        //System.out.println("Displaying results having got scores.");
+	                        
+	                        if(currentQuestionNumber >= 9){
+	                        	// After quiz is complete, finish quiz 
+	                        	break QuizLoop;
+	                        }
+	                        
+	                        continueListening = false;
+	                        
+	                    	for(int j = 0; j < allScores.size(); j++){
+	                    		System.out.println("Allscores check: "+allScores);
+	                    		System.out.println("Current Question Number: "+currentQuestionNumber);
+	                    		if(allScores.get(j).getCurrentQuestion() < currentQuestionNumber) {
+	                    			continueListening = true;
+	                    		}
+	                    	}
+	                    	
+	                    	System.out.println("Continue Listening: "+continueListening);
+	                    	
+	                    }
+	                System.out.println("End of listening loop ");    
+                    } while (continueListening);
+                	System.out.println("After listening loop ");
+                	while((System.currentTimeMillis() - questionReceivedTime) < 10000){System.out.print("");}
                 }
                     // ------------------------------------- OTHER
                 else {
@@ -377,6 +406,7 @@ public class QuizClient extends Observable {
                 // ----------------------------------------- NO OBJECT
 
             } catch (SocketException e){
+            	e.printStackTrace();
             } catch (EOFException e) {
                 System.out.println("The connection to the server has been" +
                 " lost. Shutting down.");

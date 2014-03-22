@@ -57,7 +57,7 @@ public class StudentResultsFrame extends MasterFrame implements Observer {
         
         // dummy leaderBoard with no values
         ArrayList<Score> nil = new ArrayList<Score>();
-        nil.add(new Score("", 0));
+        nil.add(new Score("", 0, 0));
         leaderBoard = new LeaderBoard(nil);
        
         question.setFont(new Font("SansSerif", Font.BOLD + Font.ITALIC, 16));

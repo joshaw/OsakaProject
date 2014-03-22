@@ -31,9 +31,10 @@ public class QuizServer {
 	private static int displayQuestionNumber = 0;
 	private Quiz quiz;
 	private ArrayList<ClientThread> clientArrayList = new ArrayList<ClientThread>();
+	private ArrayList<ClientThread> studentArrayList = new ArrayList<ClientThread>();
 	private static Connection con;
 	private ArrayList<Score> allServerScores;
-
+	private static Integer usersAnswered = 0;
 	/**
 	 * Starts the server
 	 */
@@ -44,7 +45,6 @@ public class QuizServer {
 
 		// initialise the server scores ArrayList
 		allServerScores = new ArrayList<Score>();
-
 
 		//initialise the ServerSocket with PORT
 		try {
@@ -105,6 +105,7 @@ public class QuizServer {
 		private DataInputStream dataInputStream;
 		private PrintStream printStream;
 		private String username;
+		private boolean lastThrough = false;
 
 		/**
 		 * Constructor for the client thread
@@ -201,8 +202,11 @@ public class QuizServer {
 								qt.start();
 							}
 						} else { // If user is a student put a blank entry into scores HashMap
+							synchronized(studentArrayList){
+								studentArrayList.add(this);
+							}
 							synchronized(allServerScores){
-								allServerScores.add(new Score(username, 0));
+								allServerScores.add(new Score(username, 0, -1));
 							}
 						}
 						// System.out.println("BEFORE QUIZ READY LOOP: is Student: "+isStudent+" quizReady: "+quizReady);
@@ -248,7 +252,7 @@ public class QuizServer {
 			sleep(50);
 
 			// Start quiz
-			objectOutputStream.writeObject(new StartQuiz());
+			objectOutputStream.writeObject(new StartQuiz(studentArrayList.size()));
 
 			// Iterate through each of the quiz questions
 			
@@ -280,50 +284,74 @@ public class QuizServer {
 							score = (int) (10 + (500000 / currentResponse.getResponseTime()));
 						// Otherwise, update client with incorrect answer - 0
 						} else {
-							score = -2;
+							score = -100;
 						}
 						// Updates allScores ArrayList and sends to client
 						
 						
-					synchronized(allServerScores){
-						ForLoop:
-						for (int k = 0; k < allServerScores.size(); k++){
+						synchronized(allServerScores){
+							ForLoop:
+							for (int k = 0; k < allServerScores.size(); k++){
+								
+								if (allServerScores.get(k).getUsername().equals(username)){
+									
+									user = k;
+									
+									//System.out.println("Mark before update: "+ allServerScores.get(k).getMark());
+									//System.out.println("Adding Score: "+score);
+									
+									allServerScores.get(k).addMark(score);
+									allServerScores.get(k).setCurrentQuestion(getDisplayQuestionNumber());
+									
+									//System.out.println("Mark after update: "+ allServerScores.get(k).getMark());
+									
+									break ForLoop;
+								} 
+							}
+	
+							// Clone Arraylist
+							ArrayList<Score> allScores = new ArrayList<Score>();
+							for(int i = 0; i < allServerScores.size(); i++) {
+								allScores.add(allServerScores.get(i).deepClone());
+							}
 							
-							if (allServerScores.get(k).getUsername().equals(username)){
-								
-								user = k;
-								
-								//System.out.println("Mark before update: "+ allServerScores.get(k).getMark());
-								//System.out.println("Adding Score: "+score);
-								
-								allServerScores.get(k).addMark(score);
-								
-								//System.out.println("Mark after update: "+ allServerScores.get(k).getMark());
-								
-								break ForLoop;
-							} 
+							// Sends scores to client
+							//objectOutputStream.writeObject(allScores);
+							
+							// Sends scores to clients
+							sendObjectToAll(allScores); 
+							
 						}
+						
+						// Update number of users answered
+						synchronized(usersAnswered){
+							incrementUsersAnswered();
+							System.out.println("Users answered updated to: "+ usersAnswered);
+						}
+							
+						// Last user 'through the gate' increments the question number
+						synchronized(usersAnswered){
+							if(usersAnswered == allServerScores.size()){
+								lastThrough = true;
+								incrementDisplayQuestionNumber();
+								setUsersAnswered(0);
+							}
+						}
+					
+						// Wait until all users have answered before sending next display question
 
-						// Clone Arraylist
-						ArrayList<Score> allScores = new ArrayList<Score>();
-						for(int i = 0; i < allServerScores.size(); i++) {
-							allScores.add(allServerScores.get(i).deepClone());
-						}
-						
-						// Sends scores to client
-						objectOutputStream.writeObject(allScores);
-						System.out.println("Mark after sending: "+ allScores.get(user).getMark());
-						
-						}
-						
-						//Update the display question number 
-						incrementDisplayQuestionNumber(); //this has been added recently TODO
-					}
-
+						waitForOthers:
+						while((getUsersAnswered() < allServerScores.size())){	
+							synchronized(usersAnswered){
+								//System.out.println("Wait at loop: "+getUsersAnswered()+" / "+ allServerScores.size() + " through.");
+								if(lastThrough){lastThrough = false; break waitForOthers;}
+							}
+						}				
+					}	
 				} catch(ClassNotFoundException e){
 					e.printStackTrace();
 				} catch(SocketException e){
-					//e.printStackTrace();
+					e.printStackTrace();
 					System.out.println("Client has disconnected.");
 				} catch(EOFException e){
 					System.out.println("Client has disconnected.");
@@ -372,7 +400,7 @@ public class QuizServer {
 			while(getDisplayQuestionNumber() < 10){
 				startTime = System.currentTimeMillis();
 				
-				while(System.currentTimeMillis() - startTime < 9000){ // controls time length of question
+				while(System.currentTimeMillis() - startTime < 10000){ // controls time length of question
 					System.out.print("");
 				}
 				
@@ -388,7 +416,7 @@ public class QuizServer {
 				}
 			}
 		
-			// Quiz cleanup COMMENTING THIS OUT DOESNT DO ANYTHING???
+			// Quiz cleanup COMMENTING THIS OUT DOESNT DO ANYTHING??? - (Rowan - this was meant to reset quiz to start state once over)
 			//setDisplayQuestionNumber(1);
 		
 		
@@ -403,6 +431,24 @@ public class QuizServer {
 	//
 	//
 	
+	public Integer getUsersAnswered(){
+		synchronized(usersAnswered){
+			return usersAnswered;
+		}
+	}
+	
+	public void setUsersAnswered(Integer i){
+		synchronized(usersAnswered){
+			usersAnswered = i;
+		}
+	}
+	
+	public void incrementUsersAnswered(){
+		synchronized(usersAnswered){
+			usersAnswered++;
+		}
+	}
+	
 	public int getDisplayQuestionNumber(){
 		return displayQuestionNumber;
 	}
@@ -416,10 +462,12 @@ public class QuizServer {
 	}
 	
 	public void sendObjectToAll(Object object) {
-		for(ClientThread thread: clientArrayList) {
-			try {
-				thread.sendObject(object);
-			} catch(Exception e){ }
+		synchronized(studentArrayList){
+			for(ClientThread thread: studentArrayList) {
+				try {
+					thread.sendObject(object);
+				} catch(Exception e){ }
+			}
 		}
 	}
 

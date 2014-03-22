@@ -10,7 +10,15 @@ import java.io.Serializable;
 public class StartQuiz implements Serializable {
 
 	public static final long serialVersionUID = 42L;
+	
+	private int numberOfParticipants;
 
-	public StartQuiz() {
+	public StartQuiz(int n) {
+		numberOfParticipants = n;
 	}
+	
+	public int getNumberOfParticipants(){
+		return numberOfParticipants;
+	}
+	
 }

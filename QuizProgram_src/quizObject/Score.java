@@ -9,13 +9,15 @@ import java.io.Serializable;
 public class Score implements Serializable, Comparable<Score> {
 
 	public static final long serialVersionUID = 42L;
-
+	
+	private int currentQuestion;
 	private String username;
 	private int mark;
 	
-	public Score(String username, int mark){
+	public Score(String username, int mark, int cQ){
 		this.username = username;
 		this.mark = mark;
+		this.currentQuestion = cQ;
 	}
 	
 	/**
@@ -52,7 +54,15 @@ public class Score implements Serializable, Comparable<Score> {
 	}
 
 	public Score deepClone() {
-		return new Score(this.username, this.mark);
+		return new Score(this.username, this.mark, this.currentQuestion);
+	}
+	
+	public int getCurrentQuestion(){
+		return currentQuestion;
+	}
+	
+	public void setCurrentQuestion(int i){
+		currentQuestion = i;
 	}
 	
 	/**
