@@ -1,0 +1,41 @@
+S.No   Category            Description                                                                                                                                              Expected Result   Actual Result
+1      Registration        User is able to register by providing first name, last name, username and password
+2      Registration        System should display username and password guidelines to users
+3      Registration        System validates the credentials; dispays an error message if user provides invalid username and password and asks user to choose valid credentials
+                           If user enters valid credentials, system checks if the entered credentials already exists in the the users table. If credentials exists, system asks the
+4      Registration        user to choose different credentials
+5      Registration        System inserts the credentials in the users table if the user enters valid credentials. A unique ID is created for the user in users table
+6      Login               System displays the login page where user can enter username and password and login to the system
+                           System checks the entered credentials in the users table; displays an error message if incorrect credentials are entered and asks user to re-enter
+7      Login               credentials
+8      Login               If correct credentials are entered, user is taken to the Home page
+9      HomePage-Student    Student homepage should display the buttons – Start, View Result, Update Profile and Quiz rules
+10     HomePage-Student    Quiz should start when student clicks on “Start” button
+11     HomePage-Student    Quiz result should be displayed when student clicks on “View Result” button. What is shown in View Result page?
+12     HomePage-Student    Profile page should be displayed when student clicks on “Update Profile” button. User should be able to edit profile; save changes or cancel changes
+13     HomePage-Student    Quiz rules should be displayed when stuent clicks on “Quiz Rules” button. A new window or a popup screen?
+                           Admin homepage should display the buttons – Start, View Result, Question settings (Add, remove or update questions), Update Profile. (Check the
+14     HomePage-Admin      options displayed)
+15     HomePage-Admin      Admin should be able to select a quiz and click on Start to start the quiz
+16     HomePage-Admin      Quiz result should be displayed when admin clicks on “View Result” button. What is shown in View Result page?
+17     HomePage-Admin      Admin should be able to add, remove or update questions/answers in questions table in the Question settings page
+18     HomePage-Admin      Profile page should be displayed when admin clicks on “Update Profile” button. Admin should be able to edit profile; save changes or cancel changes
+19     Play Quiz-Student   The quiz name should be displayed in quiz page
+20     Play Quiz-Student   Each quiz consists of 10 questions
+21     Play Quiz-Student   Each question has a set of possible answers (maximum 4)
+23     Play Quiz-Student   Timer is displayed when question appears on screen
+24     Play Quiz-Student   Student is able to choose an answer by clicking on the answer
+                           When a student chooses the correct answer before time runs out, timer stops. The other students should not be able to select an option once the
+25     Play Quiz-Student   timer stops.
+26     Play Quiz-Student   After quiz finishes, the result is inserted into user_result table
+27     Play Quiz-Student   Student should be able to see feedback after quiz finishes
+28     Play Quiz-Student   Student should be able to view result after quiz finishes (and after anwering a question?)
+29     Play Quiz-Student   Student should b able to view the historical result data from user_result table after quiz finishes
+30     Play Quiz-Student   Student should be able to click on the close buttom to exit the quiz
+31     Play Quiz-Admin     Admin should be able to click on start button to start the quiz once all students have logged in
+32     Play Quiz-Admin     Admin should be able to see the result after each question is answered
+33     Play Quiz-Admin     Admin should be able to see the result summary after quiz finishes
+34     Play Quiz-Admin     Student should be able to click on the close buttom to exit the quiz
+35     Server-Client       System ensures that all clients and server are synchronised
+36     JDBC                Database connection is established from JDBC
+

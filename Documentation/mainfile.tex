@@ -4,7 +4,7 @@
 \usepackage[utf8]{inputenc}
 
 %%% PAGE DIMENSIONS ------------------------------------------------------------
-\usepackage[marginpar=5cm,  margin=1.5in]{geometry}
+\usepackage{geometry}
 \usepackage[parfill]{parskip}
 
 %%% HEADERS & FOOTERS ----------------------------------------------------------
@@ -18,6 +18,7 @@
 	labelfont=bf,
 	textfont=it]{caption}
 \usepackage[pdftex]{graphicx}
+\usepackage{tabu}
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{enumitem}
@@ -66,6 +67,13 @@
 	urlcolor=cyan           % color of external links
 }
 
+\newcommand\tablepage{%
+	\newgeometry{
+		top=1in,
+		bottom=1.5in,
+		left=3cm,
+		right=3cm}
+}
 %%% END Article customizations
 
 %*******************************************************************************
@@ -86,30 +94,34 @@
 \input{SystemComponents/Server.tex}
 \input{SystemComponents/Database.tex}
 \input{TeamOrganisation.tex}
-
-% \includepdf[landscape]{img/objectDiagram.pdf}
+\input{SystemComponents/TestPlan.tex}
 
 \bibliographystyle{unsrt}
 \bibliography{references}
 
 \appendix
 
-% \section{Class Diagram}
-% \label{sec:class_diagram}
-
 \addcontentsline{toc}{section}{Class Diagram}
-\pagestyle{empty}
+
+\newgeometry{bottom=0in}
+\thispagestyle{empty}
 \begin{figure}[h!]
 	\vspace{-2cm}
 	\centering
-	\includegraphics[angle=90,height=1.2\textheight]{img/objectDiagram.pdf}
+	\includegraphics[angle=90,height=\textheight]{img/objectDiagram.pdf}
 \end{figure}
-
-% \section{Database Design}
-% \label{sec:database_design}
+\restoregeometry%
 
 \addcontentsline{toc}{section}{Database Design}
 \includepdf[pages=-]{img/Database_Design_Specification_v2.pdf}
+
+\includepdf[pages=-]{../MeetingMinutes/OSAKA_04032014_Minutes.pdf}
+\includepdf[pages=-]{../MeetingMinutes/OSAKA_06032014_Tutorial_Notes.pdf}
+\includepdf[pages=-]{../MeetingMinutes/OSAKA_13032014_Tutorial_Notes.pdf}
+\includepdf[pages=-]{../MeetingMinutes/OSAKA_21022014_Minutes.pdf}
+\includepdf[pages=-]{../MeetingMinutes/OSAKA_24022014_Minutes.pdf}
+\includepdf[pages=-]{../MeetingMinutes/OSAKA_27022014_Minutes.pdf}
+\includepdf[pages=-]{../MeetingMinutes/OSAKA_27022014_Tutorial_Notes.pdf}
 
 \end{document}
 
