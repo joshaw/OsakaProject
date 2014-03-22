@@ -56,6 +56,7 @@ public class QuizClient extends Observable {
     private String[] quizNames;
     private ArrayList<Score> allScores; // when received should be sorted (in-order)
     private int questionScore;
+    private int currentQuestionNumber = 0;
     
     private String username;
     private String passwordHash;
@@ -294,6 +295,7 @@ public class QuizClient extends Observable {
 
     private void studentSession(Object object) throws Exception {
         /* Until the end of the quiz, keep listening for objects.*/
+    	QuizLoop:
         while (loginReply.isSuccessful()) {
             try{
                 try {
@@ -322,7 +324,8 @@ public class QuizClient extends Observable {
                     setResponseNumber(-1);
                     questionReceivedTime = System.currentTimeMillis();
 
-                    currentQuestion = getQuiz().getQuestion(displayQuestion.getNumber());
+                    currentQuestionNumber = displayQuestion.getNumber(); 
+                    currentQuestion = getQuiz().getQuestion(currentQuestionNumber);
                     System.out.println(username+" is currently answering question "+displayQuestion.getNumber());
 
                     guiElements[QUESTION].resetDisplay();
@@ -355,6 +358,11 @@ public class QuizClient extends Observable {
                     	}
                         questionScore = mark;
                         changeContentPane(STUDENTRESULTS);
+                        
+                        if(currentQuestionNumber >= 9){
+                        	// After quiz is complete, finish quiz 
+                        	break QuizLoop;
+                        }
                     }
 
                     while ((System.currentTimeMillis() - questionReceivedTime) < 10000){
