@@ -13,6 +13,7 @@ all:
 	$(BUILDTEX)
 	echo -e "\n\n\n"
 	$(BUILDTEX) | grep -i "warning" -A2
+	xdotool search mupdf key r
 clean-all:
 	find ${DIR}/ -type f -delete
 
