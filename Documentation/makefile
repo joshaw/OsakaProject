@@ -1,19 +1,23 @@
 PROJECT=mainfile
 TEX=pdflatex
+OPTIONS=-interaction nonstopmode\
+		-file-line-error\
+		-output-directory=$(DIR)\
+		-halt-on-error
 BIBTEX=bibtex -terse
 DIR=build
-BUILDTEX=$(TEX) -output-directory=$(DIR) -halt-on-error $(PROJECT).tex
+BUILDTEX=$(TEX) $(OPTIONS) $(PROJECT).tex
 
 CHECKDIR=mkdir -p $(DIR)
 
 all:
 	$(CHECKDIR)
-	$(BUILDTEX)
+	$(BUILDTEX) | egrep ":[0-9]*:" || true
 	$(BIBTEX) ${DIR}/$(PROJECT) || true
-	$(BUILDTEX)
-	echo -e "\n\n\n"
-	$(BUILDTEX) | grep -i "warning" -A2
-	xdotool search mupdf key r
+	@$(BUILDTEX) > /dev/null
+	@echo -e "\n"
+	@$(BUILDTEX) > /dev/null
+	@xdotool search mupdf key r > /dev/null 2>&1
 clean-all:
 	find ${DIR}/ -type f -delete
 

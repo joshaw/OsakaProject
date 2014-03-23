@@ -4,7 +4,7 @@
 \usepackage[utf8]{inputenc}
 
 %%% PAGE DIMENSIONS ------------------------------------------------------------
-\usepackage{geometry}
+\usepackage[bottom=1.5in]{geometry}
 \usepackage[parfill]{parskip}
 
 %%% HEADERS & FOOTERS ----------------------------------------------------------
@@ -95,8 +95,8 @@
 \input{SystemComponents/Protocol.tex}
 \input{SystemComponents/Client.tex}
 \input{SystemComponents/Server.tex}
-\input{SystemComponents/Database.tex}
 \input{SystemComponents/GUI.tex}
+\input{SystemComponents/Database.tex}
 \input{SystemComponents/TestPlan.tex}
 
 \section{Evaluation}
@@ -112,12 +112,23 @@
 
 \addcontentsline{toc}{section}{Class Diagram}
 
-\newgeometry{bottom=0in}
+\newgeometry{bottom=1in}
 \thispagestyle{empty}
 \begin{figure}[h!]
 	\vspace{-2cm}
 	\centering
-	\includegraphics[angle=90,height=\textheight]{img/objectDiagram.pdf}
+	\includegraphics[angle=90,height=1.1\textheight]{img/objectDiagram.pdf}
+\end{figure}
+
+\begin{figure}[htpb]
+	\centering
+	\makebox[\textwidth][c]{\includegraphics[width=1.1\linewidth]{img/student_scenario_diagram.png}}%
+	\caption{Student scenario diagram.}\label{fig:student_scenario_diagram}
+\end{figure}
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/adminsequencediagram.png}
+	\caption{Admin sequence diagram.}\label{fig:adminsequencediagram}
 \end{figure}
 \restoregeometry%
 
