@@ -35,6 +35,7 @@ public class QuizServer {
 	private static Connection con;
 	private ArrayList<Score> allServerScores;
 	private static Integer usersAnswered = 0;
+	private static String lastThrough = "";
 	/**
 	 * Starts the server
 	 */
@@ -105,7 +106,6 @@ public class QuizServer {
 		private DataInputStream dataInputStream;
 		private PrintStream printStream;
 		private String username;
-		private boolean lastThrough = false;
 
 		/**
 		 * Constructor for the client thread
@@ -238,9 +238,11 @@ public class QuizServer {
 
 		}//end of run method
 
-		public boolean startQuizSession(Connection con)
-			throws Exception {
-
+		public boolean startQuizSession(Connection con) throws Exception {
+			
+			int lastQuestion = 0;
+			boolean notFirst = false;
+			
 			Quiz currentQuiz = getQuiz();
 
 			//System.out.println(currentQuiz);
@@ -256,14 +258,21 @@ public class QuizServer {
 
 			// Iterate through each of the quiz questions
 			
-		
 			
 			while(getDisplayQuestionNumber() < 10){
 
 				// Initiate each question on the client side
 				System.out.println("Current question on Server is: "+getDisplayQuestionNumber());
 				System.out.println();
+				
+				while((lastQuestion == getDisplayQuestionNumber()) && (notFirst)){
+					sleep(0);	
+				}
+				
+				notFirst = true;
+				
 				objectOutputStream.writeObject(new DisplayQuestion(getDisplayQuestionNumber()));
+				lastQuestion = getDisplayQuestionNumber();
 				
 				try{
 					// Read an object from the stream
@@ -326,28 +335,56 @@ public class QuizServer {
 						// Update number of users answered
 						synchronized(usersAnswered){
 							incrementUsersAnswered();
-							System.out.println("Users answered updated to: "+ usersAnswered);
+							System.out.println("Users answered updated to: "+ usersAnswered + "/" + studentArrayList.size());
 						}
 							
 						// Last user 'through the gate' increments the question number
-						synchronized(usersAnswered){
-							if(usersAnswered == allServerScores.size()){
-								lastThrough = true;
-								incrementDisplayQuestionNumber();
-								setUsersAnswered(0);
-							}
+						if(usersAnswered == allServerScores.size()){
+							System.out.println("Client "+username+" is last through.");
+							lastThrough = username;
+							incrementDisplayQuestionNumber();
 						}
 					
 						// Wait until all users have answered before sending next display question
 
-						waitForOthers:
-						if(!lastThrough){
+						if(!lastThrough.equals(username)){
+							System.out.println("Client "+username+" is waiting. Users through: "+usersAnswered+"/"+studentArrayList.size());
 							boolean wait = true;
+							waitForOthers:
 							while(wait){	
-								if(lastThrough){break waitForOthers;}
+									System.out.println(username+" is looping.");
+									if(getUsersAnswered() >= studentArrayList.size()){
+										
+										System.out.println("************************");
+										System.out.println("************************");
+										System.out.println("************************");
+										System.out.println("************************");
+										System.out.println(""+username+" is breaking.");
+										System.out.println("************************");
+										System.out.println("************************");
+										System.out.println("************************");
+										System.out.println("************************");
+										
+										wait = false;
+										break waitForOthers;
+									}
+								/*
+								if(lastThrough){
+									System.out.println("Last is through:"+username+" is breaking."); 
+									break waitForOthers;
+								}
+								*/
 							}	
 						}
-						if(lastThrough){lastThrough = false;}
+						
+						if(lastThrough.equals(username)){
+							// reset number of users answered
+							System.out.println("Users answered updated to: "+ usersAnswered + "/" + studentArrayList.size());
+							setUsersAnswered(0);
+							lastThrough = "";
+							System.out.println("Client "+username+" is resetting last through and number answered.");
+							
+						}
 					}	
 				} catch(ClassNotFoundException e){
 					e.printStackTrace();
