@@ -401,6 +401,7 @@ public class QuizClient extends Observable {
                     // ------------------------------------- OTHER
                 else {
                     System.out.println("I don't know what to do.");
+                    System.out.println(object);
                 }
 
                 // ----------------------------------------- NO OBJECT
