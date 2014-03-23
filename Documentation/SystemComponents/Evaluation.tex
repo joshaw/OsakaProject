@@ -4,13 +4,53 @@
 \begin{enumerate}
 
 	\item \textbf{Correctness and reliability}
-
+		We set out to create an interactive live educational quiz and accomplished a
+		reliable working project. We have had some coding problems throughout the 
+		project but worked as team to come up with solutions. One of the major problems 
+		we have encountered was updating the student results leader board. Whenever
+		a student answers, their score is added	to an array list in the server and this
+		should be distributed to every other student so that their results screen is
+		accurate. The problem when implementing was that the first student to answer
+		would not receive the updated score array list as other students answered.
+		This was corrected by having the students constantly listening for new score
+		array lists and insured an up to date leader board. This also lead onto other
+		problems such as students not being synchronised on the same question. The cause
+		of this was as each student requested a new question, the question counter was
+		incremented and students skipped questions. This was solved by having a counter
+		so that the question would only be incremented once all students had requested the
+		new question.
+	
 	\item \textbf{Performance}
+		There were issues with performance with a live quiz that we had to be concerned with.
+		After the users have logged	in and the quiz has started, the questions must be 
+		synchronised so that each student is answering the same question. This is accomplished 
+		through the server sending the question to each client, rather than the client being 
+		individually responsible for the current question. The questions are reliably sent to all 
+		students at the same time so that quiz is synchronised. When a student answers, they are 
+		directed to the results screen where they need to see an updated version of the leader board. 
+		As mentioned in \textbf{Correctness and reliability}, a solution for this was found and works well.
 
 	\item \textbf{Usability}
-
-	\item \textbf{Substanialness}
-
+		The system works well and is designed so that users find it easy and intuitive to use.
+		We decided on a standardised quiz format where each quiz has 10 questions, and each question
+		has 4 multiple choice answers. The design of the GUI is intuitive so that users don't
+		have to learn how to use the system. A user should immediately recognise how to use the
+		system and not have to rely on previous knowledge to answer quizzes. Originally the GUI for 
+		the questions had text boxes displaying the multiple choice answers with buttons next to
+		them. We gave the system to fellow students in the lab to test and found that they tended
+		to want to push the multiple choice text boxes rather than the buttons. Therefore, we decided
+		to scrap the text boxes and put the multiple choice answers directly as the button text.
+	
+	\item \textbf{Substantiates}
+		Much the originally functionality that we set out for we have accomplished.
+		The users can successfully log in and are displayed the right screen depending
+		on if they are a student or admin. The admin can register students, and
+		students can view their profile. The admin can select a quiz and this is
+		sent to the student. Students can take the quiz and see a live leader board
+		based on the ranking through out the quiz. The admin can also see a leader
+		board of the students live results. Extra functionality we would wish to include
+		would be for the admin to be able to create quizzes and for these to be stored in
+		the database and to be run for students.
 
 \end{enumerate}
 
@@ -22,7 +62,8 @@
 	\item \textbf{Management of team work}
 
 	\item \textbf{Time keeping and scheduling}
-
+		At the start of the project we 
+	
 	\item \textbf{Subdivision of work}
 
 	\item \textbf{Integration}
