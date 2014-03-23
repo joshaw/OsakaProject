@@ -344,9 +344,7 @@ public class QuizServer {
 						if(!lastThrough){
 							boolean wait = true;
 							while(wait){	
-								synchronized(usersAnswered){
-									wait = (getUsersAnswered() < allServerScores.size());
-								}
+								if(lastThrough){break waitForOthers;}
 							}	
 						}
 						if(lastThrough){lastThrough = false;}

@@ -11,11 +11,12 @@ as well creating connections with, and processing requests from, clients.
 	\item \textbf{Initialising the server}
 
 	When the server starts, a \texttt{QuizServer} object is created. The object
-	creates a connection with the database, which allows the server object to
-	retrieve, and update, information contained in the database.  In addition
-	to this, a \texttt{ServerSocket} object is created, which waits to receive
-	connections from \texttt{QuizClient} objects. When a connection from a
-	client is received, a new \texttt{ClientThread} object is created.
+	creates a connection with the database by taking advantage of the inbuilt 
+        Java Database Connectivity (JDBC) functionality, which allows the server 
+        object to retrieve, and update, information contained in the database. In 
+        addition to this, a \texttt{ServerSocket} object is created, which waits to
+        receive connections from \texttt{QuizClient} objects. When a connection from 
+        a client is received, a new \texttt{ClientThread} object is created.
 
 	\item \textbf{Database Connectivity}
 
@@ -45,19 +46,37 @@ as well creating connections with, and processing requests from, clients.
 	\item \textbf{Admin Clients}
 
 	If a connection to an Admin has been made, the server waits for a
-	\texttt{QuizRequest} object. Once received, the server updates a static
-	boolean variable, which informs all connected clients that a \texttt{Quiz}
-	object has been created, and the quiz is started.
+	\texttt{QuizRequest} object. Once received, the server retrieves the quiz
+        in the database through the \texttt{QuizJDBC} class, then distributes this 
+        to all connected Student clients.
 
 	\item \textbf{Student Client}
 
-	Once a quiz has been started, the server sends a \texttt{Quiz} object to
-	all connected clients, and then waits to receive an \texttt{AnswerReponse}
-	from each of the Student client threads. The \texttt{AnswerReposnse}
-	objects contain the clients response to a question, and the time that it
-	took for them to answer it.  The server than calculates the clients score,
+	If a student user has logged in, their instance of \texttt{ClientThread} 
+        on the server will wait until the Quiz has been set to ready by an admin. 
+        Once a quiz has been started, the server sends the \texttt{Quiz} object to
+	all connected student clients, and then waits to receive an \texttt{AnswerReponse}
+	from each of the Student client threads. The \texttt{AnswerReposnse} objects 
+        contain the clients response to a question, and the time that it took for 
+        them to answer it.  The server than calculates the clients score,
 	and the results are stored in an ArrayList, which contains the results of
-	all connected Student clients.  This ArrayList of scores is then sent to
-	the connected clients at the end of each question.
+	all connected Student clients.  This ArrayList of scores is sent to
+	the connected clients every time it is updated, allowing users to see an
+        'updating' results table which contains all student clients scores.
+
+        \item \textbf{Quiz Time}
+         
+        In order to carry out admin tasks on the server without disrupting the
+        main thread which is listening for connecting clients, an inner class
+        \texttt{QuizTime} which extends Thread was created. The thread loops through 
+        during the quiz session, checking certain conditions, to which it 
+        should respond with specific tasks. For example, it checks whether no 
+        clients are connected, in which case the quiz stops. It also checks 
+        whether the first question of the quiz has finished being asked, in 
+        which case further student clients should not be allowed to join the
+        quiz.
+        
+    
+        
 
 \end{enumerate}
