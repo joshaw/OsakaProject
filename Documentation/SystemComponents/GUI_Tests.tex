@@ -6,20 +6,20 @@
 	\toprule
 	Test Date	&Required Functionality 	&Modifications Made\\
 	\midrule
-	&The LoginFrame is displayed when a client connects to the server	&\\
-	&The LoginFrame remains in view until the user has entered correct login details	&\\
-	&The frame is updated to either AdminHomeFrame or StudentHomeFrame depending on the user	&\\
-	&A student user is able to click a `Start Quiz' button which takes them to the WaitingFrame	&\\
-	&An admin user is able to see connected students on the AdminHomeFrame	&\\
-	&An admin user is able select and start a Quiz from their home frame	&\\
-	&A DisplayQuestion screen contains a countdown timer displaying how long the user has left to commit an answer 	&\\
-	&Clicking on an AnswerButton in the DisplayQuestion screen creates an AnswerResponse object	&\\
-	&Clicking on an AnswerButton takes the user to a ResultsFrame	&\\
-	&The ResultsFrame displays a LeaderBoard containing all connected student users scores	&\\
-	&The LeaderBoard on the ResultsFrame updates as clients answer questions	&\\
-	&An admin user is able to see an updating LeaderBoard based on student reponses	&\\
-	&After quiz completion a FinalResultsFrame is displayed	&\\
-	&The FinalResulFrame displays a final LeaderBoard	&\\
-	&The FinaResultsFrame contains a button which takes users back to their HomeFrame	&\\
+	17/03/14	&The LoginFrame is displayed when a client connects to the server	&None? worked straight away.\\
+	17/03/14	&The LoginFrame remains in view until the user has entered correct login details	&None? worked straight away.\\
+	17/03/14	&The frame is updated to either AdminHomeFrame or StudentHomeFrame depending on the user	&This was implemented by the client switching to the relevant screen depending whether or not they were an admin or student client according to the LoginReply? isStudent was added as a field to LoginReply in order to provide this functionality.\\
+	17/03/14	&A student user is able to click a `Start Quiz' button which takes them to the WaitingFrame	&None? worked straight away.\\
+	19/03/14	&An admin user is able to see connected students on the AdminHomeFrame	&This is a work in progress? while it is possible to add a list of connected students to this screen, since a record of connected students is not updated when a student leaves, it does not currently update when a student disconnects.\\
+	17/03/14	&An admin user is able select and start a Quiz from their home frame	&Originally when the admin pressed the start button, the GUI found the currently selected item in the quiz choice ComboBox and then sent this to the server, although this was unreliable. In order to fix this issue, the currently selected quiz was maintained as a variable on the client. This variable was initialised on the creation of the ComboBox to the first element in the list, and updated each time it was changed. Then, when the admin clicked start, it was this variable that was sent to the server as part of the QuizRequest. \\
+	17/03/14	&A DisplayQuestion screen contains a countdown timer displaying how long the user has left to commit an answer 	&None? worked straight away.\\
+	17/03/14	&Clicking on an AnswerButton in the DisplayQuestion screen creates an AnswerResponse object	&None? worked straight away.\\
+	19/03/14	&Clicking on an AnswerButton takes the user to a ResultsFrame	&This did not work straight away, but was resolved by fixing an issue between the server and the client (model)? the client was not receiving the AllScores object, therefore did not update the display to show the results.\\
+	23/03/14	&The ResultsFrame displays a LeaderBoard containing all connected student users scores	&This displayed only the latest iteration of the AllScores object, meaning that while it did display results for all users scores (they are added to the ArrayList with a score of 0 when they begin the quiz), this list did not update. See below for further improvement to this functionality.\\
+	23/03/14	&The LeaderBoard on the ResultsFrame updates as clients answer questions	&Once the server sent the client the allScores data for each client updating to all clients, this functionality was possible. However, the LeaderBoard was initially reconstructed with each iteration of data, which caused unreliable behaviour in which it did not display the results for certain clients. This was fixed by adding a model to the Table.\\
+	23/03/14	&An admin user is able to see an updating LeaderBoard based on student reponses	&This is a work in progress? the admin users must both be sent the AllScores objects and maintain their connection while the quiz is in progress for this to be possible, however this is not currently the case meaning that further work has to be done to be able to provide this functionality.\\
+	23/03/14	&After quiz completion a FinalResultsFrame is displayed	&Currently the standard results frame is displayed after the completion of the quiz, however the FinalResultsFrame class has been coded---meaning that it just needs to be integrated to provide this functionality. Tied to this functionality is resetting the quiz to the initial state to allow for multiple quizzes to be set sequentially, however this is a larger task that is a work in progress.\\
+	23/03/14	&The final scores are displayed after the last question.	&The final LeaderBoard is already displayed on the standard StudentResultsFrame for the last question, and therefore this functionality is already provided? no modifications required.\\
+	23/03/14	&The FinalResultsFrame contains a button which takes users back to their HomeFrame	&The FinalResultsFrame does contain this button, however the frame has not yet been implemented meaning that this is not currently functional.\\
 	\bottomrule
 \end{longtabu}
