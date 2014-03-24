@@ -1,0 +1,23 @@
+\subsection{Server Test Plan}
+\label{sub:server_test_plan}
+
+\renewcommand{\arraystretch}{1.5}
+\begin{longtabu}{l X X}
+	\toprule
+Test Date	&Required Functionality 	&Modifications Made\\
+	\midrule
+17/03/14	&The server creates a ServerSocket object on port 9010	&None? worked straight away.\\
+17/03/14	&The server accepts connections from a client and initializes a ClientThread	&This worked without a problem, however this functionality was altered so that the new client thread was initialised as a member of an ArrayList, in order to support the distribution of objects to all connected clients.\\
+17/03/14	&The server allows objects to be sent and received with the client through ObjectOuput and ObjectInputStreams	&None? worked straight away (had to incorporate exception handling to provide this functionality).\\
+17/03/14	&The server receives a LoginRequest object from client and queries the database with its contents	&Changed username and password in LoginRequest to Strings, in order to maintain their data types throughout the system (GUI, client, server \& database).\\
+17/03/14	&The server returns a LoginReply to a client containing the correct information	&Altered the default values of IsStudent to true and loginSuccessful to false, in order to improve system security.\\
+17/03/14	&The server is able to distinguish between Admin and Student users	&This is now checked using a JDBC PreparedStatement? assuming that the client is a student (the lowest level of privileges), unless they can prove otherwise (by having an admin account in the database).\\
+18/03/14	&The server is able to create a Quiz object, which is then sent to all connected clients 	&This is now done by retrieve the quiz for the admin client thread, storing it on the server as the current quiz, then distributing it to each of the student clients connected when it is set to be ready.\\
+21/03/14	&The server is able to send 10 questions to connected clients	&Quizzes were updated to each have 10 questions in the database in order to facilitate this functionality.\\
+23/03/14	&The server is able to synchronize Questions so that clients receive them at the same time	&Since the last student client to answer the question (by running out of time or otherwise) increments the next question to be displayed, it was necessary to implement a check where student clients ensured that they were not answering the same as the previous question on each loop. Student clients are allowed to bypass this condition on the first question since there is no comparison to the previous question to be made.\\
+17/03/14	&The server is able to receive AnswerResponse objects and calculate Student scores	&This functionality worked, however did not support the updating of the leaderboard.\\
+22/03/14	&The server is able to keep a running track of all connected Student Scores	&This functionality was implemented by synchronising updates of the AllScores object, which is static ArrayList of Score object stored on the server. \\
+22/03/14	&The server is able to send each iteration of the AllScore object updates to all student clients.	&On updating their score in the AllScores object, a client calls a Server class method that sends the AllScores object to all connected StudentClient threads. The clients are added to an ArrayList of StudentClients as soon as they log in, and it possible to distinguish that they are students clients.\\
+19/03/01	&The server is able to handle clients disconnecting during a quiz	&Failed? in order to provide this functioality it is necessary to maintain a list of currently connected clients that is updated as clients disconnect. This issue is a work in progress.\\
+	\bottomrule
+\end{longtabu}

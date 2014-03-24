@@ -1,0 +1,21 @@
+\subsection{Client Test Plan}
+\label{sub:client_test_plan}
+
+\renewcommand{\arraystretch}{1.5}
+\begin{longtabu}{l X X}
+	\toprule
+Test Date	&Required Functionality 	&Modifications Made\\
+\midrule
+17/03/14	&The client is able to create Socket, through which it establishes a connection with the server	&None? worked straight away.\\
+20/03/14	&The client is able create an Array containing the GUI frames 	&This was included, along with a method, which allows the Frame to be updated based on the current state of the client. \\
+17/03/14	&The client is able to send and receive objects from the server	&None? this worked straight away, although exception handling was needed to include this functionality.\\
+17/03/14	&The client is able to send a LoginRequest to the server containing information that has been input by the user	&The username and password are now stored as Strings in order to maintain consistancy across the system.\\
+17/03/14	&The client is able to receive a LoginRequest and differentiate between a student and admin	&The LoginReply object contains a boolean, which is set to true for student users. This value is checked, and the correct HomeFrame is displayed based on the result.\\
+17/03/14	&The client remains on the LoginFrame until correct login details have been entered	&The JDBC creates a LoginReply containing a boolean value which is set to true if the database contains the login details. This boolean is then chekced by the client. \\
+21/03/14	&The client is able to maintain a list of connected users	&This was achieved by creating an ArrayList instance variable, which stores the username of the client, and their current score in an active Quiz. This is updated through the server, which sends an ArrayList to the client after all connected clients have completed a question.\\
+17/03/14	&An admin client is able to create and a send a QuizRequest object	&Made sure that all Quizzes were complete in the database, so that the admin client could select from a full range of available quizzes. \\
+18/03/14	&A student client is able receive DisplayQuestion objects, which changes the GUI frame to QuestionFrame	&This was completed by modifying the server, so that the 10 DisplayQuestions objects are sent to each connected client. As each DisplayObject is received, the client calls a method to udpate the frame to the QuestionFrame.\\
+18/03/14	&The client is able to send an AnswerReponse to the server  containing the time taken to answer a question	&This is handled in a method which returns an AnswerResponse object. The client obtains a time stamp upon receiving a DisplayQuestion, and calculates the time between this and a user selecting an answer. The AnswerResponse object that is created contains the selected answer and the time taken to respond.\\
+22/03/14	&The client is able to receive and display an ArrayList containing the scores of all student users	&Whilst the client waits for the next DisplayQuestion to be received, it listens for an ArrayList which contains the scores of all connected clients. The ArrayList then passed to a LeaderBoard object.\\
+\bottomrule
+\end{longtabu}

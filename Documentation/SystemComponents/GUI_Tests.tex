@@ -1,0 +1,25 @@
+\subsection{GUI Test Plan}
+\label{sub:gui_test_plan}
+
+\renewcommand{\arraystretch}{1.5}
+\begin{longtabu}{l X X}
+	\toprule
+Test Date	&Required Functionality 	&Modifications Made\\
+\midrule
+	&The LoginFrame is displayed when a client connects to the server	&\\
+	&The LoginFrame remains in view until the user has entered correct login details	&\\
+	&The frame is updated to either AdminHomeFrame or StudentHomeFrame depending on the user	&\\
+	&A student user is able to click a `Start Quiz' button which takes them to the WaitingFrame	&\\
+	&An admin user is able to see connected students on the AdminHomeFrame	&\\
+	&An admin user is able select and start a Quiz from their home frame	&\\
+	&A DisplayQuestion screen contains a countdown timer displaying how long the user has left to commit an answer 	&\\
+	&Clicking on an AnswerButton in the DisplayQuestion screen creates an AnswerResponse object	&\\
+	&Clicking on an AnswerButton takes the user to a ResultsFrame	&\\
+	&The ResultsFrame displays a LeaderBoard containing all connected student users scores	&\\
+	&The LeaderBoard on the ResultsFrame updates as clients answer questions	&\\
+	&An admin user is able to see an updating LeaderBoard based on student reponses	&\\
+	&After quiz completion a FinalResultsFrame is displayed	&\\
+	&The FinalResulFrame displays a final LeaderBoard	&\\
+	&The FinaResultsFrame contains a button which takes users back to their HomeFrame	&\\
+	\bottomrule
+	\end{longtabu}
